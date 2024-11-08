@@ -19,12 +19,6 @@ is to return data from a single resource.
 `Get` operations **must** be made by sending a `GET` request to the resource's
 URI:
 
-```http
-GET /v1/publishers/{publisher}/books/{book} HTTP/2
-Host: library.example.com
-Accept: application/json
-```
-
 - The HTTP method **must** be `GET`.
   - The request **must** be safe and **must not** have side effects.
 - There **must not** be a request body.
