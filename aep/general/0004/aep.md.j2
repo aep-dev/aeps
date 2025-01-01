@@ -73,13 +73,18 @@ For OpenAPI 3.0, Resources must be defined in `#components/schemas` and use the 
             "projects/{project}/user-events/{user-event}",
             "folder/{folder}/user-events/{user-event}",
             "users/{user}/events/{user-event}"
-          ]
+          ],
+          "parents": ["project", "folder", "user"]
         }
       }
     }
   }
 }
 ```
+
+- If the resource has any parents, they must be specified in the parents field
+using the singular name of the resource. The resource must be defined with a
+`x-aep-resource` annotation.
 
 {% endtabs %}
 
