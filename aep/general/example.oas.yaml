@@ -354,9 +354,7 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'max_page_size',
@@ -414,9 +412,7 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                 ],
               'responses':
@@ -458,9 +454,7 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
@@ -496,9 +490,7 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
@@ -587,9 +579,7 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
@@ -626,18 +616,14 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Book'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Book' },
                   },
                   {
                     'name': 'max_page_size',
@@ -690,18 +676,14 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Book'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Book' },
                   },
                 ],
               'responses':
@@ -748,18 +730,14 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Book'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Book' },
                   },
                   {
                     'name': 'book-edition',
@@ -797,18 +775,14 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Book'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Book' },
                   },
                   {
                     'name': 'book-edition',
@@ -840,18 +814,14 @@
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Publisher'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Publisher' },
                   },
                   {
                     'name': 'book',
                     'in': 'path',
                     'required': true,
                     'schema': { 'type': 'string' },
-                    'x-aep-resource-reference': {
-                      'resource': 'Book'
-                    }
+                    'x-aep-resource-reference': { 'resource': 'Book' },
                   },
                 ],
               'responses':
