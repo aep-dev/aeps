@@ -1,11 +1,7 @@
 # API Enhancement Proposals
 
-**NOTE**: this repository currently has a significant amount of outdated
-content. Active development and discussion is occuring in
-[aepc](https://github.com/aep-dev/aepc).
-
-Once an API specification and design pattern guide solidifies, this repository
-will be updated.
+The [AEP Project](www.aep.dev) is an API design specification and ecosystem of
+clients and tooling for protobuf and HTTP REST APIs.
 
 ## Overview
 
