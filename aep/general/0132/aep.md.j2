@@ -154,6 +154,25 @@ with an HTTP 404 error.
 **Note:** An empty collection which the user has permission to access **must**
 return `200 OK` with an empty results array, and not `404 Not Found`.
 
+### Advanced operations
+
+`List` methods **may** allow an extended set of functionality to allow a user to
+specify the resources that are returned in a response.
+
+The following table summarizes the applicable AEPs, ordered by the precedence of
+the operation on the results.
+
+| Operation                    | AEP                               |
+| ---------------------------- | --------------------------------- |
+| filter                       | [AEP-160](/160)                   |
+| ordering (`orderBy`)         | [AEP-132](#ordering)              |
+| pagination (`nextPageToken`) | [AEP-158](/158)                   |
+| skip                         | [AEP-158](/158/#skipping-results) |
+
+For example, if both the `filter` and `skip` fields are specified, then the
+filter would be applied first, then the resulting set would be the results that
+skip N entries of the filtered result.
+
 ### Ordering
 
 `List` methods **may** allow clients to specify sorting order; if they do, the
@@ -170,16 +189,6 @@ request message **should** contain a `string orderBy` field.
 
 **Note:** Only include ordering if there is an established need to do so. It is
 always possible to add ordering later, but removing it is a breaking change.
-
-### Filtering
-
-List methods **may** allow clients to specify filters; if they do, the request
-message **should** contain a `string filter` field. Filtering is described in
-more detail in AEP-160.
-
-**Note:** Only include filtering if there is an established need to do so. It
-is always possible to add filtering later, but removing it is a breaking
-change.
 
 ### Soft-deleted resources
 
