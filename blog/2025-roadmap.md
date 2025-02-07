@@ -37,8 +37,6 @@ tools in 2025:
 
 ## Community Growth
 
-\[Need more details about Yusuke’s API Days talk plans in May\]
-
 In May, we plan on giving a talk about aep.dev at
 [API Days New York](https://www.apidays.global/new-york/). The video will be
 released online for those who would like to view but cannot attend.
