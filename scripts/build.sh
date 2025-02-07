@@ -15,5 +15,6 @@ cd "${SG_DIRECTORY}" || exit
 mkdir -p src/content/docs/tooling/linter/rules
 mkdir -p src/content/docs/tooling/website
 npm install
+npx playwright install --with-deps chromium
 npm run generate
 npm run build
