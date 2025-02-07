@@ -80,6 +80,12 @@ addresses.
 Either a programmatic client or a user that consumes an API. This term should
 be used when a statement refers broadly to both programs and users.
 
+### Collection
+
+A collection represents a discrete set of resources of a specific type. A resource
+may have one or more collections, with each collection having its own set of
+parent collections.
+
 ### Declarative Clients
 
 Declarative Clients, also known as Infrastructure as Code (IaC), describes a
@@ -98,6 +104,22 @@ Examples of complexities that declarative clients abstract away include:
 - Ordering of these imperative actions.
 
 [Terraform][] is an example of such a client.
+
+### Root collection
+
+A [collection](#collection) that does not have any parent collections. For example,
+`/users/`.
+
+### Root Resource
+
+A root resource is a resource which has a collection that has no parents. In
+other words, it is a resource that has a collection that appears at the root of
+a resource hierarchy.
+
+A root resource may also appear as a child of another resource: for example, a
+user permission may exist globally, but also as a child of a individual object.
+In this case, the resource is still considered a root resource, because at
+least one collection does not have a parent.
 
 ### Schema
 
