@@ -97,24 +97,25 @@ when the REST/JSON interface is used.
 
 `List` operations **must** return a page of results, with each individual
 result being a resource.
+
 - The array of resources **must** be named `results` and contain resources with
   no additional wrapping.
-- The `string nextPageToken` field **must** be included in the list response
+- The `string next_page_token` field **must** be included in the list response
   schema. It **must** be set if there are subsequent pages, and **must not** be
   set if the response represents the final page. For more information, see
   AEP-158.
-- The response struct **may** include a `int32 totalSize` (or
-  `int64 totalSize`) field with the number of items in the collection.
+- The response struct **may** include a `int32 total_size` (or
+  `int64 total_size`) field with the number of items in the collection.
   - The value **may** be an estimate (the field **should** clearly document
     this if so).
-  - If filtering is used, the `totalSize` field **should** reflect the size of
+  - If filtering is used, the `total_size` field **should** reflect the size of
     the collection _after_ the filter is applied.
 - The response message **must** include a field corresponding to the resources
   being returned, named for the English plural term for the resource, and
   **should not** include any other repeated fields.
-- The response message **may** include a `has_changed` boolean, to indicate that the
-  underlying data has changed since the `next_page_token` was generated.
-  
+- The response message **may** include a `bool has_changed` field, to indicate
+  that the underlying data has changed since the `next_page_token` was
+  generated.
 - Fields providing metadata about the list request (such as
   `string next_page_token` or `int32 total_size`) **must** be included on the
   response (not as part of the resource itself).
@@ -129,7 +130,7 @@ result being a resource.
 
 - The field "results" **must** be an array of resources, with the schema as a
   reference to the resource (e.g. `#/components/schemas/Book`).
-- The field "nextPageToken" **must** be a string that contains the token to
+- The field "next_page_token" **must** be a string that contains the token to
   retrieve the next page. This **must not** be set if the response represents
   the final page.
 
@@ -159,18 +160,18 @@ return `200 OK` with an empty results array, and not `404 Not Found`.
 
 ### Advanced operations
 
-`List` methods **may** allow an extended set of functionality to allow a user to
-specify the resources that are returned in a response.
+`List` methods **may** allow an extended set of functionality to allow a user
+to specify the resources that are returned in a response.
 
-The following table summarizes the applicable AEPs, ordered by the precedence of
-the operation on the results.
+The following table summarizes the applicable AEPs, ordered by the precedence
+of the operation on the results.
 
-| Operation                    | AEP                               |
-| ---------------------------- | --------------------------------- |
-| filter                       | [AEP-160](/160)                   |
-| ordering (`orderBy`)         | [AEP-132](#ordering)              |
-| pagination (`nextPageToken`) | [AEP-158](/158)                   |
-| skip                         | [AEP-158](/158/#skipping-results) |
+| Operation                      | AEP                               |
+| ------------------------------ | --------------------------------- |
+| filter                         | [AEP-160](/160)                   |
+| ordering (`orderBy`)           | [AEP-132](#ordering)              |
+| pagination (`next_page_token`) | [AEP-158](/158)                   |
+| skip                           | [AEP-158](/158/#skipping-results) |
 
 For example, if both the `filter` and `skip` fields are specified, then the
 filter would be applied first, then the resulting set would be the results that
