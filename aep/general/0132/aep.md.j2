@@ -100,7 +100,7 @@ result being a resource.
 
 - The array of resources **must** be named `results` and contain resources with
   no additional wrapping.
-- The `string next_page_token` field **must** be included in the list response
+- The `string nextPageToken` field **must** be included in the list response
   schema. It **must** be set if there are subsequent pages, and **must not** be
   set if the response represents the final page. For more information, see
   AEP-158.
@@ -117,7 +117,7 @@ result being a resource.
   that the underlying data has changed since the `next_page_token` was
   generated.
 - Fields providing metadata about the list request (such as
-  `string next_page_token` or `int32 totalSize`) **must** be included on the
+  `string next_page_token` or `int32 total_size`) **must** be included on the
   response (not as part of the resource itself).
 
 {% tab proto %}
@@ -166,12 +166,12 @@ to specify the resources that are returned in a response.
 The following table summarizes the applicable AEPs, ordered by the precedence
 of the operation on the results.
 
-| Operation                      | AEP                               |
-| ------------------------------ | --------------------------------- |
-| filter                         | [AEP-160](/160)                   |
-| ordering (`orderBy`)           | [AEP-132](#ordering)              |
-| pagination (`next_page_token`) | [AEP-158](/158)                   |
-| skip                           | [AEP-158](/158/#skipping-results) |
+| Operation                    | AEP                               |
+| ---------------------------- | --------------------------------- |
+| filter                       | [AEP-160](/160)                   |
+| ordering (`orderBy`)         | [AEP-132](#ordering)              |
+| pagination (`nextPageToken`) | [AEP-158](/158)                   |
+| skip                         | [AEP-158](/158/#skipping-results) |
 
 For example, if both the `filter` and `skip` fields are specified, then the
 filter would be applied first, then the resulting set would be the results that
