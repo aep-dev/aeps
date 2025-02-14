@@ -150,10 +150,10 @@ is three days.
 
 ### Freshness
 
-Since a request with the same filter (see [AIP-132][]) and `page_token`
-**should** return the same results unless the page token has expired, items
-returned **may** have been deleted or modified since the initial request, and
-paging through the list **may** not include all current items.
+Since a request with the same filter and `page_token` **should** return the
+same results unless the page token has expired, items returned **may** have
+been deleted or modified since the initial request, and paging through the list
+**may** not include all current items.
 
 If the service is capable of detecting underlying changes in the listing since
 a given `page_token` was generated:
