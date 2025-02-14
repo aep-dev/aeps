@@ -112,6 +112,9 @@ result being a resource.
 - The response message **must** include a field corresponding to the resources
   being returned, named for the English plural term for the resource, and
   **should not** include any other repeated fields.
+- The response message **may** include a `has_changed` boolean, to indicate that the
+  underlying data has changed since the `next_page_token` was generated.
+  
 - Fields providing metadata about the list request (such as
   `string next_page_token` or `int32 total_size`) **must** be included on the
   response (not as part of the resource itself).
