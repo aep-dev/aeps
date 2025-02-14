@@ -164,8 +164,9 @@ a given `page_token` was generated:
 - If no `has_changed` boolean is included, the API **may** expire the page
   token.
 
-If the service is incapable of detecting such changes, it **may** return stale
-data or phantom reads without any indication.
+If the service is incapable of detecting such changes, for example if it is
+using an in-memory storage mechanism without snapshots, it **may** return stale
+data or phantom reads with no indication.
 
 ### Backwards compatibility
 
