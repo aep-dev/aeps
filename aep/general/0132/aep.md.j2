@@ -104,11 +104,11 @@ result being a resource.
   schema. It **must** be set if there are subsequent pages, and **must not** be
   set if the response represents the final page. For more information, see
   AEP-158.
-- The response struct **may** include a `int32 total_size` (or
-  `int64 total_size`) field with the number of items in the collection.
+- The response struct **may** include a `int32 totalSize` (or
+  `int64 totalSize`) field with the number of items in the collection.
   - The value **may** be an estimate (the field **should** clearly document
     this if so).
-  - If filtering is used, the `total_size` field **should** reflect the size of
+  - If filtering is used, the `totalSize` field **should** reflect the size of
     the collection _after_ the filter is applied.
 - The response message **must** include a field corresponding to the resources
   being returned, named for the English plural term for the resource, and
@@ -117,7 +117,7 @@ result being a resource.
   that the underlying data has changed since the `next_page_token` was
   generated.
 - Fields providing metadata about the list request (such as
-  `string next_page_token` or `int32 total_size`) **must** be included on the
+  `string next_page_token` or `int32 totalSize`) **must** be included on the
   response (not as part of the resource itself).
 
 {% tab proto %}

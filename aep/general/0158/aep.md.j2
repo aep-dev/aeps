@@ -91,7 +91,7 @@ message ListBooksResponse {
   - If the end of the collection has not been reached (or if the API can not
     determine in time), the API **must** provide a `next_page_token`.
 - Response messages for collections **may** provide an integer (`int32` for
-  protobuf) `total_size` field, providing the user with the total number of
+  protobuf) `totalSize` field, providing the user with the total number of
   items in the list.
   - This total **may** be an estimate. If so, the API **should** explicitly
     document that.
