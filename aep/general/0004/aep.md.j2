@@ -58,7 +58,8 @@ message Topic {
 
 {% tab oas %}
 
-For OpenAPI 3.0, Resources must be defined in `#components/schemas` and use the `x-aep-resource` extension:
+For OpenAPI 3.0, Resources must be defined in `#components/schemas` and use the
+`x-aep-resource` extension:
 
 ```json
 {
@@ -97,8 +98,7 @@ variable = "{", literal, "}";
 
 Where `literal` matches the regex `[a-z][a-z0-9\-]*[a-z0-9]`.
 
-- Patterns **must** match the possible [paths](/paths) of the
-  resource.
+- Patterns **must** match the possible [paths](/paths) of the resource.
 - Pattern variables (the segments within braces) **must** match the singular of
   the resource whose id is being matched by that value.
 

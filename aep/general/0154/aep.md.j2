@@ -60,9 +60,9 @@ current ETag. If the `If-Match` header value does not match the ETag, the
 service **must** reply with an HTTP 412 error.
 
 If the user omits the `If-Match` header, the service **should** permit the
-request. However, services with [strong consistency][] or parallelism requirements
-**may** require users to send ETags all the time and reject the request with an
-HTTP 400 error if it does not contain an ETag.
+request. However, services with [strong consistency][] or parallelism
+requirements **may** require users to send ETags all the time and reject the
+request with an HTTP 400 error if it does not contain an ETag.
 
 If any conditional headers are supported for any operation within a service,
 the same conditional headers **must** be supported for all mutation methods
@@ -75,8 +75,8 @@ If a server recieves a conditional header it does not support, the service
 If any validator or conditional headers are supported for any operations in the
 service, the use of unsupported conditional headers **must** result in a
 `INVALID_ARGUMENT / 400` error response. (In other words, once a service gives
-the client reason to believe it understands conditional headers, it **must not**
-ever ignore them.)
+the client reason to believe it understands conditional headers, it **must
+not** ever ignore them.)
 
 ### Read requests
 
@@ -122,12 +122,14 @@ not equivalent to the old one).
 
 ## Changelog
 
-- **2025-01-18**: Updated to use RFC 9110 instead of RFC 7232, which is deprecated.
+- **2025-01-18**: Updated to use RFC 9110 instead of RFC 7232, which is
+  deprecated.
 - **2020-09-02**: Clarified that other errors may take precedence over
   `FAILED_PRECONDITION` for ETag mismatches.
 - **2020-09-02**: Add guidance for ETags on request messages.
 - **2019-09-23**: Changed the title to "resource freshness validation".
 
 [RFC 9110]: https://www.rfc-editor.org/rfc/rfc9110.html#section-8.8.3
-[RFC 9110 Etags Comparison]: https://www.rfc-editor.org/rfc/rfc9110.html#name-comparison-2
+[RFC 9110 Etags Comparison]:
+  https://www.rfc-editor.org/rfc/rfc9110.html#name-comparison-2
 [strong consistency]: ./0121.md#strong-consistency

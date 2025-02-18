@@ -1,9 +1,9 @@
 # Resource expiration
 
 Customers often want to provide the time that a given resource or resource
-attribute is no longer useful or valid (e.g. a rotating security key). Currently
-we recommend that customers do this by specifying an exact "expiration time"
-into a `Timestamp expire_time` field; however, this adds
+attribute is no longer useful or valid (e.g. a rotating security key).
+Currently we recommend that customers do this by specifying an exact
+"expiration time" into a `Timestamp expire_time` field; however, this adds
 additional strain on the user when they want to specify a relative time offset
 until expiration rather than a specific time until expiration.
 
@@ -14,12 +14,12 @@ library.
 
 ## Guidance
 
-1.  APIs wishing to convey an expiration **must** rely on a
-    `Timestamp` field called `expire_time`.
+1.  APIs wishing to convey an expiration **must** rely on a `Timestamp` field
+    called `expire_time`.
 2.  APIs wishing to allow a relative expiration time must define a `oneof`
     called `expiration` (or `{something}_expiration`) containing both the
-    `expire_time` field and a separate `Duration`
-    field called `ttl`, the latter marked as input only.
+    `expire_time` field and a separate `Duration` field called `ttl`, the
+    latter marked as input only.
 3.  APIs **must** always return the expiration time in the `expire_time` field
     and leave the `ttl` field blank when retrieving the resource.
 4.  APIs that rely on the specific semantics of a "time to live" (e.g., DNS
@@ -30,6 +30,7 @@ library.
 ### Example
 
 {% tab proto %}
+
 ```proto
 message ExpiringResource {
   // google.api.resource and other annotations and fields
@@ -45,8 +46,8 @@ message ExpiringResource {
   }
 }
 ```
-{% tab oas %}
-**Note:**  OAS content not yet written.
+
+{% tab oas %} **Note:** OAS content not yet written.
 
 {% endtabs %}
 

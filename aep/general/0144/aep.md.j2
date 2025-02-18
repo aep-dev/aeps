@@ -72,10 +72,10 @@ back. This is fine for many situations, particularly when the array field is
 expected to have a small size (fewer than 10 or so) and race conditions are not
 an issue, or can be guarded against with [ETags][aep-154].
 
-**Note:** Declarative-friendly resources **must** use the standard
-`Update` method, and not introduce `Add` and `Remove` methods. If declarative
-tools need to reason about particular relationships while ignoring others,
-consider using a subresource instead.
+**Note:** Declarative-friendly resources **must** use the standard `Update`
+method, and not introduce `Add` and `Remove` methods. If declarative tools need
+to reason about particular relationships while ignoring others, consider using
+a subresource instead.
 
 If atomic modifications are required, and if the array is functionally a set
 (meaning that order does not matter, duplicate values are not meaningful, and
@@ -164,4 +164,3 @@ subresource instead.
   - The field **should** be designated as required.
 
 {% endtabs %}
-

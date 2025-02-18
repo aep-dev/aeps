@@ -89,13 +89,13 @@ A method is strongly consistent if, upon completion of a request of that method
 will return the same value on any subsequent requests until another request
 which mutates the resource is completed.
 
-[Output only][output only] fields unrelated to the resource [state][] **should**
-also return the same value on each subsequent request until another request
-which mutates the resource is completed.
+[Output only][output only] fields unrelated to the resource [state][]
+**should** also return the same value on each subsequent request until another
+request which mutates the resource is completed.
 
-- An [output only][] field that takes so long to reach a steady-state that it would
-  negatively impact the user experience of the request (e.g. an hour-long instantiation
-  of a VM cluster).
+- An [output only][] field that takes so long to reach a steady-state that it
+  would negatively impact the user experience of the request (e.g. an hour-long
+  instantiation of a VM cluster).
 
 Examples of strong consistency include:
 
@@ -109,15 +109,15 @@ Examples of strong consistency include:
   the `DELETED` state value in the case of [soft delete][])
 
 Clients of resource-oriented APIs often need to orchestrate multiple operations
-in sequence (e.g., create resource A, create resource B which depends on A), and
-ensuring that resources immediately reflect steady user state after an
+in sequence (e.g., create resource A, create resource B which depends on A),
+and ensuring that resources immediately reflect steady user state after an
 operation is complete ensures clients can rely on method completion as a signal
 to begin the next operation.
 
-[Output only][output only] fields ideally would follow the same guidelines, but as these
-fields can often represent a resources live state, it's sometimes necessary for
-these values to change after a successful mutation operation to reflect a state
-change.
+[Output only][output only] fields ideally would follow the same guidelines, but
+as these fields can often represent a resources live state, it's sometimes
+necessary for these values to change after a successful mutation operation to
+reflect a state change.
 
 ### Cyclic References
 

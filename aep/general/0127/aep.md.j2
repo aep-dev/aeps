@@ -9,11 +9,11 @@ accustomed to that pattern.
 
 ## Guidance
 
-Protobuf APIs **must** provide HTTP definitions for each RPC that they define, except
-for bi-directional streaming RPCs, which can not be natively supported using
-HTTP/1.1. When providing a bi-directional streaming method, an API **should**
-also offer an alternative method that does not rely on bi-directional
-streaming.
+Protobuf APIs **must** provide HTTP definitions for each RPC that they define,
+except for bi-directional streaming RPCs, which can not be natively supported
+using HTTP/1.1. When providing a bi-directional streaming method, an API
+**should** also offer an alternative method that does not rely on
+bi-directional streaming.
 
 ### HTTP method and path
 
@@ -56,16 +56,16 @@ message CreateBookRequest {
 - The first key (`post` in this example) corresponds to the HTTP method. RPCs
   **may** use `get`, `post`, `patch`, or `delete`.
   - RPCs **must** use the prescribed HTTP verb for each standard method, as
-    discussed in [Get](/get), [List](/list), [Create](/create), [Update](/update), and
-    [Delete](/delete)
+    discussed in [Get](/get), [List](/list), [Create](/create),
+    [Update](/update), and [Delete](/delete)
   - RPCs **should** use the prescribed HTTP verb for custom methods, as
     discussed in [Custom Methods](/custom-methods).
   - RPCs **should not** use `put` or `custom`.
 - The corresponding value represents the URI.
   - URIs **must** use the `{foo=bar/*}` syntax to represent a variable that
-    should be populated in the request proto. When extracting a [resource
-    name](/resource-paths), the variable **must** include the entire resource name, not
-    just the ID component.
+    should be populated in the request proto. When extracting a
+    [resource name](/resource-paths), the variable **must** include the entire
+    resource name, not just the ID component.
   - URIs **may** use nested fields for their variable names. (Additionally,
     AEP-134 mandates this for `Update` requests.)
   - URIs **must** use the `*` character to represent ID components, which
@@ -77,9 +77,10 @@ message CreateBookRequest {
   as defined by protocol buffers' canonical [JSON encoding][json encoding].
   - RPCs **must not** define a `body` at all for RPCs that use the `GET` or
     `DELETE` HTTP verbs.
-  - RPCs **must** use the prescribed `body` for Create ([Create](/create)) and Update
-    ([AEP-134](/update)) requests.
-  - RPCs **should** use the prescribed `body` for custom methods ([Custom Methods](custom-methods)).
+  - RPCs **must** use the prescribed `body` for Create ([Create](/create)) and
+    Update ([AEP-134](/update)) requests.
+  - RPCs **should** use the prescribed `body` for custom methods
+    ([Custom Methods](custom-methods)).
   - The `body` **must not** contain a nested field (or use the `.` character),
   - The `body` **must not** be the same as a URI parameter.
   - The `body` **must not** be a `repeated` field.

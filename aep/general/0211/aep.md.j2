@@ -14,8 +14,8 @@ authorization.
 
 If a request can not pass the authorization check for any reason, the service
 **must** error with `403 Forbidden`, and the corresponding error message
-**must** look like: "Permission `{p}` denied on resource `{r}` (or it might
-not exist)." This avoids leaking resource existence.
+**must** look like: "Permission `{p}` denied on resource `{r}` (or it might not
+exist)." This avoids leaking resource existence.
 
 If it is not possible to determine authorization for a resource because the
 resource does not exist, the service **should** check authorization to read
@@ -30,8 +30,8 @@ resource if called, but a user only has permission to call one of them.
 
 In this situation, the service **must** only check for authorization applicable
 to the operation being called, rather than check for related authorization that
-would provide permission to reveal existence. Such algorithms are complicated to
-implement correctly and prone to accidental leaks.
+would provide permission to reveal existence. Such algorithms are complicated
+to implement correctly and prone to accidental leaks.
 
 For example, consider a scenario where:
 

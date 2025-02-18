@@ -8,15 +8,15 @@ replace a resource.
 method. These operations accept the resource and its path, which it uses to
 create or replace the resource. The operation returns the final resource.
 
-Also see the [update](/update) method, with guidance on how to implement `PATCH`
-requests.
+Also see the [update](/update) method, with guidance on how to implement
+`PATCH` requests.
 
 ## Guidance
 
-APIs **should** provide an apply method for a resource unless it is not valuable
-for users to do so. Clients should also consider using [update](/update) methods
-instead to ensure forwards compatible requests (see [PATCH and
-PUT](#patch-and-put)).
+APIs **should** provide an apply method for a resource unless it is not
+valuable for users to do so. Clients should also consider using
+[update](/update) methods instead to ensure forwards compatible requests (see
+[PATCH and PUT](#patch-and-put)).
 
 ### Operation
 
@@ -24,9 +24,10 @@ Apply methods are specified using the following pattern:
 
 - The HTTP verb **must** be `PUT`.
 - Some resources take longer to be applied than is reasonable for a regular API
-  request. In this situation, the API **should** use a [long-running
-  operation](/long-running-operations).
-- The operation **must** have [strong consistency](/resources#strong-consistency).
+  request. In this situation, the API **should** use a
+  [long-running operation](/long-running-operations).
+- The operation **must** have
+  [strong consistency](/resources#strong-consistency).
 - The HTTP URI path of the `PUT` method **must** be the resource path.
 
 {% tab proto %}
@@ -43,7 +44,7 @@ Apply methods are specified using the following pattern:
 - The method's name **must** begin with the word `Apply`. The remainder of the
   method name **should** be the singular form of the resource being applied.
 - The request's `path` field **must** map to the URI path.
- - The `path` field **must** be the only variable in the URI path.
+- The `path` field **must** be the only variable in the URI path.
 
 {% tab oas %}
 
@@ -73,9 +74,10 @@ Apply methods implement a common request message pattern:
 {% sample '../example.proto', 'message ApplyBookRequest' %}
 
 - A `path` field specifying the path of the resource **must** be included.
-  - The field **must** be [annotated as `REQUIRED`](/field-behavior-documentation).
-  - The field **must** identify the [resource type](/resource-types) of the resource
-    being applied.
+  - The field **must** be
+    [annotated as `REQUIRED`](/field-behavior-documentation).
+  - The field **must** identify the [resource type](/resource-types) of the
+    resource being applied.
 
 {% tab oas %}
 
@@ -105,8 +107,8 @@ Apply methods implement a common request message pattern:
 
 ### Errors
 
-See [errors](/errors), in particular [when to use PERMISSION_DENIED and NOT_FOUND
-errors](/errors#permission-denied).
+See [errors](/errors), in particular
+[when to use PERMISSION_DENIED and NOT_FOUND errors](/errors#permission-denied).
 
 ### PATCH and PUT
 

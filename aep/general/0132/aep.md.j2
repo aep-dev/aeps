@@ -97,6 +97,7 @@ when the REST/JSON interface is used.
 
 `List` operations **must** return a page of results, with each individual
 result being a resource.
+
 - The array of resources **must** be named `results` and contain resources with
   no additional wrapping.
 - The `string nextPageToken` field **must** be included in the list response
@@ -156,11 +157,11 @@ return `200 OK` with an empty results array, and not `404 Not Found`.
 
 ### Advanced operations
 
-`List` methods **may** allow an extended set of functionality to allow a user to
-specify the resources that are returned in a response.
+`List` methods **may** allow an extended set of functionality to allow a user
+to specify the resources that are returned in a response.
 
-The following table summarizes the applicable AEPs, ordered by the precedence of
-the operation on the results.
+The following table summarizes the applicable AEPs, ordered by the precedence
+of the operation on the results.
 
 | Operation                    | AEP                               |
 | ---------------------------- | --------------------------------- |

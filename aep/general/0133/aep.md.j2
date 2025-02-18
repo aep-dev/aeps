@@ -11,9 +11,9 @@ resource.
 
 ## Guidance
 
-APIs **should** provide a create method for resources unless it is
-not valuable for users to do so. The purpose of the create method is to create
-a new resource in an already-existing collection.
+APIs **should** provide a create method for resources unless it is not valuable
+for users to do so. The purpose of the create method is to create a new
+resource in an already-existing collection.
 
 ### Operation
 
@@ -21,8 +21,8 @@ Create methods are specified using the following pattern:
 
 - The HTTP verb **must** be `POST`.
 - Some resources take longer to be created than is reasonable for a regular API
-  request. In this situation, the API **should** use a [long-running
-  operation](/long-running-operations).
+  request. In this situation, the API **should** use a
+  [long-running operation](/long-running-operations).
 
 {% tab proto %}
 
@@ -142,8 +142,8 @@ publishers/012345678-abcd-cdef/books/12341234-5678-abcd
 
 {% tab proto %}
 
-- There **should** be exactly one `google.api.method_signature` annotation, with
-  a comma-delimited list of values, including the field representing the
+- There **should** be exactly one `google.api.method_signature` annotation,
+  with a comma-delimited list of values, including the field representing the
   resource.
   - If the collection has a parent, the list must include `parent`.
   - If the resource supports user-settable ids, the list must include `id`.

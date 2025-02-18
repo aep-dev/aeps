@@ -76,10 +76,10 @@ Comments **should** use `code font` for field or method names and for literals
 Raw HTML **must not** be used.
 
 "ASCII art" attempts to present a diagram within the protos **must not** be
-used. The Markdown within the protos is consumed by a large number of renderers,
-and any ASCII art is very unlikely to be well-presented by all of them. If
-a diagram is useful in order to understand the API, include a link to a
-documentation page containing the diagram as an image.
+used. The Markdown within the protos is consumed by a large number of
+renderers, and any ASCII art is very unlikely to be well-presented by all of
+them. If a diagram is useful in order to understand the API, include a link to
+a documentation page containing the diagram as an image.
 
 ### Cross-references
 
@@ -107,8 +107,9 @@ trademark owner's current branding.
 
 ### Deprecations
 
-To deprecate a component (service, method, message, field, enum, or enum value),
-the `deprecated` [option](https://developers.google.com/protocol-buffers/docs/proto#options)
+To deprecate a component (service, method, message, field, enum, or enum
+value), the `deprecated`
+[option](https://developers.google.com/protocol-buffers/docs/proto#options)
 **must** be set to `true`, and the first line of the respective comment
 **must** start with `"Deprecated: "` and provide alternative solutions for
 developers. If there is no alternative solution, a deprecation reason **must**

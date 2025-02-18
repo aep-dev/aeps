@@ -13,6 +13,7 @@ per parent.
 For example:
 
 {% tab proto %}
+
 ```proto
 message Config {
   option (google.api.resource) = {
@@ -71,7 +72,7 @@ paths:
     get:
       operationId: getUserConfig
       parameters:
-      - $ref: '#/components/parameters/user'
+        - $ref: '#/components/parameters/user'
       responses:
         '200':
           content:
@@ -81,7 +82,7 @@ paths:
     patch:
       operationId: updateUserConfig
       parameters:
-      - $ref: '#/components/parameters/user'
+        - $ref: '#/components/parameters/user'
       requestBody:
         content:
           application/json:
@@ -118,8 +119,8 @@ paths:
     collection **should** be the `plural` form of the Singleton resource e.g.
     `/v1/{parent=users/*}/configs`.
   - If a parent resource ID is provided instead of the hyphen `-` as per
-    [AEP-159][aep-159], then the service **should** return a collection of one Singleton
-    resource corresponding to the specified parent resource.
+    [AEP-159][aep-159], then the service **should** return a collection of one
+    Singleton resource corresponding to the specified parent resource.
 
 {% tab proto %}
 
@@ -177,16 +178,15 @@ paths:
 
 ### Support for Standard List
 
-While Singleton resources are not directly part of a collection themselves, they
-can be viewed as part of their parent's collection. The one-to-one relationship
-of parent-to-singleton means that for every one parent there is one singleton
-instance, naturally enabling some collection-based methods when combined with
-the pattern of [Reading Across Collections][aep-159]. The Singleton can present
-as a collection to the API consumer as it is indirectly one based on its parent.
-Furthermore, presenting the Singleton resource as a pseudo-collection in such
-methods enables future expansion to a real collection, should a Singleton be
-found lacking.
-
+While Singleton resources are not directly part of a collection themselves,
+they can be viewed as part of their parent's collection. The one-to-one
+relationship of parent-to-singleton means that for every one parent there is
+one singleton instance, naturally enabling some collection-based methods when
+combined with the pattern of [Reading Across Collections][aep-159]. The
+Singleton can present as a collection to the API consumer as it is indirectly
+one based on its parent. Furthermore, presenting the Singleton resource as a
+pseudo-collection in such methods enables future expansion to a real
+collection, should a Singleton be found lacking.
 
 [aep-122]: ./0122.md
 [aep-131]: ./0131.md
