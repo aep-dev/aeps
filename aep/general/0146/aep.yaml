@@ -1,7 +1,8 @@
 ---
 id: 146
 state: approved
-slug: generic-fields
+slug: mutually-exclusive-fields
 created: 2024-07-02
+updated: 2025-01-23
 placement:
   category: fields
