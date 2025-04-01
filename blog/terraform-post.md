@@ -24,16 +24,18 @@ Cloud companies often build out Terraform providers, which are responsible for e
 
 Let's take a look at a pseudocode version of the Terraform lifecycle.
 
-`userIntention := GetTerraformPlan()`  
-`currentState := ReadResource(userIntention)`
+```
+userIntention := GetTerraformPlan()
+currentState := ReadResource(userIntention)
 
-`if currentState != null:`  
-	`if user wishes to delete:`  
-		`DeleteResource(currentState)`  
-	`else if currentState != userIntention:`  
-		`UpdateResource(userIntention)`  
-`else:`  
-	`CreateResource(userIntention)`
+if currentState != null:
+	if user wishes to delete:
+		 DeleteResource(currentState)
+	else if currentState != userIntention:
+		 UpdateResource(userIntention)
+else:
+	CreateResource(userIntention)
+```
 
 Two different sets of problems emerge and the AEPs are well-suited for solving both of them.
 
