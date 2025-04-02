@@ -18,9 +18,9 @@ A core thesis of the AEP project has been that API design constraints can facili
 
 Terraform is a powerful Infrastructure-as-Code (IaC) tool that allows you to define and manage your infrastructure using code. Infrastructure-as-Code, in general, is the practice of managing and provisioning infrastructure through machine-readable definition files rather than through manual processes. This means you can automate the creation, modification, and deletion of resources across various cloud providers and on-premises environments, ensuring consistency, repeatability, and version control. 
 
-Cloud companies often build out Terraform providers, which are responsible for establishing differences between the cloud/user intent, determining which API requests are necessary, making those requests, and handling any follow-up actions. 
+Cloud companies often build out Terraform providers, which are responsible for establishing differences between the cloud and the user's intent, determining which API requests are necessary, making those requests, and handling any follow-up actions. 
 
-# Why do we need the AEPs for this?
+# How do the AEPs help with this?
 
 Let's take a look at a pseudocode version of the Terraform lifecycle.
 
@@ -39,14 +39,14 @@ else:
 
 Two different sets of problems emerge and the AEPs are well-suited for solving both of them.
 
-The first set of problems revolves around the grouping and calling of APIs. There's a variety of tools in the market that will call an API given a set of parameters and an OpenAPI description (or even just a URL).Terraform doesn't expose individual APIs, but instead exposes a resource schema. This raises a variety of questions when developing a Terraform provider:
+The first set of problems revolves around the grouping and calling of APIs. There's a variety of tools in the market that will call an API method given a set of parameters and an OpenAPI description (or even just a URL). Terraform doesn't expose individual API methods, but instead exposes a resource schema. This raises a variety of questions when developing a Terraform provider:
 
 * What are my resources?  
-* How do I know which APIs to call for a given resource?  
-* Is there 1 API that can be called for each CRUD action, or will I need to chain together API calls to achieve my result?  
-* How do I derive my resource schema from 4 distinct CRUD APIs? Is it simply the combination of all the body parameters from the 4 APIs?
+* How do I know which API methods to call for a given resource?  
+* Is there a single API method that can be called for each CRUD operation, or will I need to chain together API calls to achieve my result?  
+* How do I derive my resource schema from four distinct CRUD APIs? Is it simply the union of all the body parameters from the four CRUD API methods?
 
-AEP APIs are resource-oriented by default, so just following the AEPs can address all of the problems above. The Terraform provider can make assumptions about which APIs should be called and how they relate to each other.
+AEP APIs are resource-oriented by default, so just following the AEPs can address all of the problems above. The Terraform provider can "know"  which API methods should be called and how they relate to each other.
 
 # What about API responses?
 
@@ -54,7 +54,7 @@ The second set of problems comes from reading API responses. In the pseudocode a
 
 * Does the response of the Read API match the resource schema? What changes need to be made?  
 * Are there multiple ways to express a value in the cloud? If so, how can I be sure that two semantically equivalent values do not result in a diff against the Terraform plan?  
-* If a boolean value does not appear in the JSON response, does that mean it's false? (this can be extended to all types, not just booleans\!)
+* If a boolean value does not appear in the JSON response, does that mean it's `false`? (And likewise for numeric values being `0`, string values being the empty string, and so on.)
 
 Many of these questions come down to the preference of the API developer. In fact, none of them can be defined by an API schema\! The AEPs encode these differences in our specification, so that tools like our Terraform provider can make assumptions about how to parse the responses of our APIs. 
 
