@@ -6,10 +6,6 @@ authors:
   - name: Marsh Gardiner
 ---
 
-# AEP Terraform Provider
-
-Author: Alex Stephen, Marsh Gardiner
-
 A core thesis of the AEP project has been that API design constraints can
 facilitate the creation (and maintenance\!) of API client tools. In many
 companies, teams are staffed to build out CLI tools, Terraform providers, UIs,
