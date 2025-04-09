@@ -39,8 +39,10 @@ follow-up actions.
 
 # How do the AEPs help with this?
 
-Most companies must staff engineers just to maintain their Terraform provider. However, making AEP-compliant APIs can give you providers for no additional effort beyond writing the API!
-Let's take a look at a pseudocode version of the Terraform lifecycle.
+Most companies must staff engineers just to maintain their Terraform provider.
+However, making AEP-compliant APIs can give you providers for no additional
+effort beyond writing the API! Let's take a look at a pseudocode version of the
+Terraform lifecycle.
 
 ```python
 userIntention := GetTerraformPlan()
