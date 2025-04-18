@@ -140,36 +140,26 @@ an AEP from proposal to implementation to final acceptance.
 ### Overview
 
 ```mermaid
-flowchart LR
-    %% Node styles
-    classDef orange fill:#ffa500,stroke:#333,stroke-width:1px;
-    classDef blue fill:lightskyblue,stroke:#333,stroke-width:1px;
-    classDef green fill:palegreen,stroke:#333,stroke-width:1px;
-    classDef red fill:mistyrose,stroke:#333,stroke-width:1px;
-    classDef steel fill:lightsteelblue,stroke:#333,stroke-width:1px;
+graph LR
+  classDef orange fill:#FFA500,stroke:#000,stroke-width:1px;
+  classDef lightskyblue fill:#87CEFA,stroke:#000,stroke-width:1px;
+  classDef palegreen fill:#98FB98,stroke:#000,stroke-width:1px;
+  classDef mistyrose fill:#FFE4E1,stroke:#000,stroke-width:1px;
+  classDef lightsteelblue fill:#B0C4DE,stroke:#000,stroke-width:1px;
 
-    %% Nodes
-    github_pr["GitHub PR"]
-    reviewing["Reviewing"]
-    approved["Approved"]
-    final["Final"]
-    withdrawn["Withdrawn"]
-    replaced["Replaced"]
+  github_pr((GitHub PR)):::orange
+  reviewing[Reviewing]:::lightskyblue
+  approved[Approved]:::palegreen
+  final[Final]:::palegreen
+  withdrawn[Withdrawn]:::mistyrose
+  replaced[Replaced]:::lightsteelblue
 
-    %% Edges
-    github_pr --> reviewing
-    reviewing --> approved
-    reviewing -.-> withdrawn
-    approved --> final
-    approved -.-> replaced
-    final -.-> replaced
-
-    %% Assign classes for colors
-    class github_pr orange
-    class reviewing blue
-    class approved,final green
-    class withdrawn red
-    class replaced steel
+  github_pr --> reviewing
+  reviewing --> approved
+  reviewing -.-> withdrawn
+  approved --> final
+  approved -.-> replaced
+  final -.-> replaced
 ```
 
 ### Proposing an AEP
