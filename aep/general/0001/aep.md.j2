@@ -139,24 +139,27 @@ an AEP from proposal to implementation to final acceptance.
 
 ### Overview
 
-```graphviz
-digraph d_front_back {
-  rankdir=LR;
-  node [ style="filled,solid" shape=box fontname="Roboto" ];
-  github_pr [ shape="oval" label="GitHub PR" fillcolor="orange" ];
-  reviewing [ label="Reviewing" fillcolor="lightskyblue" ];
-  approved [ label="Approved" fillcolor="palegreen" ];
-  final [ label="Final" fillcolor="palegreen" ];
-  withdrawn [ label="Withdrawn" fillcolor="mistyrose" ];
-  replaced [ label="Replaced" fillcolor="lightsteelblue" ];
+```mermaid
+graph LR
+  classDef orange fill:#FFA500,stroke:#000,stroke-width:1px;
+  classDef lightskyblue fill:#87CEFA,stroke:#000,stroke-width:1px;
+  classDef palegreen fill:#98FB98,stroke:#000,stroke-width:1px;
+  classDef mistyrose fill:#FFE4E1,stroke:#000,stroke-width:1px;
+  classDef lightsteelblue fill:#B0C4DE,stroke:#000,stroke-width:1px;
 
-  github_pr -> reviewing;
-  reviewing -> approved;
-  reviewing -> withdrawn [ style=dashed, color=mistyrose3 ];
-  approved -> final;
-  approved -> replaced [ style=dashed, color=lightsteelblue3 ];
-  final -> replaced [ style=dashed color=lightsteelblue3 ];
-}
+  github_pr((GitHub PR)):::orange
+  reviewing[Reviewing]:::lightskyblue
+  approved[Approved]:::palegreen
+  final[Final]:::palegreen
+  withdrawn[Withdrawn]:::mistyrose
+  replaced[Replaced]:::lightsteelblue
+
+  github_pr --> reviewing
+  reviewing --> approved
+  reviewing -.-> withdrawn
+  approved --> final
+  approved -.-> replaced
+  final -.-> replaced
 ```
 
 ### Proposing an AEP
