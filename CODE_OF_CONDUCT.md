@@ -89,5 +89,5 @@ of Conduct v1.3], which is adapted from the Contributor Covenant
 (http://contributor-covenant.org), version 2.0 available at
 http://contributor-covenant.org/version/2/0/code_of_conduct/
 
-[CNCF Community Code of Conduct v1.3]:
+[cncf community code of conduct v1.3]:
   https://github.com/cncf/foundation/blob/main/code-of-conduct.md
