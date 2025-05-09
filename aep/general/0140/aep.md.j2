@@ -29,8 +29,9 @@ they are appropriately descriptive and of suitable length.
 
 ### Case
 
-JSON and protobuf fields **must** use `lower_snake_case` names. These names are
-**may** be mapped to an idiomatic naming convention in generated code.
+JSON and protobuf fields **must** use `lower_snake_case` names. These names
+**may** be mapped to a language-specific idiomatic naming convention in
+generated code.
 
 Over-the-wire references to fields in other contexts (such as query parameters,
 path segments, and embedded CEL expressions) **must** not be transformed in any
@@ -46,11 +47,11 @@ JSON field names be in `lowerCamelCase` (whether or not they are backed by
 equivalent protobufs).
 
 **Important:** While APIs compliant with this AEP are required to use
-`lower_snake_case` JSON field names, because of the history, tools for
+`lower_snake_case` JSON field names, because of this history, tools for
 producing or consuming AEP-compliant APIs **may** support `lowerCamelCase` JSON
-fields in a non-default configuration and first-party tools (those included
-in the AEP project) **must** do so until the end of official support for the
-AEP 1.x standard.
+fields in a non-default configuration and first-party tools (those included in
+the AEP project) **must** do so until the end of official support for the AEP
+1.x standard.
 
 [proto-json]: https://protobuf.dev/programming-guides/json
 [grpc-gateway]: https://grpc-ecosystem.github.io/grpc-gateway/
