@@ -29,17 +29,31 @@ they are appropriately descriptive and of suitable length.
 
 ### Case
 
-{% tab proto %}
+JSON and protobuf fields **must** use `lower_snake_case` names. These names are
+**may** be mapped to an idiomatic naming convention in generated code.
 
-Field definitions in protobuf files **must** use `lower_snake_case` names.
-These names are mapped to an appropriate naming convention in JSON and in
-generated code.
+Over-the-wire references to fields in other contexts (such as query parameters,
+path segments, and embedded CEL expressions) **must** not be transformed in any
+way. The only exception to this is the rare scenario where a field name is also
+used as a header name, in which case it **must** be transformed by substituting
+hyphens (`-`) for underscores (`_`), emitted in lowercase, and parsed
+case-insensitively.
 
-{% tab oas %}
+**Note:** Regrettably, [ProtoJSON][proto-json] and [gRPC-Gateway][grpc-gateway]
+both transform `lower_snake_case` protobuf field names into `lowerCamelCase`
+JSON field names by default and an earlier draft of this AEP _required_ that
+JSON field names be in `lowerCamelCase` (whether or not they are backed by
+equivalent protobufs).
 
-Field definitions in OAS schemas **must** use `camelCase` names.
+**Important:** While APIs compliant with this AEP are required to use
+`lower_snake_case` JSON field names, because of the history, tools for
+producing or consuming AEP-compliant APIs **may** support `lowerCamelCase` JSON
+fields in a non-default configuration and first-party tools (those included
+in the AEP project) **must** do so until the end of official support for the
+AEP 1.x standard.
 
-{% endtabs %}
+[proto-json]: https://protobuf.dev/programming-guides/json
+[grpc-gateway]: https://grpc-ecosystem.github.io/grpc-gateway/
 
 **Note:** Examples throughout this AEP use `snake_case`. This should not be
 taken to mean that this guidance is protobuf-specific. Any guidance not in a
