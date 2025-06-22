@@ -148,6 +148,16 @@ used. It is not necessary to document this behavior.
 **Note:** While a reasonable time may vary between APIs, a good rule of thumb
 is three days.
 
+### Page Token Validity
+
+Sometimes, page tokens may only be valid in a particular context. An example is
+continuing a list request that has filtered to down to a field that only exists
+in a newer version of a resource.
+
+The server **should** verify that the page token is valid in the context of the
+request in which it passed, and return a INVALID_ARGUMENT / 400 if the
+verification fails.
+
 ### Backwards compatibility
 
 Adding pagination to an existing method is a backwards-incompatible change.
