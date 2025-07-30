@@ -27,28 +27,38 @@ example, a `proxy_settings` field might be as helpful as
 **Important:** Field names often appear in generated client surfaces. Ensure
 they are appropriately descriptive and of suitable length.
 
+- Each word in a field name **must not** begin with a number, because it
+  creates ambiguity when converting between snake case and camel case.
+- Fields **must not** contain leading, trailing, or adjacent underscores.
+
 ### Case
 
-{% tab proto %}
-
-Field definitions in protobuf files **must** use `lower_snake_case` names.
-These names are mapped to an appropriate naming convention in JSON and in
+JSON and protobuf fields **must** use `lower_snake_case` names. These names
+**may** be mapped to a language-specific idiomatic naming convention in
 generated code.
 
-{% tab oas %}
+- Over-the-wire references to fields in other contexts (such as query
+  parameters, path segments, and embedded CEL expressions) **must** not be
+  transformed in any way, with the following exception:
+  - If a field name is also be used as a header name, it **must** be
+    transformed by substituting hyphens (`-`) for underscores (`_`), emitted in
+    lowercase, and parsed case-insensitively.
 
-Field definitions in OAS schemas **must** use `camelCase` names.
+#### Support for lowerCamelCase in clients
 
-{% endtabs %}
+[ProtoJSON][proto-json] and [gRPC-Gateway][grpc-gateway] by default both
+transform `lower_snake_case` protobuf field names into `lowerCamelCase` JSON
+field names by default and an earlier draft of this AEP _required_ that JSON
+field names be in `lowerCamelCase` (whether or not they are backed by
+equivalent protobufs).
 
-**Note:** Examples throughout this AEP use `snake_case`. This should not be
-taken to mean that this guidance is protobuf-specific. Any guidance not in a
-protobuf tab applies to all APIs, with `snake_case` examples converted to
-`camelCase` for OAS APIs.
+While APIs compliant with this AEP are required to use `lower_snake_case` JSON
+field names, because of this history, tools for producing or consuming
+AEP-compliant APIs **may** support `lowerCamelCase` JSON fields and first-party
+tools (those included in the AEP project).
 
-Each word in a field name **must not** begin with a number, because it creates
-ambiguity when converting between snake case and camel case. Similarly, fields
-**must not** contain leading, trailing, or adjacent underscores.
+[proto-json]: https://protobuf.dev/programming-guides/json
+[grpc-gateway]: https://grpc-ecosystem.github.io/grpc-gateway/
 
 ### Uniformity
 
