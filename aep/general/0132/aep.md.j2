@@ -62,8 +62,8 @@ collection's URI:
 - The URI **should** contain a variable for each individual ID in the resource
   hierarchy.
   - The path parameter for all resource IDs **must** be in the form
-    `{resourceName}Id` (such as `bookId`), and path parameters representing the
-    ID of parent resources **must** end with `Id`.
+    `{resourceName}_id` (such as `book_id`), and path parameters representing
+    the ID of parent resources **must** end with `Id`.
 
 {% endtabs %}
 
@@ -104,11 +104,11 @@ result being a resource.
   schema. It **must** be set if there are subsequent pages, and **must not** be
   set if the response represents the final page. For more information, see
   AEP-158.
-- The response struct **may** include a `int32 totalSize` (or
-  `int64 totalSize`) field with the number of items in the collection.
+- The response struct **may** include a `int32 total_size` (or
+  `int64 total_size`) field with the number of items in the collection.
   - The value **may** be an estimate (the field **should** clearly document
     this if so).
-  - If filtering is used, the `totalSize` field **should** reflect the size of
+  - If filtering is used, the `total_size` field **should** reflect the size of
     the collection _after_ the filter is applied.
 - The response message **must** include a field corresponding to the resources
   being returned, named for the English plural term for the resource, and
@@ -163,12 +163,12 @@ to specify the resources that are returned in a response.
 The following table summarizes the applicable AEPs, ordered by the precedence
 of the operation on the results.
 
-| Operation                    | AEP                               |
-| ---------------------------- | --------------------------------- |
-| filter                       | [AEP-160](/160)                   |
-| ordering (`orderBy`)         | [AEP-132](#ordering)              |
-| pagination (`nextPageToken`) | [AEP-158](/158)                   |
-| skip                         | [AEP-158](/158/#skipping-results) |
+| Operation                      | AEP                               |
+| ------------------------------ | --------------------------------- |
+| filter                         | [AEP-160](/160)                   |
+| ordering (`order_by`)          | [AEP-132](#ordering)              |
+| pagination (`next_page_token`) | [AEP-158](/158)                   |
+| skip                           | [AEP-158](/158/#skipping-results) |
 
 For example, if both the `filter` and `skip` fields are specified, then the
 filter would be applied first, then the resulting set would be the results that
@@ -177,7 +177,7 @@ skip N entries of the filtered result.
 ### Ordering
 
 `List` methods **may** allow clients to specify sorting order; if they do, the
-request message **should** contain a `string orderBy` field.
+request message **should** contain a `string order_by` field.
 
 - Values **should** be a comma separated list of fields. For example:
   `"foo,bar"`.
@@ -198,7 +198,7 @@ pending deletion (and optionally purging them later).
 
 APIs that do this **should not** include deleted resources by default in list
 requests. APIs with soft deletion of a resource **should** include a
-`bool showDeleted` field in the list request that, if set, will cause
+`bool show_deleted` field in the list request that, if set, will cause
 soft-deleted resources to be included.
 
 ## Interface Definitions

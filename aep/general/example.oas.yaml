@@ -1,626 +1,969 @@
+components:
+  schemas:
+    book:
+      properties:
+        author:
+          items:
+            properties:
+              family_name:
+                type: string
+                x-aep-field-number: 2
+              given_name:
+                type: string
+                x-aep-field-number: 1
+            type: object
+          type: array
+          x-aep-field-number: 5
+        edition:
+          format: int32
+          type: integer
+          x-aep-field-number: 4
+        isbn:
+          items:
+            type: string
+          type: array
+          x-aep-field-number: 1
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+          x-aep-field-number: 10018
+        price:
+          format: int32
+          type: integer
+          x-aep-field-number: 2
+        published:
+          type: boolean
+          x-aep-field-number: 3
+      required:
+        - edition
+        - isbn
+        - price
+        - published
+      type: object
+      x-aep-resource:
+        parents:
+          - publisher
+        patterns:
+          - publishers/{publisher}/books/{book}
+        plural: books
+        singular: book
+    book-edition:
+      properties:
+        display_name:
+          type: string
+          x-aep-field-number: 1
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+          x-aep-field-number: 10018
+      required:
+        - display_name
+      type: object
+      x-aep-resource:
+        parents:
+          - book
+        patterns:
+          - publishers/{publisher}/books/{book}/editions/{book-edition}
+        plural: book-editions
+        singular: book-edition
+    isbn:
+      properties:
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+          x-aep-field-number: 10018
+      type: object
+      x-aep-resource:
+        patterns:
+          - isbns/{isbn}
+        plural: isbns
+        singular: isbn
+    item:
+      properties:
+        book:
+          type: string
+          x-aep-field-number: 1
+        condition:
+          type: string
+          x-aep-field-number: 2
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+          x-aep-field-number: 10018
+        price:
+          format: double
+          type: number
+          x-aep-field-number: 3
+      required:
+        - title
+        - condition
+        - price
+      type: object
+      x-aep-resource:
+        parents:
+          - store
+        patterns:
+          - stores/{store}/items/{item}
+        plural: items
+        singular: item
+    publisher:
+      properties:
+        description:
+          type: string
+          x-aep-field-number: 1
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+          x-aep-field-number: 10018
+      type: object
+      x-aep-resource:
+        patterns:
+          - publishers/{publisher}
+        plural: publishers
+        singular: publisher
+    store:
+      properties:
+        description:
+          type: string
+          x-aep-field-number: 2
+        name:
+          type: string
+          x-aep-field-number: 1
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+          x-aep-field-number: 10018
+      required:
+        - name
+      type: object
+      x-aep-resource:
+        patterns:
+          - stores/{store}
+        plural: stores
+        singular: store
 info:
-  title: bookstore.example.com
-  description: An API for bookstore.example.com
-  version: version not set
   contact:
-    name: API support
     email: aepsupport@aep.dev
+    name: API support
+  description: An API for bookstore.example.com
+  title: bookstore.example.com
+  version: version not set
 openapi: 3.1.0
-servers:
-  - url: http://localhost:8081
 paths:
   /isbns:
     get:
       description: List method for isbn
       operationId: ListIsbn
       parameters:
-        - name: max_page_size
-          in: query
+        - in: query
+          name: max_page_size
           schema:
             type: integer
-        - name: page_token
-          in: query
+        - in: query
+          name: page_token
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
-                type: object
                 properties:
                   next_page_token:
                     type: string
                   results:
-                    type: array
                     items:
                       $ref: '#/components/schemas/isbn'
+                    type: array
+                type: object
+          description: Successful response
     post:
       description: Create method for isbn
       operationId: CreateIsbn
       parameters:
-        - name: id
-          in: query
+        - in: query
+          name: id
           schema:
             type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/isbn'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/isbn'
         required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/isbn'
+          description: Successful response
   /isbns/{isbn}:
     get:
       description: Get method for isbn
       operationId: GetIsbn
       parameters:
-        - name: isbn
-          in: path
+        - in: path
+          name: isbn
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/isbn'
+          description: Successful response
   /publishers:
     get:
       description: List method for publisher
       operationId: ListPublisher
       parameters:
-        - name: max_page_size
-          in: query
+        - in: query
+          name: max_page_size
           schema:
             type: integer
-        - name: page_token
-          in: query
+        - in: query
+          name: page_token
           schema:
             type: string
-        - name: skip
-          in: query
+        - in: query
+          name: skip
           schema:
             type: integer
-        - name: filter
-          in: query
+        - in: query
+          name: filter
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
-                type: object
                 properties:
                   next_page_token:
                     type: string
                   results:
-                    type: array
                     items:
                       $ref: '#/components/schemas/publisher'
+                    type: array
+                type: object
+          description: Successful response
     post:
       description: Create method for publisher
       operationId: CreatePublisher
       parameters:
-        - name: id
-          in: query
+        - in: query
+          name: id
           schema:
             type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/publisher'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/publisher'
         required: true
-  /publishers/{publisher}:
-    get:
-      description: Get method for publisher
-      operationId: GetPublisher
-      parameters:
-        - name: publisher
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/publisher'
-    patch:
-      description: Update method for publisher
-      operationId: UpdatePublisher
+          description: Successful response
+  /publishers/{publisher}:
+    delete:
+      description: Delete method for publisher
+      operationId: DeletePublisher
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: force
+          schema:
+            type: boolean
+      responses:
+        '204':
+          content:
+            application/json:
+              schema: {}
+          description: Successful response
+    get:
+      description: Get method for publisher
+      operationId: GetPublisher
+      parameters:
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
-            application/merge-patch+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/publisher'
+          description: Successful response
+    patch:
+      description: Update method for publisher
+      operationId: UpdatePublisher
+      parameters:
+        - in: path
+          name: publisher
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/merge-patch+json:
             schema:
               $ref: '#/components/schemas/publisher'
         required: true
+      responses:
+        '200':
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: '#/components/schemas/publisher'
+          description: Successful response
     put:
       description: Apply method for publisher
       operationId: ApplyPublisher
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/publisher'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/publisher'
         required: true
-    delete:
-      description: Delete method for publisher
-      operationId: DeletePublisher
-      parameters:
-        - name: publisher
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: force
-          in: query
-          schema:
-            type: boolean
       responses:
-        '204':
-          description: Successful response
+        '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/publisher'
+          description: Successful response
   /publishers/{publisher}/books:
     get:
       description: List method for book
       operationId: ListBook
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: max_page_size
-          in: query
+        - in: query
+          name: max_page_size
           schema:
             type: integer
-        - name: page_token
-          in: query
+        - in: query
+          name: page_token
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
-                type: object
                 properties:
                   next_page_token:
                     type: string
                   results:
-                    type: array
                     items:
                       $ref: '#/components/schemas/book'
-                  unreachable:
                     type: array
+                  unreachable:
                     items:
                       type: string
+                    type: array
+                type: object
+          description: Successful response
     post:
       description: Create method for book
       operationId: CreateBook
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: id
-          in: query
+        - in: query
+          name: id
           schema:
             type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/book'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/book'
         required: true
-  /publishers/{publisher}/books/{book}:
-    get:
-      description: Get method for book
-      operationId: GetBook
-      parameters:
-        - name: publisher
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: book
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/book'
-    patch:
-      description: Update method for book
-      operationId: UpdateBook
+          description: Successful response
+  /publishers/{publisher}/books/{book}:
+    delete:
+      description: Delete method for book
+      operationId: DeleteBook
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: book
-          in: path
+        - in: path
+          name: book
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: force
+          schema:
+            type: boolean
+      responses:
+        '204':
+          content:
+            application/json:
+              schema: {}
+          description: Successful response
+    get:
+      description: Get method for book
+      operationId: GetBook
+      parameters:
+        - in: path
+          name: publisher
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: book
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
-            application/merge-patch+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/book'
+          description: Successful response
+    patch:
+      description: Update method for book
+      operationId: UpdateBook
+      parameters:
+        - in: path
+          name: publisher
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: book
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/merge-patch+json:
             schema:
               $ref: '#/components/schemas/book'
         required: true
+      responses:
+        '200':
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: '#/components/schemas/book'
+          description: Successful response
     put:
       description: Apply method for book
       operationId: ApplyBook
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: book
-          in: path
+        - in: path
+          name: book
           required: true
           schema:
             type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/book'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/book'
         required: true
-    delete:
-      description: Delete method for book
-      operationId: DeleteBook
-      parameters:
-        - name: publisher
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: book
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: force
-          in: query
-          schema:
-            type: boolean
       responses:
-        '204':
-          description: Successful response
+        '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/book'
+          description: Successful response
   /publishers/{publisher}/books/{book}/editions:
     get:
       description: List method for book-edition
       operationId: ListBookEdition
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: book
-          in: path
+        - in: path
+          name: book
           required: true
           schema:
             type: string
-        - name: max_page_size
-          in: query
+        - in: query
+          name: max_page_size
           schema:
             type: integer
-        - name: page_token
-          in: query
+        - in: query
+          name: page_token
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
-                type: object
                 properties:
                   next_page_token:
                     type: string
                   results:
-                    type: array
                     items:
                       $ref: '#/components/schemas/book-edition'
+                    type: array
+                type: object
+          description: Successful response
     post:
       description: Create method for book-edition
       operationId: CreateBookEdition
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: book
-          in: path
+        - in: path
+          name: book
           required: true
           schema:
             type: string
-        - name: id
-          in: query
+        - in: query
+          name: id
           schema:
             type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/book-edition'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/book-edition'
         required: true
-  /publishers/{publisher}/books/{book}/editions/{book-edition}:
-    get:
-      description: Get method for book-edition
-      operationId: GetBookEdition
-      parameters:
-        - name: publisher
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: book
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: book-edition
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/book-edition'
+          description: Successful response
+  /publishers/{publisher}/books/{book}/editions/{book-edition}:
     delete:
       description: Delete method for book-edition
       operationId: DeleteBookEdition
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: book
-          in: path
+        - in: path
+          name: book
           required: true
           schema:
             type: string
-        - name: book-edition
-          in: path
+        - in: path
+          name: book-edition
           required: true
           schema:
             type: string
       responses:
         '204':
-          description: Successful response
           content:
             application/json:
               schema: {}
-  /publishers/{publisher}/books/{book}:archive:
-    post:
-      description: Custom method archive for book
-      operationId: :ArchiveBook
+          description: Successful response
+    get:
+      description: Get method for book-edition
+      operationId: GetBookEdition
       parameters:
-        - name: publisher
-          in: path
+        - in: path
+          name: publisher
           required: true
           schema:
             type: string
-        - name: book
-          in: path
+        - in: path
+          name: book
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: book-edition
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                x-aep-field-numbers:
-                  '0': success
+                $ref: '#/components/schemas/book-edition'
+          description: Successful response
+  /publishers/{publisher}/books/{book}:archive:
+    post:
+      description: Custom method archive for book
+      operationId: :ArchiveBook
+      parameters:
+        - in: path
+          name: publisher
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: book
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
               type: object
         required: true
-components:
-  schemas:
-    book:
-      type: object
-      properties:
-        author:
-          type: array
-          items:
-            type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: https://aep.dev/json-schema/type/operation.json
+          description: Long-running operation response
+      x-aep-long-running-operation:
+        response:
+          schema:
             properties:
-              firstName:
-                type: string
-              lastName:
-                type: string
-            x-aep-field-numbers:
-              '1': firstName
-              '2': lastName
-        edition:
-          type: integer
-          format: int32
-        isbn:
-          type: array
-          items:
+              success:
+                type: boolean
+            type: object
+  /stores:
+    get:
+      description: List method for store
+      operationId: ListStore
+      parameters:
+        - in: query
+          name: max_page_size
+          schema:
+            type: integer
+        - in: query
+          name: page_token
+          schema:
             type: string
-        path:
-          type: string
-          readOnly: true
-        price:
-          type: number
-          format: float
-        published:
-          type: boolean
-      x-aep-resource:
-        singular: book
-        plural: books
-        patterns:
-          - publishers/{publisher}/books/{book}
-        parents:
-          - publisher
-      x-aep-field-numbers:
-        '0': author
-        '1': isbn
-        '10018': path
-        '2': price
-        '3': published
-        '4': edition
-      required:
-        - isbn
-        - price
-        - published
-    book-edition:
-      type: object
-      properties:
-        displayname:
-          type: string
-        path:
-          type: string
-          readOnly: true
-      x-aep-resource:
-        singular: book-edition
-        plural: book-editions
-        patterns:
-          - publishers/{publisher}/books/{book}/editions/{book-edition}
-        parents:
-          - book
-      x-aep-field-numbers:
-        '1': displayname
-        '10018': path
-      required:
-        - displayname
-    isbn:
-      type: object
-      properties:
-        path:
-          type: string
-          readOnly: true
-      x-aep-resource:
-        singular: isbn
-        plural: isbns
-        patterns:
-          - isbns/{isbn}
-      x-aep-field-numbers:
-        '10018': path
-    publisher:
-      type: object
-      properties:
-        description:
-          type: string
-        path:
-          type: string
-          readOnly: true
-      x-aep-resource:
-        singular: publisher
-        plural: publishers
-        patterns:
-          - publishers/{publisher}
-      x-aep-field-numbers:
-        '1': description
-        '10018': path
+        - in: query
+          name: skip
+          schema:
+            type: integer
+        - in: query
+          name: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  next_page_token:
+                    type: string
+                  results:
+                    items:
+                      $ref: '#/components/schemas/store'
+                    type: array
+                type: object
+          description: Successful response
+    post:
+      description: Create method for store
+      operationId: CreateStore
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/store'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/store'
+          description: Successful response
+  /stores/{store}:
+    delete:
+      description: Delete method for store
+      operationId: DeleteStore
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: force
+          schema:
+            type: boolean
+      responses:
+        '204':
+          content:
+            application/json:
+              schema: {}
+          description: Successful response
+    get:
+      description: Get method for store
+      operationId: GetStore
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/store'
+          description: Successful response
+    patch:
+      description: Update method for store
+      operationId: UpdateStore
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/store'
+        required: true
+      responses:
+        '200':
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: '#/components/schemas/store'
+          description: Successful response
+  /stores/{store}/items:
+    get:
+      description: List method for item
+      operationId: ListItem
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: max_page_size
+          schema:
+            type: integer
+        - in: query
+          name: page_token
+          schema:
+            type: string
+        - in: query
+          name: skip
+          schema:
+            type: integer
+        - in: query
+          name: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  next_page_token:
+                    type: string
+                  results:
+                    items:
+                      $ref: '#/components/schemas/item'
+                    type: array
+                type: object
+          description: Successful response
+    post:
+      description: Create method for item
+      operationId: CreateItem
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/item'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/item'
+          description: Successful response
+  /stores/{store}/items/{item}:
+    delete:
+      description: Delete method for item
+      operationId: DeleteItem
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: item
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content:
+            application/json:
+              schema: {}
+          description: Successful response
+    get:
+      description: Get method for item
+      operationId: GetItem
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: item
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/item'
+          description: Successful response
+    patch:
+      description: Update method for item
+      operationId: UpdateItem
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: item
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/item'
+        required: true
+      responses:
+        '200':
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: '#/components/schemas/item'
+          description: Successful response
+  /stores/{store}/items/{item}:move:
+    post:
+      description: Custom method move for item
+      operationId: :MoveItem
+      parameters:
+        - in: path
+          name: store
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: item
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                target_store:
+                  type: string
+                  x-aep-field-number: 1
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: https://aep.dev/json-schema/type/operation.json
+          description: Long-running operation response
+      x-aep-long-running-operation:
+        response:
+          schema:
+            type: object
+servers:
+  - url: http://localhost:8081
