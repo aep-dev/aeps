@@ -27,15 +27,15 @@ result **must** be a list of resources.
   name **should** be the plural form of the resource's message name.
 - The request message **must** match the RPC name, with a `-Request` suffix.
 - The response message **must** match the RPC name, with a `-Response` suffix.
-  - The response **should** usually include fully-populated resources unless
-    there is a reason to return a partial response (see AEP-157).
+  - The response **should** include fully-populated resources unless there is a
+    reason to return a partial response (see AEP-157).
 - The HTTP verb **must** be `GET`.
-- If the collection has a parent resource, The URI **should** contain a field
+- If the collection has a parent resource, The URI **must** contain a field
   corresponding to the collection parent's name.
-  - This field **should** be called `parent`.
-  - The URI **should** have a variable corresponding to this field.
-  - The `parent` field **should** be the only variable in the URI path. All
-    remaining parameters **should** map to URI query parameters.
+  - This field **must** be called `parent`.
+  - The URI **must** have a variable corresponding to this field.
+  - The `parent` field **must** be the only variable in the URI path. All
+    remaining parameters **must** map to URI query parameters.
 - There **must not** be a `body` key in the `google.api.http` annotation.
 - There **should** be exactly one `google.api.method_signature` annotation with
   a value of `"parent"` if a parent exists, and an empty string otherwise.
