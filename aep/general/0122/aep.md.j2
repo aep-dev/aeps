@@ -248,7 +248,7 @@ referencing the parent's resource type ([AEP-4][aep-4]).
 // Request message for ListBooks.
 message ListBooksRequest {
 // The publisher to list books from.
-// Format: publishers/{publisher_id}
+// Format: publishers/{publisher}
 string parent = 1 [(google.api.resource_reference) = {
   type: "apis.example.com/library/Publisher"
 }];
@@ -266,8 +266,8 @@ instead:
 message ListBooksRequest {
 // The parent to list books from.
 // Format:
-//   - publishers/{publisher_id}
-//   - authors/{author_id}
+//   - publishers/{publisher}
+//   - authors/{author}
 string parent = 1 [
   (google.api.field_behavior) = REQUIRED,
   (google.api.resource_reference) = {
@@ -320,7 +320,7 @@ string shelf = 2 [(google.api.resource_reference) = {
 **Note:** When referring to other resources in this way, we use the resource
 path as the value, not just the ID component. Services **should** use the
 resource path to reference resources when possible. If using the ID component
-alone is strictly necessary, the field **should** use an `_id` suffix (e.g.
+alone is strictly necessary, the field **must** use an `_id` suffix (e.g.
 `shelf_id`).
 
 ## Further reading

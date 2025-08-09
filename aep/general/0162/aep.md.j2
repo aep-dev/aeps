@@ -128,7 +128,7 @@ Services **may** reserve specific IDs to be [aliases][alias] (e.g. `latest`).
 These are read-only and managed by the service.
 
 ```
-GET /v1/publishers/{publisher_id}/books/{book_id}/revisions/{revision_id}
+GET /v1/publishers/{publisher}/books/{book}/revisions/{revision}
 ```
 
 If specific IDs are reserved, services **must** document those IDs.
@@ -177,7 +177,7 @@ message AliasBookRevisionRequest {
 ```json
 {
   "paths": {
-    "/v1/publishers/{publisher_id}/books/{book}/revisions/{revision}:alias": {
+    "/v1/publishers/{publisher}/books/{book}/revisions/{revision}:alias": {
       "post": {
         "requestBody": {
           "content": {
