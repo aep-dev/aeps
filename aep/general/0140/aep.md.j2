@@ -44,6 +44,10 @@ generated code.
     transformed by substituting hyphens (`-`) for underscores (`_`), emitted in
     lowercase, and parsed case-insensitively.
 
+Although gRPC-json transcoding often translates snake_case names to camelCase,
+this variance can force additional complexity server-side to translate the
+values in contexts such as in filter syntax.
+
 #### Support for lowerCamelCase in clients
 
 [ProtoJSON][proto-json] and [gRPC-Gateway][grpc-gateway] by default both
