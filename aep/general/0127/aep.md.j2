@@ -1,6 +1,6 @@
 # HTTP and gRPC Transcoding
 
-APIs that follow [resource-oriented design][resources] are defined using
+APIs that follow [resource-oriented design][aep-121] are defined using
 [RPCs][rpc], but the resource-oriented design framework allows them to also be
 presented as APIs that largely follow REST/JSON conventions. This is important
 in order to help developers use their existing knowledge: over 80% of the
@@ -84,8 +84,10 @@ message CreateBookRequest {
   - The `body` **must not** contain a nested field (or use the `.` character),
   - The `body` **must not** be the same as a URI parameter.
   - The `body` **must not** be a `repeated` field.
-  - Fields **should not** use the `json_name` annotation to alter the field
-    name in JSON, unless doing so for backwards-compatibility reasons.
+  - In accordance with the [field name casing guidelines][field case], fields
+    **should** use the `json_name` annotation to specify the snake_case form
+    when the default JSON conversion would differ, unless this would break
+    backwards compatibility.
 
 **Note:** Bi-directional streaming RPCs should not include a `google.api.http`
 annotation at all. If feasible, the service **should** provide non-streaming
@@ -121,7 +123,8 @@ rpc CreateBook(CreateBookRequest) returns (Book) {
 
 <!-- prettier-ignore-start -->
 [json encoding]: https://developers.google.com/protocol-buffers/docs/proto3#json
-[resources]: ./0121.md
+[aep-121]: ./0121.md
+[field case]: ./0140.md#case
 [rpc]: https://en.wikipedia.org/wiki/Remote_procedure_call
 [google.api.http]: https://buf.build/googleapis/googleapis/docs/main:google.api#google.api.Http
 <!-- prettier-ignore-end -->
