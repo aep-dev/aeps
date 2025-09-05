@@ -237,6 +237,8 @@ example: `file_path`).
 
 ### Fields representing a resource's parent
 
+{% tab proto %}
+
 When defining a method that retrieves resources from a collection or adds a new
 resource to a collection (such as `ListBooks` or `CreateBook`), the first field
 of the request message **should** be of type `string` and **should** be called
@@ -280,6 +282,21 @@ string parent = 1 [
 
 **Note:** Fields **should not** be called `parent` except for this purpose. For
 other use cases, use a synonymous term if possible.
+
+{% tab oas %}
+
+For HTTP APIs, the parent is determined from the HTTP path of the resource. For
+example, for the following book:
+
+```
+http://api.example.com/publishers/123/books/les-miserables
+```
+
+`publishers/123` is the parent resource. For any use cases in which the parent
+is needed, they may be extracted from the HTTP path by removing the collection
+and id suffix of the path (`books/les-miserables`) in the case above.
+
+{% endtabs %}
 
 ### Fields representing another resource
 
