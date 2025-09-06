@@ -10,9 +10,9 @@ potentially some other parameters), and return the created resource.
 
 ## Guidance
 
-APIs **should** provide a create method for resources unless it is
-not valuable for users to do so. The purpose of the create method is to create
-a new resource in an already-existing collection.
+APIs **should** provide a create method for resources unless it is not valuable
+for users to do so. The purpose of the create method is to create a new
+resource in an already-existing collection.
 
 Create methods are specified using the following pattern:
 
@@ -47,8 +47,8 @@ rpc CreateBook(CreateBookRequest) returns (Book) {
 - The RPC's name **must** begin with the word `Create`. The remainder of the
   RPC name **should** be the singular form of the resource being created.
   - The request message **must** match the RPC name, with a `Request` suffix.
-- The collection's parent resource **must** be called `parent`, and
-  **should** be the only variable in the URI path.
+- The collection's parent resource **must** be called `parent`, and **should**
+  be the only variable in the URI path.
   - The collection identifier (`books` in the above example) **must** be a
     literal string.
 - There **must** be a `body` key in the `google.api.http` annotation, and it
@@ -57,10 +57,11 @@ rpc CreateBook(CreateBookRequest) returns (Book) {
 - There **should** be exactly one `google.api.method_signature` annotation,
   with a value of `"parent,{resource},id"`, or "`"parent,{resource}"` if the
   resource ID is not required.
-- If the API is operating on the [management plane][], the operation should have
-  [strong consistency][]: the completion of a create operation **must** mean
-  that all user-settable values and the existence of the resource have reached a
-  steady-state and reading resource state returns a consistent response.
+- If the API is operating on the [management plane][], the operation should
+  have [strong consistency][]: the completion of a create operation **must**
+  mean that all user-settable values and the existence of the resource have
+  reached a steady-state and reading resource state returns a consistent
+  response.
 
 {% tab oas %}
 

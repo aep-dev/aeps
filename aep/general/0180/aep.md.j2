@@ -31,16 +31,12 @@ There are three distinct types of compatibility to consider:
    be tricky in practice, however, and sometimes determining what users will
    expect can involve a judgment call.)
 
-**Note:** In general, the specific guidance here assumes use of protocol
-buffers and JSON as transport formats. Other transport formats may have
-slightly different rules.
-
 **Note:** This guidance assumes that APIs are intended to be called from a
-range of consumers, written in multiple languages and with no control over
-how and when consumers update. Any API which has a more limited scope (for
-example, an API which is only called by client code written by the same team
-as the API producer, or deployed in a way which can enforce updates) should
-carefully consider its own compatibility requirements.
+range of consumers, written in multiple languages and with no control over how
+and when consumers update. Any API which has a more limited scope (for example,
+an API which is only called by client code written by the same team as the API
+producer, or deployed in a way which can enforce updates) should carefully
+consider its own compatibility requirements.
 
 ### Adding components
 
@@ -140,9 +136,9 @@ this guidance could ostensibly prevent _any_ change (which is not the intent).
 #### Default values must not change
 
 Default values are the values set by servers for resources when they are not
-specified by the client. This section only applies to static default values within
-fields on resources and does not apply to dynamic defaults such as the default IP
-address of a resource.
+specified by the client. This section only applies to static default values
+within fields on resources and does not apply to dynamic defaults such as the
+default IP address of a resource.
 
 Changing the default value is considered breaking and **must not** be done. The
 default behavior for a resource is determined by its default values, and this
@@ -184,12 +180,12 @@ would constitute a breaking change.
 
 #### Serializing defaults
 
-APIs **must not** change the way a field with a default value is serialized. For
-example if a field does not appear in the response if the value is equal to the
-default, the serialization **must not** change to include the field with the
-default. Clients may depend on the presence or absence of a field in a resource
-as semantically meaningful, so a change to how serialization is done for absent
-values **must not** occur in a minor version.
+APIs **must not** change the way a field with a default value is serialized.
+For example if a field does not appear in the response if the value is equal to
+the default, the serialization **must not** change to include the field with
+the default. Clients may depend on the presence or absence of a field in a
+resource as semantically meaningful, so a change to how serialization is done
+for absent values **must not** occur in a minor version.
 
 Consider the following proto, where the default value of `wheels` is `2`:
 
@@ -204,11 +200,12 @@ message Automobile {
 }
 ```
 
-First the proto serializes to JSON when the value of `wheels` is `2` as follows:
+First the proto serializes to JSON when the value of `wheels` is `2` as
+follows:
 
 ```json
 {
-    "name": "my-car"
+  "name": "my-car"
 }
 ```
 
@@ -217,8 +214,8 @@ value is equal to the default value, `2` as follows:
 
 ```json
 {
-    "name": "my-car",
-    "wheels": 2
+  "name": "my-car",
+  "wheels": 2
 }
 ```
 
@@ -231,8 +228,6 @@ version.
 - For compatibility around pagination, see [AEP-158][].
 - For compatibility around long-running operations, see [AEP-151][].
 - For understanding stability levels and expectations, see [AEP-181][].
-- For compatibility with client library resource name parsing, see [AEP-4231][]
-- For compatibility with client library method signatures, see [AEP-4232][]
 
 <!-- prettier-ignore-start -->
 [aep-122]: ./0122.md
@@ -240,7 +235,5 @@ version.
 [aep-158]: ./0158.md
 [aep-181]: ./0181.md
 [aep-203]: ./0203.md
-[aep-4231]: ../client-libraries/4231.md
-[aep-4232]: ../client-libraries/4232.md
 [ec2]: https://aws.amazon.com/blogs/aws/theyre-here-longer-ec2-resource-ids-now-available/
 <!-- prettier-ignore-end -->
