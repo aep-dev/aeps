@@ -28,7 +28,8 @@ clients or their authors, including but not limited to:
 - Command line interfaces for exploration and simple automation.
 - Custom controllers (e.g. auto-scalers) which poll live state and adjust
   resource configuration accordingly.
-- [IaC][] clients for orchestration and automation of multiple resources.
+- [Declarative clients][] for orchestration and automation of multiple
+  resources.
 - Recommendation tools which provide guidance on which APIs are useful for
   specific use cases, and how to use them.
 - SDKs to interact with an API from a programming language, often used heavily
@@ -214,6 +215,9 @@ API design examples in AEPs **should** be presented in both [OpenAPI][] and
 the concept. When using RPCs in examples, a `google.api.http` annotation
 **should** be included.
 
+[OpenAPI][] examples **must** be authored as
+[OAS version 3.1](https://spec.openapis.org/oas/v3.1.1.html).
+
 AEPs should use snake-case naming for parameters and properties (fields), for
 consistency across OpenAPI and protocol buffers, but other casing conventions
 may be used as long as they are applied uniformly.
@@ -230,6 +234,11 @@ repository (such as `./0008.md` for core AEPs, or `../0008.md` for AEPs in a
 subdirectory); this ensures that the link works both on the AEP site, when
 viewing the Markdown file on GitHub, using the local development server, or a
 branch.
+
+### Error codes
+
+When referencing a error code, the prose **should** use the format
+`{google.api.error_code} / {http_status_code}`. For example, `OK / 200`.
 
 ## Rationale
 
@@ -250,8 +259,7 @@ API guidance must in turn consider the impact broadly across these clients.
 <!-- Links -->
 
 [aep-1]: ./0001.md
-[Infrastructure as Code]: ./0009.md#iac
-[IaC]: ./0009.md#iac
+[Declarative clients]: ./0003.md#declarative-clients
 [OpenAPI]: https://www.openapis.org/
 [protocol buffers]: https://developers.google.com/protocol-buffers/
 [rfc 2119]: https://www.ietf.org/rfc/rfc2119.txt

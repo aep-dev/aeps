@@ -1,12 +1,12 @@
 # Get
 
 In REST APIs, it is customary to make a `GET` request to a resource's URI (for
-example, `/v1/publishers/{publisher}/books/{book}`) in order to retrieve that
-resource.
+example, `/v1/publishers/{publisher_id}/books/{book_id}`) in order to retrieve
+that resource.
 
-Resource-oriented design (AEP-121) honors this pattern through the `Get`
-method. These RPCs accept the URI representing that resource and return the
-resource.
+Resource-oriented design [AEP-121][aep-121] honors this pattern through the
+`Get` method. These RPCs accept the URI representing that resource and return
+the resource.
 
 ## Guidance
 
@@ -16,16 +16,71 @@ resource.
   API request. In this situation, the API should use a
   [long-running operation](/long-running-operations).
 
-### Requests
+### Operation
+
+{% tab proto %}
+
+{% sample '../example.proto', 'rpc GetBook' %}
+
+- The RPC's name **must** begin with the word `Get`. The remainder of the RPC
+  name **should** be the singular form of the resource's message name.
+- The request message **must** match the RPC name, with a `Request` suffix.
+- The response message **must** be the resource itself. (There is no
+  `GetBookResponse`.)
+- The HTTP verb **must** be `GET`.
+- The URI **should** contain a single variable field corresponding to the
+  resource path.
+  - This field **should** be called `path`.
+  - The URI **should** have a variable corresponding to this field.
+  - The `path` field **should** be the only variable in the URI path. All
+    remaining parameters **should** map to URI query parameters.
+- There **must not** be a `body` key in the `google.api.http` annotation.
+- There **should** be exactly one `google.api.method_signature` annotation,
+  with a value of `"path"`.
+
+{% tab oas %}
 
 `Get` operations **must** be made by sending a `GET` request to the resource's
 URI:
 
 ```http
-GET /v1/publishers/{publisher}/books/{book} HTTP/2
-Host: library.example.com
+GET /v1/publishers/{publisher_id}/books/{book_id} HTTP/2
+Host: bookstore.example.com
 Accept: application/json
 ```
+
+- The URI **should** contain a variable for each resource in the resource
+  hierarchy.
+  - The path parameter for all resource IDs **must** be in the form
+    `{resource-singular}` (such as `book`).
+
+{% endtabs %}
+
+### Requests
+
+{% tab proto %}
+
+{% sample '../example.proto', 'message GetBookRequest' %}
+
+- A resource path field **must** be included. It **should** be called `path`.
+  - The field **should** be annotated as `REQUIRED`.
+  - The field **should** identify the [resource type][aep-4] that it
+    references.
+- The comment for the `path` field **should** document the resource pattern.
+- The request message **must not** contain any other required fields, and
+  **should not** contain other optional fields except those described in
+  another AEP.
+
+**Note:** The `path` field in the request object corresponds to the `path`
+variable in the `google.api.http` annotation on the RPC. This causes the `path`
+field in the request to be populated based on the value in the URL when the
+REST/JSON interface is used.
+
+[aep-4]: ./0004.md
+
+{% tab oas %}
+
+{% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books/{book_id}.get.parameters' %}
 
 - The HTTP method **must** be `GET`.
   - The request **must** be safe and **must not** have side effects.
@@ -36,23 +91,28 @@ Accept: application/json
   **should not** include optional fields in the query string unless described
   in another AEP.
 
+{% endtabs %}
+
 ### Responses
-
-Single-resource `GET` operations **must** return the resource itself, without
-any additional wrapping:
-
-```json
-{
-  "name": "publishers/lacroix/books/les-mis",
-  "isbn": "978-037-540317-0",
-  "title": "Les Misérables",
-  "authors": ["Victor Hugo"],
-  "rating": 9.6
-}
-```
 
 The response **should** usually include the fully-populated resource unless
 there is a reason to return a partial response (see AEP-157).
+
+{% tab proto %}
+
+{% sample '../example.proto', 'message Book' %}
+
+{% tab oas %}
+
+{% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books/{book_id}.get.responses.200.content' %}
+
+- The response content **must** be the resource itself. For example:
+  `#/components/schemas/Book`. The response **must** reference a schema with a
+  [`x-aep-resource` extension].
+
+[`x-aep-resource` extension]: ./0004.md#annotating-resource-types
+
+{% endtabs %}
 
 ### Errors
 
@@ -71,63 +131,16 @@ exist, the service **must** reply with an HTTP 404 error.
 
 {% tab proto -%}
 
-Get operations are specified using the following pattern:
+{% sample '../example.proto', 'rpc GetBook' %}
 
-{% sample 'get.proto', 'rpc GetBook' %}
+{% sample '../example.proto', 'message GetBookRequest' %}
 
-- The RPC's name **must** begin with the word `Get`. The remainder of the RPC
-  name **should** be the singular form of the resource's message name.
-- The request message **must** match the RPC name, with a `Request` suffix.
-- The response message **must** be the resource itself. (There is no
-  `GetBookResponse`.)
-- The HTTP verb **must** be `GET`.
-- The URI **should** contain a single variable field corresponding to the
-  resource path.
-  - This field **should** be called `path`.
-  - The URI **should** have a variable corresponding to this field.
-  - The `path` field **should** be the only variable in the URI path. All
-    remaining parameters **should** map to URI query parameters.
-- There **must not** be a `body` key in the `google.api.http` annotation.
-- There **should** be exactly one `google.api.method_signature` annotation,
-  with a value of `"path"`.
-
-Get operations also implement a common request message pattern:
-
-{% sample 'get.proto', 'message GetBookRequest' %}
-
-- A resource path field **must** be included. It **should** be called `path`.
-  - The field **should** be annotated as `REQUIRED`.
-  - The field **should** identify the [resource type][aep-123] that it
-    references.
-- The comment for the `path` field **should** document the resource pattern.
-- The request message **must not** contain any other required fields, and
-  **should not** contain other optional fields except those described in
-  another AEP.
-
-**Note:** The `path` field in the request object corresponds to the `path`
-variable in the `google.api.http` annotation on the RPC. This causes the `path`
-field in the request to be populated based on the value in the URL when the
-REST/JSON interface is used.
+{% sample '../example.proto', 'message Book' %}
 
 {% tab oas %}
 
-Single-resource `GET` operations **must** be specified with consistent OpenAPI
-metadata:
-
-{% sample 'get.oas.yaml', 'paths' %}
-
-- The `operationId` **must** begin with the word `get`. The remainder of the
-  `operationId` **should** be the singular form of the resource type's name.
-- The response content **must** be the resource itself. For example:
-  `#/components/schemas/Book`
-- The URI **should** contain a variable for each individual ID in the resource
-  hierarchy.
-  - The path parameter for all resource IDs **must** be in the form
-    `{resourceName}Id` (such as `bookId`), and path parameters representing the
-    ID of parent resources **must** end with `Id`.
+{% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books/{book_id}.get' %}
 
 {% endtabs %}
 
-<!-- prettier-ignore-start -->
-[aep-123]: ./0123.md
-<!-- prettier-ignore-end -->
+[aep-121]: ./0121.md

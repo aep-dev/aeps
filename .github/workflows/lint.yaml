@@ -10,7 +10,9 @@ jobs:
     container: node:20
     steps:
       - uses: actions/checkout@v3
-      - name: Install prettier.
-        run: npm install --global prettier@3.0.3
-      - name: Verify proper formatting.
-        run: prettier --check .
+      # this must be installed to use the prettier version
+      # from the package.json file.
+      - name: install prettier.
+        run: npm install .
+      - name: verify with prettier.
+        run: npx prettier --check .

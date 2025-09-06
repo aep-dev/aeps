@@ -8,7 +8,7 @@ message BookAuthor {
   // canonical parent.
   option (google.api.resource) = {
     type: "library.googleapis.com/BookAuthor"
-    pattern: "publishers/{publisher}/books/{book}/authors/{book_author}"
+    pattern: "publishers/{publisher_id}/books/{book_id}/authors/{book_author}"
   };
 
   // The resource path for the book-author association.

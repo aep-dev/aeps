@@ -15,7 +15,10 @@ information on referring to resources across APIs.)
 Resource paths are formatted according to the [URI path schema][], but without
 the leading slash:
 
-publishers/123/books/les-miserables users/vhugo1802
+```
+publishers/123/books/les-miserables
+users/vhugo1802
+```
 
 - Resource path components **must** alternate between collection identifiers
   (example: `publishers`, `books`, `users`) and resource IDs (example: `123`,
@@ -31,12 +34,22 @@ publishers/123/books/les-miserables users/vhugo1802
     characters that require URL-escaping, or characters outside of ASCII.
   - If Unicode characters can not be avoided, resource paths **must** be stored
     in Normalization Form C (see [AEP-210][]).
-- Each resource **must** expose a `path` field that contains its resource path.
+- Each resource **must** have a `path` field that contains its resource path.
   - Resources **may** provide the resource ID, i.e. the last segment of the
     path, as a separate field named `id`.
   - Resources **must not** expose tuples, self-links, or other forms of
     resource identification.
   - All ID fields **must** be strings.
+
+{% tab proto %}
+
+{% sample '../example.proto', 'message Book' %}
+
+{% tab oas %}
+
+{% sample '../example.oas.yaml', '$.components.schemas.book.properties.path' %}
+
+{% endtabs %}
 
 **Note:** Resource paths as described here are used within the scope of a
 single API (or else in situations where the owning API is clear from the
@@ -87,7 +100,7 @@ In this situation, the _message_ is still called `UserEvent` or
 **Note:** APIs wishing to do this **must** follow this format consistently
 throughout the API, or else not at all.
 
-### Resource ID segments
+### Resource ID
 
 A resource ID segment identifies the resource within its parent collection. In
 the resource path `publishers/123/books/les-miserables`, `123` is the resource
@@ -110,7 +123,7 @@ ID for the publisher, and `les-miserables` is the resource ID for the book.
   - User-settable IDs **should not** be permitted to be a UUID (or any value
     that syntactically appears to be a UUID).
   - Field annotations **should** use [protovalidate][] in protobuf and [JSON
-    Schema keywords][] like [`pattern`][] with OAS/JSON Schema.
+    Schema keywords][] like [`pattern`][pattern] with OAS/JSON Schema.
 - If resource IDs are not user-settable, the API **should** document the basic
   format, and any upper boundaries (for example, "at most 63 characters").
 - For more information, see the [create][] standard method.
@@ -178,18 +191,18 @@ and the full resource path does not change between these.
 When defining a resource, the first field **should** be the resource path,
 which **must** be of type `string` and **must** be called `path` for the
 resource path. The message **should** include a `google.api.resource`
-annotation declaring the type (see [AEP-123][] for more on this).
+annotation declaring the type (see [AEP-4][aep-4] for more on this).
 
 ```proto
 // A representation of a book in the library.
 message Book {
 option (google.api.resource) = {
   type: "apis.example.com/library/Book"
-  pattern: "publishers/{publisher}/books/{book}"
+  pattern: "publishers/{publisher_id}/books/{book_id}"
 };
 
 // The resource path of the book.
-// Format: publishers/{publisher}/books/{book}
+// Format: publishers/{publisher_id}/books/{book_id}
 string path = 1;
 
 // Other fields...
@@ -201,13 +214,13 @@ When defining a method that retrieves or acts on an already-existing resource
 **should** be the resource path, which **must** be of type `string` and
 **must** be called `path` for the resource path. The field **should** also be
 annotated with the `google.api.resource_reference` annotation, referencing the
-resource type ([AEP-123][]).
+resource type ([AEP-4][aep-4]).
 
 ```proto
 // Request message for ArchiveBook
 message ArchiveBookRequest {
 // The book to archive.
-// Format: publishers/{publisher}/books/{book}
+// Format: publishers/{publisher_id}/books/{book_id}
 string path = 1 [
   (google.api.field_behavior) = REQUIRED,
   (google.api.resource_reference) = {
@@ -222,8 +235,6 @@ string path = 1 [
 other use cases, either use a different term or prepend an adjective (for
 example: `file_path`).
 
-[aep-123]: ./0123.md
-
 ### Fields representing a resource's parent
 
 When defining a method that retrieves resources from a collection or adds a new
@@ -231,7 +242,7 @@ resource to a collection (such as `ListBooks` or `CreateBook`), the first field
 of the request message **should** be of type `string` and **should** be called
 `parent` for the resource path of the collection. The `parent` field **should**
 also be annotated with the `google.api.resource_reference` annotation,
-referencing the parent's resource type ([AEP-123][]).
+referencing the parent's resource type ([AEP-4][aep-4]).
 
 ```proto
 // Request message for ListBooks.
@@ -289,11 +300,11 @@ equivalent to the corresponding message's name in snake case.
 message Book {
 option (google.api.resource) = {
   type: "apis.example.com/library/Book"
-  pattern: "publishers/{publisher}/books/{book}"
+  pattern: "publishers/{publisher_id}/books/{book_id}"
 };
 
 // Path of the book.
-// Format is `publishers/{publisher}/books/{book}`
+// Format is `publishers/{publisher_id}/books/{book_id}`
 string path = 1;
 
 // The shelf where the book currently sits.
@@ -314,11 +325,11 @@ alone is strictly necessary, the field **should** use an `_id` suffix (e.g.
 
 ## Further reading
 
-- For evolving resource paths over time, see
-  [AEP-180](./0180.md#changing-resource-paths).
-- For resource types, see [AEP-123][].
+- For resource types, see [AEP-4][aep-4].
 
 <!-- prettier-ignore-start -->
 [protovalidate]: https://github.com/bufbuild/protovalidate
-[`pattern`]: https://json-schema.org/understanding-json-schema/reference/string#regexp
+[pattern]: https://json-schema.org/understanding-json-schema/reference/string#regexp
 <!-- prettier-ignore-end -->
+
+[aep-4]: ./0004.md

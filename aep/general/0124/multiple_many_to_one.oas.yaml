@@ -12,7 +12,7 @@ components:
           type: string
           description: |
             The path of the book.
-            Format: publishers/{publisher}/books/{book}
+            Format: publishers/{publisher_id}/books/{book_id}
         author:
           type: string
           description: The author or authors of the book.

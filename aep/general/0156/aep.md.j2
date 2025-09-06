@@ -55,6 +55,12 @@ components:
         # additional properties...
       required:
         - name
+      x-aep-resource:
+        singular: config
+        plural: configs
+        patterns: ['users/{user}/config']
+        parents: ['user']
+        singleton: true
   parameters:
     user:
       in: path
@@ -95,6 +101,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Config'
 ```
+
+- Singleton resources **must** be annotated with the
+  [`x-aep-resource`](https://aep.dev/json-schema/extensions/x-aep-resource.json)
+  extension, specifying the field `singleton` as true.
 
 {% endtabs %}
 

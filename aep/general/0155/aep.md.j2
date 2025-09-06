@@ -24,7 +24,7 @@ the same `idempotency_key` more than once.
 ```proto
 message CreateBookRequest {
   // The parent resource where this book will be created.
-  // Format: publishers/{publisher}
+  // Format: publishers/{publisher_id}
   string parent = 1 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.resource_reference) = {
@@ -46,11 +46,15 @@ message CreateBookRequest {
 }
 ```
 
-- [`aep.api.IdempotencyKey`][] has a `key` and a `first_sent` timestamp.
+- [`aep.api.IdempotencyKey`][IdempotencyKey] has a `key` and a `first_sent`
+  timestamp.
+
   - `key` is simply a unique identifier.
 
 - Providing an idempotency key **must** guarantee idempotency.
+
   - If a duplicate request is detected, the server **must** return one of:
+
     - A response equivalent to the response for the previously successful
       request, because the client most likely did not receive the previous
       response.
@@ -67,10 +71,11 @@ message CreateBookRequest {
   - APIs **should** honor idempotency keys for at least an hour.
     - When using protocol buffers, idempotency keys that are UUIDs **must** be
       annotated with a minimum lifetime using the extension
-      [`(aep.api.field_info).minimum_lifetime`][].
+      [`(aep.api.field_info).minimum_lifetime`][minimum_lifetime].
 
 - The `idempotency_key` field **must** be provided on the request message to
   which it applies (and it **must not** be a field on resources themselves).
+
   - The `first_sent` field can be used by API servers to determine if a key is
     expired. API servers **must** reject requests with expired keys, and
     **must** reject requests with keys that are in the future. When feasible,
@@ -103,12 +108,6 @@ field; we define `idempotency_key` instead for two reasons:
    API server, and might want to issue multiple requests with the same
    `idempotency_key` and trace the behavior of each request separately.
 
-<!-- prettier-ignore-start -->
-[idempotency-key-draft]: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
-[`aep.api.IdempotencyKey`]: https://buf.build/aep/api/file/main:aep/api/idempotency_key.proto#L21
-[`(aep.api.field_info).minimum_lifetime`]: https://buf.build/aep/api/file/main:aep/api/field_info.proto#L35
-<!-- prettier-ignore-end -->
-
 ### Using UUIDs for request identification
 
 When a value is required to be unique, leaving the format open-ended can lead
@@ -121,9 +120,9 @@ for collisions when done correctly.
 - **2023-23-20**: Adopt AEP from from Google's AIP with the following changes:
   - Rename field from `request_id` to `idempotency_key` (plus some minor
     releated rewording).
-  - Add a common component [`aep.api.IdempotencyKey`][] and use this rather
-    than `string` for the `idempotency_key` field; add related guidance about
-    `IdempotencyKey.first_seen`.
+  - Add a common component [`aep.api.IdempotencyKey`][IdempotencyKey] and use
+    this rather than `string` for the `idempotency_key` field; add related
+    guidance about `IdempotencyKey.first_seen`.
   - Remove guidance about annotating `idempotency_key` with
     `(google.api.field_info).format`.
   - Add guidance about annotating `idempotency_key` with
@@ -136,3 +135,9 @@ for collisions when done correctly.
 - **2023-10-02**: Add UUID format extension guidance.
 - **2019-08-01**: Changed the examples from "shelves" to "publishers", to
   present a better example of resource ownership.
+
+<!-- prettier-ignore-start -->
+[idempotency-key-draft]: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
+[IdempotencyKey]: https://buf.build/aep/api/file/main:aep/api/idempotency_key.proto#L21
+[minimum_lifetime]: https://buf.build/aep/api/file/main:aep/api/field_info.proto#L35
+<!-- prettier-ignore-end -->

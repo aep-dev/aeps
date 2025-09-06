@@ -28,9 +28,9 @@ contributing to this repository.
 - [ ] [My code has been formatted](https://aep.dev/contributing#formatting)
       (usually `prettier -w .`)
 
-### Additional checklist for a new AEP
+<!-- uncomment this if PR is for a new AEP
 
-<!-- delete if this is not a new AEP -->
+### Additional checklist for a new AEP
 
 - [ ] A new AEP **should** be no more than two pages if printed out.
 - [ ] Ensure that the PR is editable by maintainers.
@@ -39,5 +39,7 @@ contributing to this repository.
 - [ ] Ensure that
       [Document structure](https://aep.dev/style-guide#document-structure)
       guidelines are met.
+
+-->
 
 💝 Thank you!

@@ -16,20 +16,41 @@ tools such as Kubernetes or GraphQL interact with APIs from multiple providers.
 APIs **must** define a resource type for each resource in the API, according to
 the following pattern: `{API Name}/{Type Name}`. The type name:
 
+### API Name
+
+An API name is a string that **must** uniquely identify the API.
+
+In practice, it is difficult to prevent the re-use of the name across different
+APIs. Therefore the API should use something, such as the domain name of the
+primary server hosting the API, as the name.
+
+If a primary server does not exist (for example, a public cloud where every
+domain always includes a regional subdomain), then a similar placeholder that
+can still ensure uniqueness can be used. For example APIs served at
+`{region}.cloud-storage.public-cloud.com` may use
+`cloud-storage.public-cloud.com`.
+
+The API Name:
+
+- **must** only uses valid domain name characters (`[.-a-z0-9]`), as specified
+  in [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.1).
+- **must** use all lower case.
+
+### Type name
+
+The type name is an identifier that **must** be unique within the API, as
+indicated by it's namespacing within the API name.
+
+The type name:
+
 - **must** Only contain ASCII alphanumeric characters.
 - **must** Start with a lowercase letter.
 - **must** Be of the singular form of the noun.
 - **must** Use kebab case.
-- For Kubernetes, the type name when converted to UpperCamelCase **must** match
-  the [object][] name.
-- For OpenAPI, the type name when converted to UpperCamelCase **must** match
-  the name of the schema representing the object.
-- For protobuf, the type name when converted to UpperCamelCase **must** match
-  the name of the protobuf message.
 
 ### Examples
 
-Examples of resource types include:
+Examples of API names and resource types include:
 
 - `networking.istio.io/instance`
 - `pubsub.example.com/topic`
@@ -48,15 +69,15 @@ For protobuf, use the [`google.api.resource`][resource] annotation:
 
 ```proto
 // A representation of a user event.
-message Topic {
+message UserEvent {
   option (google.api.resource) = {
     type: "user.example.com/user-event"
     singular: "user-event"
     plural: "user-events"
     // define one or more patterns, e.g. if a resource has more than one parent.
-    pattern: "projects/{project}/user-events/{user-event}"
-    pattern: "folder/{folder}/user-events/{user-event}"
-    pattern: "users/{user}/events/{user-event}"
+    pattern: "projects/{project_id}/user-events/{user_event_id}"
+    pattern: "folder/{folder_id}/user-events/{user_event_d}"
+    pattern: "users/{user_id}/events/{user_event_id}"
   };
 
   // Name and other fields...
@@ -64,19 +85,27 @@ message Topic {
 
 {% tab oas %}
 
-For OpenAPI 3.0, use the `x-aep-resource` extension:
+For OpenAPI 3.0, Resources must be defined in `#components/schemas` and use the
+[`x-aep-resource`](https://aep.dev/json-schema/extensions/x-aep-resource.json)
+extension:
 
 ```json
 {
-  "type": "object",
-  "x-aep-resource": {
-    "singular": "user-event",
-    "plural": "user-events",
-    "patterns": [
-      "projects/{project}/user-events/{user-event}",
-      "folder/{folder}/user-events/{user-event}",
-      "users/{user}/events/{user-event}"
-    ]
+  "components": {
+    "schemas": {
+      "UserEvent": {
+        "type": "object",
+        "x-aep-resource": {
+          "singular": "user-event",
+          "plural": "user-events",
+          "patterns": [
+            "projects/{project_id}/user-events/{user_event_id}",
+            "folder/{folder_id}/user-events/{user_event_id}",
+            "users/{user_id}/events/{user_event_id}"
+          ]
+        }
+      }
+    }
   }
 }
 ```
@@ -95,11 +124,11 @@ element = variable | literal;
 variable = "{", literal, "}";
 ```
 
-Where `literal` matches the regex `[a-z][a-z0-9\-]*[a-z0-9]`.
+Where `literal` matches the regex `[a-z][a-z0-9\-_]*[a-z0-9]`.
 
 - Patterns **must** match the possible [paths](/paths) of the resource.
 - Pattern variables (the segments within braces) **must** match the singular of
-  the resource whose id is being matched by that value.
+  the resource whose id is being matched by that value, suffixed with `_id`.
 
 #### Pattern uniqueness
 

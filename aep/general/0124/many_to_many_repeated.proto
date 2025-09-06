@@ -6,7 +6,7 @@ import "google/api/resource.proto";
 message Book {
   option (google.api.resource) = {
     type: "library.googleapis.com/Book"
-    pattern: "publishers/{publisher}/books/{book}"
+    pattern: "publishers/{publisher_id}/books/{book_id}"
   };
 
   string path = 1 [(google.api.field_behavior) = IDENTIFIER];

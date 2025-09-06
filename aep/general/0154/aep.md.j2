@@ -23,11 +23,11 @@ ETag: "55cc0347-66fc-46c3-a26f-98a9a7d61d0e"
 ```
 
 The ETag **must** be provided by the server on output, and values **should**
-conform to [RFC 7232][]. Resources **must** support the `If-Match` header (and
+conform to [RFC 9110][]. Resources **must** support the `If-Match` header (and
 **may** support the `If-None-Match` header) if and only if resources provide
 the ETag.
 
-**Note:** ETag values **must** include quotes as described in [RFC 7232][]. For
+**Note:** ETag values **must** include quotes as described in [RFC 9110][]. For
 example, a valid ETag is `"foo"`, not `foo`.
 
 ETags **must** be based on an opaque checksum or hash of the resource that
@@ -35,11 +35,20 @@ guarantees it will change if the resource changes.
 
 ### Condition headers
 
+When adding precondition checking to an API, the headers and behaviors **must**
+match
+[preconditions](https://www.rfc-editor.org/rfc/rfc9110.html#name-preconditions)
+as documented in RFC 9110.
+
+### If-Match / If-None-Match
+
 Services that provide ETags **should** support the `If-Match` and
-`If-None-Match` headers on incoming requests:
+`If-None-Match` headers.
+
+An example of using `If-Match`:
 
 ```http
-GET /v1/publishers/{publisher}/books/{book} HTTP/2
+GET /v1/publishers/{publisher_id}/books/{book_id} HTTP/2
 Host: library.googleapis.com
 Accept: application/json
 If-Match: "55cc0347-66fc-46c3-a26f-98a9a7d61d0e"
@@ -51,19 +60,23 @@ current ETag. If the `If-Match` header value does not match the ETag, the
 service **must** reply with an HTTP 412 error.
 
 If the user omits the `If-Match` header, the service **should** permit the
-request. However, services with strong consistency or parallelism requirements
-**may** require users to send ETags all the time and reject the request with an
-HTTP 400 error if it does not contain an ETag.
+request. However, services with [strong consistency][] or parallelism
+requirements **may** require users to send ETags all the time and reject the
+request with an HTTP 400 error if it does not contain an ETag.
 
 If any conditional headers are supported for any operation within a service,
 the same conditional headers **must** be supported for all mutation methods
 (`POST`, `PATCH`, `PUT`, and `DELETE`) of any path that supports them, and
 **should** be supported uniformly for all operations across the service.
 
+If a server recieves a conditional header it does not support, the service
+**should** return an `INAVLID_ARGUMENT / 400` response.
+
 If any validator or conditional headers are supported for any operations in the
-service, the use of unsupported conditional headers **must** result in an
-error. (In other words, once a service gives the client reason to believe it
-understands conditional headers, it **must not** ever ignore them.)
+service, the use of unsupported conditional headers **must** result in a
+`INVALID_ARGUMENT / 400` error response. (In other words, once a service gives
+the client reason to believe it understands conditional headers, it **must
+not** ever ignore them.)
 
 ### Read requests
 
@@ -87,7 +100,7 @@ ETags can be either "strongly validated" or "weakly validated":
 
 Resources **may** use either strong or weak ETags, as it sees fit, but
 **should** document the behavior. Additionally, weak ETags **must** have a `W/`
-prefix as mandated by [RFC 7232][]:
+prefix as mandated by [RFC 9110 Etag Comparison][]:
 
 ```
 200 OK
@@ -95,21 +108,28 @@ Content-type: application/json
 ETag: W/"55cc0347-66fc-46c3-a26f-98a9a7d61d0e"
 ```
 
+**NOTE**: The strong match **must** be used when comparing
+[`If-match`](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-match), while
+the weak match **must** be used when evaluating the
+[`If-None-Match`](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-none-match)
+as stated in RFC-9110.
+
 Strong ETags **must** and weak ETags **should** be guaranteed to change if any
 properties on the resource change that are directly mutable by the client.
 Additionally, strong ETags **should** be guaranteed to change if the resource's
 representation changes in a meaningful way (meaning the new representation is
 not equivalent to the old one).
 
-## Further reading
-
-- For how to retry on errors in client libraries, see AEP-194.
-
 ## Changelog
 
+- **2025-01-18**: Updated to use RFC 9110 instead of RFC 7232, which is
+  deprecated.
 - **2020-09-02**: Clarified that other errors may take precedence over
   `FAILED_PRECONDITION` for ETag mismatches.
 - **2020-09-02**: Add guidance for ETags on request messages.
 - **2019-09-23**: Changed the title to "resource freshness validation".
 
-[rfc 7232]: https://tools.ietf.org/html/rfc7232#section-2.3
+[RFC 9110]: https://www.rfc-editor.org/rfc/rfc9110.html#section-8.8.3
+[RFC 9110 Etags Comparison]:
+  https://www.rfc-editor.org/rfc/rfc9110.html#name-comparison-2
+[strong consistency]: ./0121.md#strong-consistency

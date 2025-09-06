@@ -20,11 +20,11 @@ import "google/api/resource.proto";
 message Book {
   option (google.api.resource) = {
     type: "library.googleapis.com/Book"
-    pattern: "publishers/{publisher}/books/{book}"
+    pattern: "publishers/{publisher_id}/books/{book_id}"
   };
 
   // The name of the book.
-  // Format: publishers/{publisher}/books/{book}
+  // Format: publishers/{publisher_id}/books/{book_id}
   string name = 1;
 
   // The ISBN (International Standard Book Number) for this book.

@@ -4,4 +4,4 @@ state: approved
 slug: field-behavior-documentation
 created: 2024-04-17
 placement:
-  category: fields
+  category: protobuf

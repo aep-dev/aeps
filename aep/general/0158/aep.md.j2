@@ -18,7 +18,7 @@ to add pagination to an existing method.
 // The request structure for listing books.
 message ListBooksRequest {
   // The parent, which owns this collection of books.
-  // Format: publishers/{publisher}
+  // Format: publishers/{publisher_id}
   string parent = 1 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.resource_reference) = {
@@ -55,7 +55,7 @@ message ListBooksResponse {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+{% sample '../example.oas.yaml', '$.paths./publishers.get' %}
 
 {% endtabs %}
 

@@ -1,0 +1,865 @@
+syntax = "proto3";
+
+// this file is generated.
+package example.bookstore.v1;
+
+import "aep/api/operation.proto";
+
+import "google/api/annotations.proto";
+
+import "google/api/client.proto";
+
+import "google/api/field_behavior.proto";
+
+import "google/api/resource.proto";
+
+import "google/protobuf/empty.proto";
+
+import "google/protobuf/field_mask.proto";
+
+option go_package = "/bookstore";
+
+// A service.
+service Bookstore {
+  // An aep-compliant Create method for book.
+  rpc CreateBook ( CreateBookRequest ) returns ( Book ) {
+    option (google.api.http) = {
+      post: "/{parent=publishers/*}/books",
+      body: "book"
+    };
+
+    option (google.api.method_signature) = "parent,book";
+  }
+
+  // An aep-compliant Get method for book.
+  rpc GetBook ( GetBookRequest ) returns ( Book ) {
+    option (google.api.http) = { get: "/{path=publishers/*/books/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant Update method for book.
+  rpc UpdateBook ( UpdateBookRequest ) returns ( Book ) {
+    option (google.api.http) = {
+      patch: "/{path=publishers/*/books/*}",
+      body: "book"
+    };
+
+    option (google.api.method_signature) = "book,update_mask";
+  }
+
+  // An aep-compliant Delete method for book.
+  rpc DeleteBook ( DeleteBookRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete: "/{path=publishers/*/books/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for books.
+  rpc ListBooks ( ListBooksRequest ) returns ( ListBooksResponse ) {
+    option (google.api.http) = { get: "/{parent=publishers/*}/books" };
+
+    option (google.api.method_signature) = "parent";
+  }
+
+  // An aep-compliant Apply method for books.
+  rpc ApplyBook ( ApplyBookRequest ) returns ( Book ) {
+    option (google.api.http) = {
+      put: "/{path=publishers/*/books/*}",
+      body: "book"
+    };
+  }
+
+  // archive a book.
+  rpc ArchiveBook ( ArchiveBookRequest ) returns ( aep.api.Operation ) {
+    option (aep.api.operation_info) = { response_type: "example.bookstore.v1.ArchiveBookResponse" };
+
+    option (google.api.http) = {
+      post: "/{path=publishers/*/books/*}:archive",
+      body: "*"
+    };
+  }
+
+  // An aep-compliant Create method for book-edition.
+  rpc CreateBookEdition ( CreateBookEditionRequest ) returns ( BookEdition ) {
+    option (google.api.http) = {
+      post: "/{parent=publishers/*/books/*}/editions",
+      body: "book_edition"
+    };
+
+    option (google.api.method_signature) = "parent,book_edition";
+  }
+
+  // An aep-compliant Get method for book-edition.
+  rpc GetBookEdition ( GetBookEditionRequest ) returns ( BookEdition ) {
+    option (google.api.http) = { get: "/{path=publishers/*/books/*/editions/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant Delete method for book-edition.
+  rpc DeleteBookEdition ( DeleteBookEditionRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = {
+      delete: "/{path=publishers/*/books/*/editions/*}"
+    };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for book-editions.
+  rpc ListBookEditions ( ListBookEditionsRequest ) returns ( ListBookEditionsResponse ) {
+    option (google.api.http) = { get: "/{parent=publishers/*/books/*}/editions" };
+
+    option (google.api.method_signature) = "parent";
+  }
+
+  // An aep-compliant Create method for isbn.
+  rpc CreateIsbn ( CreateIsbnRequest ) returns ( Isbn ) {
+    option (google.api.http) = { post: "/isbns", body: "isbn" };
+
+    option (google.api.method_signature) = "isbn";
+  }
+
+  // An aep-compliant Get method for isbn.
+  rpc GetIsbn ( GetIsbnRequest ) returns ( Isbn ) {
+    option (google.api.http) = { get: "/{path=isbns/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for isbns.
+  rpc ListIsbns ( ListIsbnsRequest ) returns ( ListIsbnsResponse ) {
+    option (google.api.http) = { get: "/isbns" };
+
+    option (google.api.method_signature) = "parent";
+  }
+
+  // An aep-compliant Create method for item.
+  rpc CreateItem ( CreateItemRequest ) returns ( Item ) {
+    option (google.api.http) = { post: "/{parent=stores/*}/items", body: "item" };
+
+    option (google.api.method_signature) = "parent,item";
+  }
+
+  // An aep-compliant Get method for item.
+  rpc GetItem ( GetItemRequest ) returns ( Item ) {
+    option (google.api.http) = { get: "/{path=stores/*/items/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant Update method for item.
+  rpc UpdateItem ( UpdateItemRequest ) returns ( Item ) {
+    option (google.api.http) = {
+      patch: "/{path=stores/*/items/*}",
+      body: "item"
+    };
+
+    option (google.api.method_signature) = "item,update_mask";
+  }
+
+  // An aep-compliant Delete method for item.
+  rpc DeleteItem ( DeleteItemRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete: "/{path=stores/*/items/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for items.
+  rpc ListItems ( ListItemsRequest ) returns ( ListItemsResponse ) {
+    option (google.api.http) = { get: "/{parent=stores/*}/items" };
+
+    option (google.api.method_signature) = "parent";
+  }
+
+  // move a item.
+  rpc MoveItem ( MoveItemRequest ) returns ( aep.api.Operation ) {
+    option (aep.api.operation_info) = { response_type: "google.protobuf.Empty" };
+
+    option (google.api.http) = {
+      post: "/{path=stores/*/items/*}:move",
+      body: "*"
+    };
+  }
+
+  // An aep-compliant Create method for publisher.
+  rpc CreatePublisher ( CreatePublisherRequest ) returns ( Publisher ) {
+    option (google.api.http) = { post: "/publishers", body: "publisher" };
+
+    option (google.api.method_signature) = "publisher";
+  }
+
+  // An aep-compliant Get method for publisher.
+  rpc GetPublisher ( GetPublisherRequest ) returns ( Publisher ) {
+    option (google.api.http) = { get: "/{path=publishers/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant Update method for publisher.
+  rpc UpdatePublisher ( UpdatePublisherRequest ) returns ( Publisher ) {
+    option (google.api.http) = {
+      patch: "/{path=publishers/*}",
+      body: "publisher"
+    };
+
+    option (google.api.method_signature) = "publisher,update_mask";
+  }
+
+  // An aep-compliant Delete method for publisher.
+  rpc DeletePublisher ( DeletePublisherRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete: "/{path=publishers/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for publishers.
+  rpc ListPublishers ( ListPublishersRequest ) returns ( ListPublishersResponse ) {
+    option (google.api.http) = { get: "/publishers" };
+
+    option (google.api.method_signature) = "parent";
+  }
+
+  // An aep-compliant Apply method for publishers.
+  rpc ApplyPublisher ( ApplyPublisherRequest ) returns ( Publisher ) {
+    option (google.api.http) = { put: "/{path=publishers/*}", body: "publisher" };
+  }
+
+  // An aep-compliant Create method for store.
+  rpc CreateStore ( CreateStoreRequest ) returns ( Store ) {
+    option (google.api.http) = { post: "/stores", body: "store" };
+
+    option (google.api.method_signature) = "store";
+  }
+
+  // An aep-compliant Get method for store.
+  rpc GetStore ( GetStoreRequest ) returns ( Store ) {
+    option (google.api.http) = { get: "/{path=stores/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant Update method for store.
+  rpc UpdateStore ( UpdateStoreRequest ) returns ( Store ) {
+    option (google.api.http) = { patch: "/{path=stores/*}", body: "store" };
+
+    option (google.api.method_signature) = "store,update_mask";
+  }
+
+  // An aep-compliant Delete method for store.
+  rpc DeleteStore ( DeleteStoreRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete: "/{path=stores/*}" };
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for stores.
+  rpc ListStores ( ListStoresRequest ) returns ( ListStoresResponse ) {
+    option (google.api.http) = { get: "/stores" };
+
+    option (google.api.method_signature) = "parent";
+  }
+}
+
+// A Book.
+message Book {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/book",
+    pattern: [ "publishers/{publisher_id}/books/{book_id}" ],
+    plural: "books",
+    singular: "book"
+  };
+
+  // A Author.
+  message Author {
+    // Field for given_name.
+    string given_name = 1 [json_name = "given_name"];
+
+    // Field for family_name.
+    string family_name = 2 [json_name = "family_name"];
+  }
+
+  // Field for isbn.
+  repeated string isbn = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for price.
+  int32 price = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for published.
+  bool published = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for edition.
+  int32 edition = 4 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for author.
+  repeated Author author = 5;
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A BookEdition.
+message BookEdition {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/book-edition",
+    pattern: [
+      "publishers/{publisher_id}/books/{book_id}/editions/{book_edition_id}"
+    ],
+    plural: "book-editions",
+    singular: "book-edition"
+  };
+
+  // Field for display_name.
+  string display_name = 1 [
+    json_name = "display_name",
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A Isbn.
+message Isbn {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/isbn",
+    pattern: [ "isbns/{isbn_id}" ],
+    plural: "isbns",
+    singular: "isbn"
+  };
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A Item.
+message Item {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/item",
+    pattern: [ "stores/{store_id}/items/{item_id}" ],
+    plural: "items",
+    singular: "item"
+  };
+
+  // Field for book.
+  string book = 1;
+
+  // Field for condition.
+  string condition = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for price.
+  double price = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A Publisher.
+message Publisher {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/publisher",
+    pattern: [ "publishers/{publisher_id}" ],
+    plural: "publishers",
+    singular: "publisher"
+  };
+
+  // Field for description.
+  string description = 1;
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A Store.
+message Store {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/store",
+    pattern: [ "stores/{store_id}" ],
+    plural: "stores",
+    singular: "store"
+  };
+
+  // Field for name.
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field for description.
+  string description = 2;
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A Create request for a  book resource.
+message CreateBookRequest {
+  // A field for the parent of book
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // An id that uniquely identifies the resource within the collection
+  string id = 10014;
+
+  // The resource to perform the operation on.
+  Book book = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for the Getbook method
+message GetBookRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+  ];
+}
+
+// Request message for the UpdateBook method
+message UpdateBookRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+  ];
+
+  // The resource to perform the operation on.
+  Book book = 10015 [(google.api.field_behavior) = REQUIRED];
+
+  // The update mask for the resource
+  google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
+}
+
+// Request message for the DeleteBook method
+message DeleteBookRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+  ];
+
+  // If true, the resource will be deleted, even if children still exist.
+  bool force = 10020 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for the Listbook method
+message ListBooksRequest {
+  // A field for the parent of book
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+}
+
+// Response message for the Listbook method
+message ListBooksResponse {
+  // A list of books
+  repeated Book results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+
+  // A list of books that were not reachable.
+  repeated Book unreachable = 10019;
+}
+
+// Request message for the Applybook method
+message ApplyBookRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+  ];
+
+  // The resource to perform the operation on.
+  Book book = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Response message for the archive method
+message ArchiveBookResponse {
+}
+
+// Request message for the archive method
+message ArchiveBookRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+  ];
+}
+
+// A Create request for a  book-edition resource.
+message CreateBookEditionRequest {
+  // A field for the parent of book-edition
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // An id that uniquely identifies the resource within the collection
+  string id = 10014;
+
+  // The resource to perform the operation on.
+  BookEdition book_edition = 10015 [
+    json_name = "book_edition",
+    (google.api.field_behavior) = REQUIRED
+  ];
+}
+
+// Request message for the Getbook-edition method
+message GetBookEditionRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book-edition" }
+  ];
+}
+
+// Request message for the DeleteBookEdition method
+message DeleteBookEditionRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/book-edition" }
+  ];
+}
+
+// Request message for the Listbook-edition method
+message ListBookEditionsRequest {
+  // A field for the parent of book-edition
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+}
+
+// Response message for the Listbook-edition method
+message ListBookEditionsResponse {
+  // A list of book-editions
+  repeated BookEdition results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+}
+
+// A Create request for a  isbn resource.
+message CreateIsbnRequest {
+  // A field for the parent of isbn
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // An id that uniquely identifies the resource within the collection
+  string id = 10014;
+
+  // The resource to perform the operation on.
+  Isbn isbn = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for the Getisbn method
+message GetIsbnRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/isbn" }
+  ];
+}
+
+// Request message for the Listisbn method
+message ListIsbnsRequest {
+  // A field for the parent of isbn
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+}
+
+// Response message for the Listisbn method
+message ListIsbnsResponse {
+  // A list of isbns
+  repeated Isbn results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+}
+
+// A Create request for a  item resource.
+message CreateItemRequest {
+  // A field for the parent of item
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // An id that uniquely identifies the resource within the collection
+  string id = 10014;
+
+  // The resource to perform the operation on.
+  Item item = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for the Getitem method
+message GetItemRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+  ];
+}
+
+// Request message for the UpdateItem method
+message UpdateItemRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+  ];
+
+  // The resource to perform the operation on.
+  Item item = 10015 [(google.api.field_behavior) = REQUIRED];
+
+  // The update mask for the resource
+  google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
+}
+
+// Request message for the DeleteItem method
+message DeleteItemRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+  ];
+}
+
+// Request message for the Listitem method
+message ListItemsRequest {
+  // A field for the parent of item
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+
+  // The number of resources to skip before returning the first resource in the page.
+  int32 skip = 10021;
+
+  // The filter to apply to the list.
+  string filter = 10022;
+}
+
+// Response message for the Listitem method
+message ListItemsResponse {
+  // A list of items
+  repeated Item results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+}
+
+// Request message for the move method
+message MoveItemRequest {
+  // Field for target_store.
+  string target_store = 1 [json_name = "target_store"];
+
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+  ];
+}
+
+// A Create request for a  publisher resource.
+message CreatePublisherRequest {
+  // A field for the parent of publisher
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // An id that uniquely identifies the resource within the collection
+  string id = 10014;
+
+  // The resource to perform the operation on.
+  Publisher publisher = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for the Getpublisher method
+message GetPublisherRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+  ];
+}
+
+// Request message for the UpdatePublisher method
+message UpdatePublisherRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+  ];
+
+  // The resource to perform the operation on.
+  Publisher publisher = 10015 [(google.api.field_behavior) = REQUIRED];
+
+  // The update mask for the resource
+  google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
+}
+
+// Request message for the DeletePublisher method
+message DeletePublisherRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+  ];
+
+  // If true, the resource will be deleted, even if children still exist.
+  bool force = 10020 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for the Listpublisher method
+message ListPublishersRequest {
+  // A field for the parent of publisher
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+
+  // The number of resources to skip before returning the first resource in the page.
+  int32 skip = 10021;
+
+  // The filter to apply to the list.
+  string filter = 10022;
+}
+
+// Response message for the Listpublisher method
+message ListPublishersResponse {
+  // A list of publishers
+  repeated Publisher results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+}
+
+// Request message for the Applypublisher method
+message ApplyPublisherRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+  ];
+
+  // The resource to perform the operation on.
+  Publisher publisher = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// A Create request for a  store resource.
+message CreateStoreRequest {
+  // A field for the parent of store
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // An id that uniquely identifies the resource within the collection
+  string id = 10014;
+
+  // The resource to perform the operation on.
+  Store store = 10015 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for the Getstore method
+message GetStoreRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/store" }
+  ];
+}
+
+// Request message for the UpdateStore method
+message UpdateStoreRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/store" }
+  ];
+
+  // The resource to perform the operation on.
+  Store store = 10015 [(google.api.field_behavior) = REQUIRED];
+
+  // The update mask for the resource
+  google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
+}
+
+// Request message for the DeleteStore method
+message DeleteStoreRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "bookstore.example.com/store" }
+  ];
+
+  // If true, the resource will be deleted, even if children still exist.
+  bool force = 10020 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for the Liststore method
+message ListStoresRequest {
+  // A field for the parent of store
+  string parent = 10013 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { }
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+
+  // The number of resources to skip before returning the first resource in the page.
+  int32 skip = 10021;
+
+  // The filter to apply to the list.
+  string filter = 10022;
+}
+
+// Response message for the Liststore method
+message ListStoresResponse {
+  // A list of stores
+  repeated Store results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+}

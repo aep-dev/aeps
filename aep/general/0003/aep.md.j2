@@ -33,6 +33,12 @@ Examples of clients include the following:
 - Tools, such as a [Declarative client][]
 - Visual UIs, such as a web application
 
+### AEP Edition
+
+A specific edition of the AEP specification. This is a specific collection of
+AEP guidance that will not change, annotated with the year (e.g. aep-2025). See
+[editions](/editions) for more information.
+
 ### API Definition
 
 A well-structured representation of an API.
@@ -57,6 +63,8 @@ Buffers by an `rpc` definition, or in HTTP via a `method` and a `path`.
 
 The name by which to refer to an API.
 
+See [API Name](./0004#api-name)
+
 ### API Request
 
 A single invocation of an API Method. It is often used as the unit for billing,
@@ -80,6 +88,12 @@ addresses.
 Either a programmatic client or a user that consumes an API. This term should
 be used when a statement refers broadly to both programs and users.
 
+### Collection
+
+A collection represents a discrete set of resources of a specific type. A
+resource may have one or more collections, with each collection having its own
+parent.
+
 ### Declarative Clients
 
 Declarative Clients, also known as Infrastructure as Code (IaC), describes a
@@ -98,6 +112,39 @@ Examples of complexities that declarative clients abstract away include:
 - Ordering of these imperative actions.
 
 [Terraform][] is an example of such a client.
+
+### Resource ID
+
+The unique identifier for a resource, within its parent collection. For
+example, in the following resource path:
+
+```
+/publishers/consistent-house/books/pride-and-prejudice
+```
+
+There are two resource IDs:
+
+- `consistent-house`, which is the id of the publisher.
+- `pride-and-prejudice`, which is the id of the book.
+
+See [paths](/paths#resource-id) for more information.
+
+### Root collection
+
+A [collection](#collection) that does not have any parent collections. For
+example, `/users/`.
+
+### Root Resource
+
+A root resource is a resource for which a collection exists that has no
+parents. In other words, it is a resource that has a collection that appears at
+the root of a resource hierarchy.
+
+A root resource may also appear as a child of another resource: for example, a
+music streaming services may have global shared playlists (e.g. "top
+trending"), but may also have playlists nested under a user. In this case, a
+playlist is still considered a root resource, since the collection with the
+glocal shared playlists has no parents.
 
 ### Schema
 
@@ -119,5 +166,3 @@ organizations separate from those that consume them.
 
 [declarative clients]: #declarative-clients
 [terraform]: https://www.terraform.io/
-
-## Changelog

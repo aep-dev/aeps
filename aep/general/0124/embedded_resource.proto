@@ -7,7 +7,7 @@ message Book {
   // canonical parent.
   option (google.api.resource) = {
     type: "library.googleapis.com/Book"
-    pattern: "publishers/{publisher}/books/{book}"
+    pattern: "publishers/{publisher_id}/books/{book_id}"
   };
 
   // The resource path for the book.

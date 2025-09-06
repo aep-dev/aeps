@@ -42,6 +42,31 @@ in the following order:
 1. Custom methods (on collections, resources, or stateless)
 1. Streaming methods
 
+### OperationIDs and RPC names
+
+The OpenAPI specification includes an
+[operationId](https://spec.openapis.org/oas/latest.html#fixed-fields-7) field
+to uniquely identify an operation, as well as provide a name for the operation
+in tools and libraries.
+
+In a similar fashion, gRPC has
+[RPCs definition within a service](https://grpc.io/docs/what-is-grpc/core-concepts/#service-definition).
+
+The operationId and RPCs names **should** follow the following format:
+
+- `{standard-method-name}{resource-singular}` for non-list standard methods.
+- `List{resource-plural}` for lists.
+- `:{custom-method-name}{resource-singular}` for custom methods (omit the
+  leading colon for gRPC).
+
+Some examples include:
+
+- `CreateBook`
+- `GetBook`
+- `ApplyBook`
+- `ListBooks`
+- `:ArchiveBook`
+
 ## Rationale
 
 Resource-oriented standard and custom methods are recommended first, as they
@@ -70,7 +95,8 @@ likely have to be hand-written.
 [batch-update]: /batch-update
 [create]: /create
 [custom-methods]: /custom-methods
-[Declarative clients]: ./0009.md#declarative-clients
+[Declarative client]: ./0003.md#declarative-clients
+[Declarative clients]: ./0003.md#declarative-clients
 [delete]: /delete
 [get]: /get
 [list]: /list

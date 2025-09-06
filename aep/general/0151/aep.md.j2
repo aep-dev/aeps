@@ -28,15 +28,17 @@ amount of time" depending on what work is being done. A good rule of thumb is
 
 ### Operation representation
 
-The response to a long-running request **must** be an [`Operation`][].
+The response to a long-running request **must** be an [`Operation`][Operation].
 
 {% tab proto %}
 
-Protocol buffer APIs **must** use the common component [`aep.api.Operation`][].
+Protocol buffer APIs **must** use the common component
+[`aep.api.Operation`][aep.api.Operation].
 
 {% tab oas %}
 
-OpenAPI services **must** use this [`JSON Schema Operation`][] schema.
+OpenAPI services **must** use this
+[`JSON Schema Operation`][JSON Schema Operation] schema.
 
 {% endtabs %}
 
@@ -56,15 +58,15 @@ The endpoint **must** return a `Operation` as described above.
 
 ### Standard methods
 
-APIs **may** return an `Operation` from the [`Create`][aip-133],
-[`Update`][aip-134], or [`Delete`][aip-135] standard methods if appropriate. In
+APIs **may** return an `Operation` from the [`Create`][aep-133],
+[`Update`][aep-134], or [`Delete`][aep-135] standard methods if appropriate. In
 this case, the `response` field **must** be the standard and expected response
 type for that standard method.
 
 When creating or deleting a resource with a long-running request, the resource
-**should** be included in [`List`][aip-132] and [`Get`][aip-131] calls;
+**should** be included in [`List`][aep-132] and [`Get`][aep-131] calls;
 however, the resource **should** indicate that it is not usable, generally with
-a [state enum][aip-216].
+a [state enum][aep-216].
 
 ### Parallel requests
 
@@ -88,7 +90,7 @@ has elapsed after the request completed.
 ### Errors
 
 Errors that prevent a long-running request from _starting_ **must** return an
-error response (AEP-193), similar to any other method.
+[error response][AEP-193], similar to any other method.
 
 Errors that occur over the course of a request **may** be placed in the
 metadata message. The errors themselves **must** still be represented with a
@@ -98,8 +100,8 @@ canonical error object.
 
 {% tab proto %}
 
-When using protocol buffers, the common component [`aep.api.Operation`][] is
-used.
+When using protocol buffers, the common component
+[`aep.api.Operation`][aep.api.Operation] is used.
 
 {% sample 'lro.proto', 'rpc WriteBook' %}
 
@@ -115,7 +117,7 @@ used.
   - If the response and metadata types are defined in another package, the
     fully-qualified message name **must** be used.
   - The response type **should not** be `google.protobuf.Empty` (except for
-    [`Delete`][aip-135] methods), unless it is certain that response data will
+    [`Delete`][aep-135] methods), unless it is certain that response data will
     _never_ be needed. If response data might be added in the future, define an
     empty message for the RPC response and use that.
   - The metadata type is used to provide information such as progress, partial
@@ -131,7 +133,7 @@ used.
 
 {% tab oas %}
 
-{% sample 'lro.oas.yaml', 'paths' %}
+{% sample 'lro.oas.yaml', '$.paths' %}
 
 - `202` **must** be the only success status code defined.
 - The `202` response **must** define an `application/json` response body and no
@@ -161,7 +163,7 @@ used.
 [lro]: https://github.com/aep-dev/aep/blob/main/proto/aep-api/aep/api/operations.proto
 [node.js promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
 [future]: https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future
-[`Operation`]: https://github.com/aep-dev/aep/blob/main/schemas/api/operation.md
-[`aep.api.Operation`]: https://buf.build/aep/api/docs/main:aep.api#aep.api.Operation
-[`JSON Schema Operation`]: https://github.com/aep-dev/aep/blob/main/json_schema/api/operation.yaml
+[Operation]: https://github.com/aep-dev/aep/blob/main/schemas/api/operation.md
+[aep.api.Operation]: https://buf.build/aep/api/docs/main:aep.api#aep.api.Operation
+[JSON Schema Operation]: http://aep.dev/json-schema/type/operation.json
 <!-- prettier-ignore-end -->

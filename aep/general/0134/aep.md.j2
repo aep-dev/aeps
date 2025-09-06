@@ -1,12 +1,15 @@
 # Update
 
 In REST APIs, it is customary to make a `PATCH` or `PUT` request to a
-resource's URI (for example, `/v1/publishers/{publisher}/books/{book}`) in
-order to update that resource.
+resource's URI (for example, `/v1/publishers/{publisher_id}/books/{book_id}`)
+in order to update that resource.
 
-Resource-oriented design (AEP-121) honors this pattern through the `Update`
-method (which mirrors the REST `PATCH` behavior). These methods accept the URI
-representing that resource and return the resource.
+Resource-oriented design [AEP-121][aep-121] honors this pattern through the
+`Update` method (which mirrors the REST `PATCH` behavior). These methods accept
+the URI representing that resource and return the resource.
+
+Also see the [apply](/apply) method, with guidance on how to implement `PUT`
+requests.
 
 ## Guidance
 
@@ -14,54 +17,57 @@ APIs **should** provide an update method for resources unless it is not
 valuable for users to do so. The purpose of the update method is to make
 changes to the resources without causing side effects.
 
-Update methods are specified using the following pattern:
+### Operation
 
-- The method's name **must** begin with the word `Update`. The remainder of the
-  method name **should** be the singular form of the resource's name.
-- The request schema's name **must** exactly match the RPC name, with a
-  `Request` suffix.
+- The method **should** support partial resource update, and the HTTP verb
+  **should** be `PATCH`.
+- The operation **must** have [strong consistency][].
+- Some resources take longer to be created than is reasonable for a regular API
+  request. In this situation, the API should use a
+  [long-running operation](/long-running-operations).
 - The response schema **must** be the resource itself.
   - The response **should** include the fully-populated resource, and **must**
     include any fields that were sent and included in the update mask unless
     they are input only (see AEP-203).
-  - If the update RPC is [long-running](#long-running-update), the response
-    **must** be an `Operation` for which the return type is the resource
-    itself.
-- The method **should** support partial resource update, and the HTTP verb
-  **should** be `PATCH`.
 
 {% tab proto %}
 
-```proto
-rpc UpdateBook(UpdateBookRequest) returns (Book) {
-  option (google.api.http) = {
-    patch: "/v1/{book.path=publishers/*/books/*}"
-    body: "book"
-  };
-  option (google.api.method_signature) = "book,update_mask";
-}
-```
+{% sample '../example.proto', 'rpc UpdateBook' %}
 
-- The resource's `path` field **should** map to the URI path.
-  - The `{resource}.path` field **should** be the only variable in the URI
-    path.
+Update methods are specified using the following pattern:
+
+- The method's name **must** begin with the word `Update`. The remainder of the
+  method name **must** be the singular form of the resource's name.
+- The request schema's name **must** exactly match the RPC name, with a
+  `Request` suffix.
+- The request's `path` field **must** map to the URI path.
+  - The `path` field **must** be the only variable in the URI path.
 - There **must** be a `body` key in the `google.api.http` annotation, and it
   **must** map to the resource field in the request message.
   - All remaining fields **should** map to URI query parameters.
 - There **should** be exactly one `google.api.method_signature` annotation,
   with a value of `"{resource},update_mask"`.
 
-**Note:** Unlike the other four standard methods, the URI path here references
-a nested field (`book.path`) in the example. If the resource field has a word
-separator, `snake_case` is used.
-
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+```http
+PATCH /v1/publishers/{publisher_id}/books/{book_id} HTTP/2
+Host: bookstore.example.com
+Accept: application/merge-patch+json
+{
+  "title": "Pride and Prejudice",
+  "author": "Jane Austen"
+}
+```
+
+- The method **must** adhere to the behavior specified in [IETF RFC 7396 - Json
+  Merge Patch][].
+- The method **must** support MIME types `application/merge-patch+json` to
+  adhere to IETF RFC 7396.
 
 {% endtabs %}
 
-### Request schema
+### Requests
 
 Update methods implement a common request pattern:
 
@@ -74,23 +80,16 @@ Update methods implement a common request pattern:
 
 {% tab proto %}
 
-```proto
-message UpdateBookRequest {
-  // The book to update.
-  //
-  // The book's `path` field is used to identify the book to update.
-  // Format: publishers/{publisher}/books/{book}
-  Book book = 1 [(google.api.field_behavior) = REQUIRED];
+{% sample '../example.proto', 'message UpdateBookRequest' %}
 
-  // The list of fields to update.
-  google.protobuf.FieldMask update_mask = 2;
-}
-```
-
+- A `path` field **must** be included.
+  - The field **must** be
+    [annotated as required](/field-behavior-documentation).
+  - The field **must** identify the [resource type][aep-4] that it references.
 - The request message field for the resource **must** map to the `PATCH` body.
 - The request message field for the resource **should** be [annotated as
   required][aep-203].
-  - The field **must** identify the [resource type][aep-123] of the resource
+  - The field **must** identify the [resource type][aep-4] of the resource
     being updated.
 - If partial resource update is supported, a field mask **must** be included.
   It **must** be of type `google.protobuf.FieldMask`, and it **must** be called
@@ -106,9 +105,30 @@ message UpdateBookRequest {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+{% sample '../example.oas.yaml', '$.paths./publishers.post.requestBody' %}
 
 {% endtabs %}
+
+### Responses
+
+{% tab proto %}
+
+{% sample '../example.proto', 'message Book' %}
+
+{% tab oas %}
+
+{% sample '../example.oas.yaml', '$.paths./publishers.post.responses.200' %}
+
+{% endtabs %}
+
+### Errors
+
+See [errors][], in particular [when to use PERMISSION_DENIED and NOT_FOUND
+errors][permission-denied].
+
+In addition, if the user does have proper permission, but the requested
+resource does not exist, the service **must** error with `NOT_FOUND` (HTTP 404)
+unless `allow_missing` is set to `true`.
 
 ### Side effects
 
@@ -131,9 +151,11 @@ using `PUT`.
 
 To illustrate this, consider a `PUT` request to a `Book` resource:
 
+```
     PUT /v1/publishers/123/books/456
 
     {"title": "Mary Poppins", "author": "P.L. Travers"}
+```
 
 Next consider that the resource is later augmented with a new field (here we
 add `rating`, and use a protobuf example without loss of generality):
@@ -152,82 +174,37 @@ If a rating were set on a book and the existing `PUT` request were executed, it
 would wipe out the book's rating. In essence, a `PUT` request unintentionally
 would wipe out data because the previous version did not know about it.
 
-### Long-running update
+### FieldMasks in proto and json merge-patch in HTTP
 
-Some resources take longer to update a resource than is reasonable for a
-regular API request. In this situation, the API **should** use a long-running
-operation (AIP-151) instead:
+AEP recommends a specific diverence in behavior between the proto and the HTTP
+interfaces. Specifically:
 
-- The response type **must** be set to the resource (what the return type would
-  be if the method were not long-running).
+- The inclusion of the `update_mask` in the proto variant, requiring the user
+  to explicitly specify fields to be updated.
+- The usage of [IETF RFC 7396 - Json Merge Patch][IETF RFC 7396] for HTTP APIs.
 
-{% tab proto %}
+This divergence in behavior is intentional, and exists for the following
+reasons:
 
-```proto
-rpc UpdateBook(UpdateBookRequest) returns (aep.api.Operation) {
-  option (google.api.http) = {
-    patch: "/v1/{book.name=publishers/*/books/*}"
-  };
-  option (aep.api.operation_info) = {
-    response_type: "Book"
-    metadata_type: "OperationMetadata"
-  };
-}
-```
+1. The update mask is a proto-specific concept, due to the lack of ability
+   across all proto versions to differentiate if the user has explicitly
+   populated a field or not. JSON has the ability to express whether a field is
+   present (by omitting it from the JSON payload). Ultimately, this allows the
+   field mask + proto pair and json to be translatable.
+2. RFC 7396 is a popular and well-understood standard for HTTP. Introducing a
+   new standard for HTTP would have made the AEP HTTP variant less idiomatic.
+3. For HTTP-proto bindings, there is a way to generate the proto field mask
+   from the fields present in the JSON request. This is what is recommended in
+   the
+   [API Design Patterns book, section 8.2 ](https://www.oreilly.com/library/view/api-design-patterns/9781617295850/),
+   describing the Google AIPs from which AEP-134 is forked. Implementations of
+   gateway-grpc proto bindings such as
+   [gateway-grpc](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/patch_feature/)
+   support this translation.
 
-- Both the `response_type` and `metadata_type` fields **must** be specified.
-
-{% tab oas %}
-
-**Note:** OAS example not yet written.
-
-{% endtabs %}
-
-### Create or update
-
-If the service uses client-assigned resource paths, `Update` methods **may**
-expose a `bool allow_missing` field, which will cause the method to succeed in
-the event that the user attempts to update a resource that is not present (and
-will create the resource in the process):
-
-{% tab proto %}
-
-```proto
-message UpdateBookRequest {
-  // The book to update.
-  //
-  // The book's `path` field is used to identify the book to be updated.
-  // Format: publishers/{publisher}/books/{book}
-  Book book = 1 [(google.api.field_behavior) = REQUIRED];
-
-  // The list of fields to be updated.
-  google.protobuf.FieldMask update_mask = 2;
-
-  // If set to true, and the book is not found, a new book will be created.
-  // In this situation, `update_mask` is ignored.
-  bool allow_missing = 3;
-}
-```
-
-{% tab oas %}
-
-**Note:** OAS example not yet written.
-
-{% endtabs %}
-
-More specifically, the `allow_missing` flag triggers the following behavior:
-
-- If the method call is on a resource that does not exist, the resource is
-  created. All fields are applied regardless of any provided field mask.
-  - However, if any required fields are missing or fields have invalid values,
-    an `INVALID_ARGUMENT` error is returned.
-- If the method call is on a resource that already exists, and all fields
-  match, the existing resource is returned unchanged.
-- If the method call is on a resource that already exists, only fields declared
-  in the field mask are updated.
-
-The user **must** have the update permissions to call `Update` even with
-`allow_missing` set to `true`.
+Therefore, given the ability of these two different patch mechanisms to
+interoperate while maintaining idiomatic practices, this divergence was
+concluded to be the least worst option.
 
 ### Etags
 
@@ -245,11 +222,11 @@ In this situation, the resource **should** contain a `string etag` field:
 message Book {
   option (google.api.resource) = {
     type: "library.example.com/Book"
-    pattern: "publishers/{publisher}/books/{book}"
+    pattern: "publishers/{publisher_id}/books/{book_id}"
   };
 
   // The resource path of the book.
-  // Format: publishers/{publisher}/books/{book}
+  // Format: publishers/{publisher_id}/books/{book_id}
   string path = 1 [(google.api.field_behavior) = IDENTIFIER];
 
   // The title of the book.
@@ -268,7 +245,7 @@ message Book {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+{% sample '../example.oas.yaml', '$.components.schemas.publisher' %}
 
 {% endtabs %}
 
@@ -295,25 +272,34 @@ This can happen in a few situations:
 In this situation, an API **may** return back only the fields that were updated
 and omit the rest. APIs that do this **must** document this behavior.
 
-### Errors
+## Interface Definitions
 
-See [errors][], in particular [when to use PERMISSION_DENIED and NOT_FOUND
-errors][permission-denied].
+{% tab proto %}
 
-In addition, if the user does have proper permission, but the requested
-resource does not exist, the service **must** error with `NOT_FOUND` (HTTP 404)
-unless `allow_missing` is set to `true`.
+{% sample '../example.proto', 'rpc UpdateBook' %}
+
+{% sample '../example.proto', 'message UpdateBookRequest' %}
+
+{% sample '../example.proto', 'message Book' %}
+
+{% tab oas %}
+
+{% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books/{book_id}.patch' %}
+
+{% endtabs %}
 
 <!-- prettier-ignore-start -->
+[aep-4]: ./0004.md
 [aep-121]: ./0121.md
 [aep-128]: ./0128.md
+[aep-151]: ./0151.md
 [aep-203]: ./0203.md
 [create]: ./0133.md
 [errors]: ./0193.md
-[management plane]: ./0111.md#management-plane
 [permission-denied]: ./0193.md#permission-denied
 [state fields]: ./0216.md
 [strong consistency]: ./0121.md#strong-consistency
 [required]: ./0203.md#required
 [optional]: ./0203.md#optional
+[IETF RFC 7396]: https://datatracker.ietf.org/doc/html/rfc7396
 <!-- prettier-ignore-end -->
