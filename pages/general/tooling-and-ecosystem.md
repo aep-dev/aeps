@@ -7,7 +7,7 @@ tooling to help produce and interact with these APIs.
 
 Get started quickly with these essential tools:
 
-**API Definition**
+**API Generators**
 
 - **[aepc](https://github.com/aep-dev/aepc)** - Generates AEP-compliant RPCs
 from proto messages
