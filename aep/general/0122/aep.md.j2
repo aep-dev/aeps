@@ -146,23 +146,16 @@ all data returned from the API **must** use the canonical resource path.
 
 ### Full resource paths
 
-In most cases, resource paths are used within a single API only, or else they
-are used in contexts where the owning API is clear (for example,
-`string pubsub_topic`).
-
-However, sometimes it is necessary for services to refer to resources in an
-arbitrary API. In this situation, the service **should** use the _full resource
-path_, a schemeless URI with the owning API's service endpoint, followed by the
-relative resource path:
+In most cases, resource paths are used within a single API only. However,
+sometimes it is necessary for services to refer to resources in an arbitrary
+API. In this situation, the service **must** use the _full resource path_, a
+schemeless URI with the owning API's service endpoint, followed by the relative
+resource path:
 
 ```
 //apis.example.com/library/publishers/123/books/les-miserables
 //apis.example.com/calendar/users/vhugo1802
 ```
-
-**Note:** The full resource path **should not** be used for cross-API
-references where the owning API is clear; it is only used if a field refers to
-resources in multiple APIs where ambiguity is possible.
 
 ### Resource URIs
 
