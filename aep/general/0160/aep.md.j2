@@ -33,6 +33,21 @@ extensions. An API **must** document any specific functions it supports,
 including any limitations on their usage (for example, if a given function can
 only be used on certain fields and/or with certain API methods).
 
+### Annotation
+
+```
+x-aep-filter:
+  fields: # this field describes the fields that can be operated upon
+  - path
+  - description
+  # these are operations that are supported by the API. They match the
+  # name of the elements in the grammar.
+  # https://github.com/google/cel-spec/blob/master/doc/langdef.md#name-resolution
+  operations:
+  - 'ConditionalOr'
+  - 'ConditionalANd'
+```
+
 ### Limitations
 
 An API **may** support only a subset of the CEL language, and/or to support
