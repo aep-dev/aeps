@@ -38,7 +38,7 @@ guarantees it will change if the resource changes.
 When adding precondition checking to an API, the headers and behaviors **must**
 match
 [preconditions](https://www.rfc-editor.org/rfc/rfc9110.html#name-preconditions)
-as documented in RFC 9110.
+as documented in [RFC 9110][].
 
 ### If-Match / If-None-Match
 
@@ -60,9 +60,9 @@ current ETag. If the `If-Match` header value does not match the ETag, the
 service **must** reply with an HTTP 412 error.
 
 If the user omits the `If-Match` header, the service **should** permit the
-request. However, services with [strong consistency][] or parallelism
-requirements **may** require users to send ETags all the time and reject the
-request with an HTTP 400 error if it does not contain an ETag.
+request. However, services with [strong consistency](./0121#strong-consistency)
+or parallelism requirements **may** require users to send ETags all the time
+and reject the request with an HTTP 400 error if it does not contain an ETag.
 
 If any conditional headers are supported for any operation within a service,
 the same conditional headers **must** be supported for all mutation methods
@@ -100,7 +100,8 @@ ETags can be either "strongly validated" or "weakly validated":
 
 Resources **may** use either strong or weak ETags, as it sees fit, but
 **should** document the behavior. Additionally, weak ETags **must** have a `W/`
-prefix as mandated by [RFC 9110 Etag Comparison][]:
+prefix as mandated by
+[RFC 9110 Etag Comparison](https://www.rfc-editor.org/rfc/rfc9110.html#name-comparison-2).
 
 ```
 200 OK
@@ -112,7 +113,7 @@ ETag: W/"55cc0347-66fc-46c3-a26f-98a9a7d61d0e"
 [`If-match`](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-match), while
 the weak match **must** be used when evaluating the
 [`If-None-Match`](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-none-match)
-as stated in RFC-9110.
+as stated in [RFC-9110][].
 
 Strong ETags **must** and weak ETags **should** be guaranteed to change if any
 properties on the resource change that are directly mutable by the client.
@@ -130,6 +131,3 @@ not equivalent to the old one).
 - **2019-09-23**: Changed the title to "resource freshness validation".
 
 [RFC 9110]: https://www.rfc-editor.org/rfc/rfc9110.html#section-8.8.3
-[RFC 9110 Etags Comparison]:
-  https://www.rfc-editor.org/rfc/rfc9110.html#name-comparison-2
-[strong consistency]: ./0121.md#strong-consistency
