@@ -72,7 +72,8 @@ Specifically, the following files are copied over:
 
 ### Formatting
 
-This repository uses [prettier](https://prettier.io/). Please check the
+This repository uses [prettier](https://prettier.io/) and a bespoke script
+[scripts/fix.py](scripts/fix.py). Please check the
 [lint.yaml](https://github.com/aep-dev/aeps/blob/main/.github/workflows/lint.yaml)
 for the specific file.
 
@@ -81,4 +82,6 @@ Run the following to format the repository:
 ```bash
 # nodejs must be installed.
 npx prettier -w .
+# python3 must be installed
+./scripts/fix.py
 ```

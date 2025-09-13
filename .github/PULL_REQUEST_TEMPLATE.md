@@ -27,6 +27,7 @@ contributing to this repository.
       correctly.
 - [ ] [My code has been formatted](https://aep.dev/contributing#formatting)
       (usually `prettier -w .`)
+- [ ] [I have run `./scripts/fix.py`](https://aep.dev/contributing#formatting)
 
 <!-- uncomment this if PR is for a new AEP
 
