@@ -255,23 +255,6 @@ server-computed value, and **must** fail with an `ABORTED` error otherwise. The
 `update_mask` field in the request does not affect the behavior of the `etag`
 field, as it is not a field _being_ updated.
 
-### Expensive fields
-
-APIs sometimes encounter situations where some fields on a resource are
-expensive or impossible to reliably return.
-
-This can happen in a few situations:
-
-- A resource may have some fields that are very expensive to compute, and that
-  are generally not useful to the customer on update requests.
-- A single resource sometimes represents an amalgamation of data from multiple
-  underlying (and eventually consistent) data sources. In these situations, it
-  may be infeasible to return authoritative information on the fields that were
-  not changed.
-
-In this situation, an API **may** return back only the fields that were updated
-and omit the rest. APIs that do this **must** document this behavior.
-
 ## Interface Definitions
 
 {% tab proto %}
