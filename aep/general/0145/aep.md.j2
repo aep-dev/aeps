@@ -10,18 +10,39 @@ subtle ways depending on the type of range being discussed.
 A resource or message representing a range **should** ordinarily use two
 separate fields of the same type, with prefixes `start_` and `end_`:
 
-```typescript
+{% tab proto %}
+```proto
 // A representation of a chapter in a book.
-interface Chapter {
-  title: string;
+message Chapter {
+  string title = 1;
 
   // The page where this chapter begins.
-  start_page: number;
+  int32 start_page = 2;
 
   // The page where the next chapter or section begins.
-  end_page: number;
+  int32 end_page = 3;
 }
 ```
+{% endtab %}
+
+{% tab oas %}
+```yaml
+# A representation of a chapter in a book.
+Chapter:
+  type: object
+  properties:
+    title:
+      type: string
+    start_page:
+      type: integer
+      format: int32
+      description: The page where this chapter begins.
+    end_page:
+      type: integer
+      format: int32
+      description: The page where the next chapter or section begins.
+```
+{% endtab %}
 
 ### Inclusive or exclusive ranges
 
@@ -53,18 +74,39 @@ closed, on Fridays.
 
 In this situation, the prefixes `first` and `last` **should** be used instead:
 
-```typescript
+{% tab proto %}
+```proto
 // A representation of a chapter in a book.
-interface Chapter {
-  title: string;
+message Chapter {
+  string title = 1;
 
   // The first page of the chapter.
-  first_page: number;
+  int32 first_page = 2;
 
   // The last page of the chapter.
-  last_page: number;
+  int32 last_page = 3;
 }
 ```
+{% endtab %}
+
+{% tab oas %}
+```yaml
+# A representation of a chapter in a book.
+Chapter:
+  type: object
+  properties:
+    title:
+      type: string
+    first_page:
+      type: integer
+      format: int32
+      description: The first page of the chapter.
+    last_page:
+      type: integer
+      format: int32
+      description: The last page of the chapter.
+```
+{% endtab %}
 
 Fields representing ranges with significant colloquial precedent for inclusive
 start and end values **should** use inclusive end values with `first_` and
