@@ -11,6 +11,7 @@ A resource or message representing a range **should** ordinarily use two
 separate fields of the same type, with prefixes `start_` and `end_`:
 
 {% tab proto %}
+
 ```proto
 // A representation of a chapter in a book.
 message Chapter {
@@ -23,9 +24,9 @@ message Chapter {
   int32 end_page = 3;
 }
 ```
-{% endtab %}
 
 {% tab oas %}
+
 ```yaml
 # A representation of a chapter in a book.
 Chapter:
@@ -42,6 +43,7 @@ Chapter:
       format: int32
       description: The page where the next chapter or section begins.
 ```
+
 {% endtab %}
 
 ### Inclusive or exclusive ranges
@@ -75,6 +77,7 @@ closed, on Fridays.
 In this situation, the prefixes `first` and `last` **should** be used instead:
 
 {% tab proto %}
+
 ```proto
 // A representation of a chapter in a book.
 message Chapter {
@@ -87,9 +90,11 @@ message Chapter {
   int32 last_page = 3;
 }
 ```
+
 {% endtab %}
 
 {% tab oas %}
+
 ```yaml
 # A representation of a chapter in a book.
 Chapter:
@@ -106,6 +111,7 @@ Chapter:
       format: int32
       description: The last page of the chapter.
 ```
+
 {% endtab %}
 
 Fields representing ranges with significant colloquial precedent for inclusive
