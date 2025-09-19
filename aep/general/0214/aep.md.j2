@@ -47,7 +47,29 @@ message ExpiringResource {
 }
 ```
 
-{% tab oas %} **Note:** OAS content not yet written.
+{% tab oas %} 
+```yaml
+schema:
+  type: object
+  properties:
+    expire_time:
+      type: string
+      format: date-time
+      description: >
+        Timestamp in UTC of when this resource is considered expired.
+        This is *always* provided on output, regardless of what was sent
+        on input.
+    ttl:
+      type: string
+      format: duration
+      description: The TTL for this resource.
+      readOnly: true
+  oneOf:
+    - required:
+      - expire_time
+    - required:
+      - ttl
+```
 
 {% endtabs %}
 
