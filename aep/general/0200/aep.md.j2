@@ -55,7 +55,27 @@ message DailyMaintenanceWindow {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+```yaml
+DailyMaintenanceWindow:
+  type: object
+  properties:
+    startTime:
+      type: string
+      description: |-
+        Time within the maintenance window to start the maintenance operations.
+        It must use the format "HH MM", where HH : [00-23] and MM : [00-59] GMT.
+        # -- aep.dev/not-precedent: This was designed for consistency with crontab,
+        #     and preceded the AEP standards.
+        #     Ordinarily, this type should be `aep.type.TimeOfDay`. --
+    duration:
+      type: string
+      readOnly: true
+      description: |-
+        Duration of the time window, automatically chosen to be
+        smallest possible in the given scenario.
+        # -- aep.dev/not-precedent: This preceded the AEP standards.
+        #     Ordinarily, this type should be `google.protobuf.Duration`. --
+```
 
 {% endtabs %}
 
@@ -98,7 +118,26 @@ message Author {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+```yaml
+Book:
+  type: object
+  properties:
+    creationTime:
+      type: string
+      format: date-time
+      # -- aep.dev/not-precedent: This field was present before there was a
+      #     standard field.
+      #     Ordinarily, it should be spelled `createTime`. --
+Author:
+  type: object
+  properties:
+    creationTime:
+      type: string
+      format: date-time
+      # -- aep.dev/not-precedent: `Book` had `creationTime` before there was
+      #     a standard field, so we match that here for consistency. Ordinarily,
+      #     this would be spelled `createTime`. --
+```
 
 {% endtabs %}
 
