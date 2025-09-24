@@ -23,7 +23,7 @@ each exception so that historical wisdom is not lost.
 
 If an API violates "**should**" or "**should not**" AEP guidance for any
 reason, there **must** be an internal comment linking to this document using
-its descriptive link ([aep.dev/not-precedent]()) to ensure others do not copy
+its descriptive link ([aep.dev/200]()) to ensure others do not copy
 the violations or cite the errors as precedent of a "previously approved API".
 
 **Important:** APIs **must not** violate guidance specified with "**must**" or
@@ -40,14 +40,14 @@ why it is necessary. For example:
 message DailyMaintenanceWindow {
   // Time within the maintenance window to start the maintenance operations.
   // It must use the format "HH MM", where HH : [00-23] and MM : [00-59] GMT.
-  // (-- aep.dev/not-precedent: This was designed for consistency with crontab,
+  // (-- aep.dev/200: This was designed for consistency with crontab,
   //     and preceded the AEP standards.
   //     Ordinarily, this type should be `aep.type.TimeOfDay`. --)
   string start_time = 2;
 
   // Output only. Duration of the time window, automatically chosen to be
   // smallest possible in the given scenario.
-  // (-- aep.dev/not-precedent: This preceded the AEP standards.
+  // (-- aep.dev/200: This preceded the AEP standards.
   //     Ordinarily, this type should be `google.protobuf.Duration`. --)
   string duration = 3;
 }
@@ -101,7 +101,7 @@ new APIs.
 ```proto
 // ...
 message Book {
-  // (-- aep.dev/not-precedent: This field was present before there was a
+  // (-- aep.dev/200: This field was present before there was a
   //     standard field.
   //     Ordinarily, it should be spelled `create_time`. --)
   google.protobuf.Timestamp creation_time = 1;
@@ -109,7 +109,7 @@ message Book {
 
 // ...
 message Author {
-  // (-- aep.dev/not-precedent: `Book` had `creation_time` before there was
+  // (-- aep.dev/200: `Book` had `creation_time` before there was
   //     a standard field, so we match that here for consistency. Ordinarily,
   //     this would be spelled `create_time`. --)
   google.protobuf.Timestamp creation_time = 1;
