@@ -12,15 +12,10 @@ can be used to track progress and retrieve the result.
 
 ## Guidance
 
-Operations that might take a significant amount of time to complete **should**
-return a `202 Accepted` response along with an `Operation` resource that can be
-used to track the status of the request and ultimately retrieve the result.
+Operations that might take a significant amount of time to complete:
 
-Any single operation defined in an API surface **must** either _always_ return
-`202 Accepted` along with an `Operation`, or _never_ do so. A service **must
-not** return a `200 OK` response with the result if it is "fast enough", and
-`202 Accepted` if it is not fast enough, because such behavior adds significant
-burdens for clients.
+- **should** return an `Operation` resource that can be used to track the status of the request and ultimately retrieve the result.
+- **must** match other AEP guidance that would apply to the method otherwise (such as status code)
 
 **Note:** User expectations can vary on what is considered "a significant
 amount of time" depending on what work is being done. A good rule of thumb is
@@ -75,10 +70,10 @@ but is not obligated to do so:
 
 - Resources that accept multiple parallel requests **may** place them in a
   queue rather than work on the requests simultaneously.
-- Resource that does not permit multiple requests in parallel (denying any new
-  request until the one that is in progress finishes) **must** return
-  `409 Conflict` if a user attempts a parallel request, and include an error
-  message explaining the situation.
+- A resource that does not permit multiple requests in parallel (denying any
+  new request until the one that is in progress finishes) **must** return
+  `ALREADY_EXISTS / 409` if a user attempts a parallel request, and include an
+  error message explaining the situation.
 
 ### Expiration
 
@@ -159,11 +154,11 @@ When using protocol buffers, the common component
 {% endtabs %}
 
 <!-- prettier-ignore-start -->
-[google.rpc.Status]: https://github.com/googleapis/api-common-protos/blob/master/google/rpc/S.proto
-[lro]: https://github.com/aep-dev/aep/blob/main/proto/aep-api/aep/api/operations.proto
+[google.rpc.Status]: https://github.com/googleapis/api-common-protos/blob/main/google/rpc/status.proto
+[lro]: https://github.com/aep-dev/aep-components/blob/main/proto/aep-api/aep/api/operation.proto
 [node.js promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
 [future]: https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Future
-[Operation]: https://github.com/aep-dev/aep/blob/main/schemas/api/operation.md
+[Operation]: https://aep.dev/json-schema/type/operation.json
 [aep.api.Operation]: https://buf.build/aep/api/docs/main:aep.api#aep.api.Operation
 [JSON Schema Operation]: http://aep.dev/json-schema/type/operation.json
 <!-- prettier-ignore-end -->
