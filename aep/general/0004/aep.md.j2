@@ -14,27 +14,8 @@ tools such as Kubernetes or GraphQL interact with APIs from multiple providers.
 ## Guidance
 
 APIs **must** define a resource type for each resource in the API, according to
-the following pattern: `{API Name}/{Type Name}`. The type name:
-
-### API Name
-
-An API name is a string that **must** uniquely identify the API.
-
-In practice, it is difficult to prevent the re-use of the name across different
-APIs. Therefore the API should use something, such as the domain name of the
-primary server hosting the API, as the name.
-
-If a primary server does not exist (for example, a public cloud where every
-domain always includes a regional subdomain), then a similar placeholder that
-can still ensure uniqueness can be used. For example APIs served at
-`{region}.cloud-storage.public-cloud.com` may use
-`cloud-storage.public-cloud.com`.
-
-The API Name:
-
-- **must** only uses valid domain name characters (`[.-a-z0-9]`), as specified
-  in [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.1).
-- **must** use all lower case.
+the following pattern: `{API Name}/{Type Name}`. Also see
+[API Name](/apis#api-name).
 
 ### Type name
 
@@ -45,7 +26,7 @@ The type name:
 
 - **must** Only contain ASCII alphanumeric characters.
 - **must** Start with a lowercase letter.
-- **must** Be of the singular form of the noun.
+- **must** Be of the singular form of the resource.
 - **must** Use kebab case.
 
 ### Examples
@@ -96,6 +77,7 @@ extension:
       "UserEvent": {
         "type": "object",
         "x-aep-resource": {
+          "type": "user.example.com/user-event",
           "singular": "user-event",
           "plural": "user-events",
           "patterns": [
@@ -112,6 +94,7 @@ extension:
 
 {% endtabs %}
 
+- The `type` field **must** be the resource type `{API Name}/{Type Name}`
 - The `singular` field **must** be the kebab-case singular type name.
 - The `plural` field **must** be the kebab-case plural of the singular.
 

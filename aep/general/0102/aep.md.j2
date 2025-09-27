@@ -1,0 +1,56 @@
+# APIs and API terminology
+
+This AEP describes the terms used to describe various parts of an API
+specification in depth.
+
+## Guidance
+
+### API Name
+
+An API name is a string that **must** uniquely identify the API. It serves as a
+namespace where elements of an API are defined, including:
+
+- [resource types][/resource-types]
+- [methods][/standard-methods]
+
+In practice, it is difficult to prevent the re-use of the name across different
+APIs. Therefore the API should use something, such as the domain name of the
+primary server hosting the API and a possible path prefix, as the name.
+
+If a primary server does not exist (for example, a public cloud where every
+domain always includes a regional subdomain), then a similar placeholder that
+can still ensure uniqueness can be used. For example APIs served at
+`{region}.cloud-storage.public-cloud.com` may use
+`cloud-storage.public-cloud.com`.
+
+The API Name:
+
+- **must** only uses valid domain name characters as specified in
+  [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.1), or a
+  backslash `[.-a-z0-9/]`)
+- **must** use all lower case.
+- **should not** use path prefixes that could also be misconstrued as a
+  resource collection (e.g. `apis.examples.com/users`)
+
+### API Name Examples
+
+- `networking.istio.io`
+- `pubsub.example.com`
+- `spanner.example.com/v1`
+- `apis.example.com/user` (valid, but discouraged to possible confusion with a
+  collection name.).
+
+## API Services
+
+An API service is distinct from an API name: A name is a common string that is
+used to define an API agnostic of the address by which it is served, while an
+API service is a live service which exposes an API.
+
+In many cases, the address of an API service and an API name may be identical
+(for example, an api `api.example.com` may expose that same API at
+`api.example.com`).
+
+An API name **must not** be assumed to be an address of an API. Instead, use a
+location where that metadata is stored. For example, OpenAPI provides a
+[server object](https://spec.openapis.org/oas/v3.1.1.html#server-object) for
+this purpose.
