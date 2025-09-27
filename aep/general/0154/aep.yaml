@@ -1,8 +1,10 @@
 ---
 id: 154
 state: approved
-slug: etags
+slug: preconditions
 created: 2019-07-24
 placement:
   category: design-patterns
   order: 30
+redirect_from:
+  - /etags
