@@ -206,54 +206,11 @@ Therefore, given the ability of these two different patch mechanisms to
 interoperate while maintaining idiomatic practices, this divergence was
 concluded to be the least worst option.
 
-### Etags
+### Etags and preconditions
 
-An API may sometimes need to allow users to send update requests which are
-guaranteed to be made against the most current data (a common use case for this
-is to detect and avoid race conditions). Resources which need to enable this do
-so by including a `string etag` field, which contains an opaque,
-server-computed value representing the content of the resource.
-
-In this situation, the resource **should** contain a `string etag` field:
-
-{% tab proto %}
-
-```proto
-message Book {
-  option (google.api.resource) = {
-    type: "library.example.com/Book"
-    pattern: "publishers/{publisher_id}/books/{book_id}"
-  };
-
-  // The resource path of the book.
-  // Format: publishers/{publisher_id}/books/{book_id}
-  string path = 1 [(google.api.field_behavior) = IDENTIFIER];
-
-  // The title of the book.
-  // Example: "Mary Poppins"
-  string title = 2;
-
-  // The author of the book.
-  // Example: "P.L. Travers"
-  string author = 3;
-
-  // The etag for this book.
-  // If this is provided on update, it must match the server's etag.
-  string etag = 4;
-}
-```
-
-{% tab oas %}
-
-{% sample '../example.oas.yaml', '$.components.schemas.publisher' %}
-
-{% endtabs %}
-
-The `etag` field **may** be either [required][] or [optional][]. If it is set,
-then the request **must** succeed if and only if the provided etag matches the
-server-computed value, and **must** fail with an `ABORTED` error otherwise. The
-`update_mask` field in the request does not affect the behavior of the `etag`
-field, as it is not a field _being_ updated.
+See [etags](/etags) for more information about adding headers and metadata such
+as `ETag` and `If-Match` for supporting resource freshness validation and other
+preconditions.
 
 ## Interface Definitions
 
