@@ -1,19 +1,22 @@
 # Preconditions
 
-APIs often need to validate that a client and server agree on the current state
-of a resource before taking some kind of action on that resource. For example,
-two processes updating the same resource in parallel could create a race
+Preconditions refers to the concept of a set of conditions that must be met
+before a particular operation (generally update of a resource) is performed.
+
+For example, APIs often need to validate that a client and server agree on the
+current state of a resource before taking some kind of action on that resource.
+e.g. two processes updating the same resource in parallel could create a race
 condition, where the latter process "stomps over" the effort of the former one.
 
-ETags provide a way to deal with this, by allowing the server to send a
-checksum based on the current content of a resource; when the client sends that
-checksum back, the server can ensure that the checksums match before acting on
-the request.
+`ETags`, `If-Match`, and `If-None-Match` provide a way to deal with this, by
+allowing the server to send a checksum based on the current content of a
+resource; when the client sends that checksum back, the server can ensure that
+the checksums match before acting on the request.
 
 ## Guidance
 
-When adding precondition checking to an API, the headers and behaviors **must**
-match
+When adding precondition checking to an API (`ETag`, `If-Match`, and
+`If-None-Match` headers), the behavior **must** match
 [preconditions](https://www.rfc-editor.org/rfc/rfc9110.html#name-preconditions)
 as documented in [RFC 9110][].
 
