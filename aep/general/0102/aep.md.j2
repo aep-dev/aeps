@@ -44,7 +44,10 @@ The API Name:
 
 An API service is distinct from an API name: A name is a common string that is
 used to define an API agnostic of the address by which it is served, while an
-API service is a live service which exposes an API.
+API service is a live service which exposes an API. For example, a staging and
+production environment (`staging.service.com`), or different regions
+(`us-west.service.com`) may have different API services, but will share the
+same API.
 
 In many cases, the address of an API service and an API name may be identical
 (for example, an api `api.example.com` may expose that same API at
