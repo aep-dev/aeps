@@ -20,7 +20,7 @@ When adding precondition checking to an API (`ETag`, `If-Match`, and
 [preconditions](https://www.rfc-editor.org/rfc/rfc9110.html#name-preconditions)
 as documented in [RFC 9110][].
 
-If a server recieves a conditional header it does not support, the service
+If a server receives a conditional header it does not support, the service
 **should** return an `INAVLID_ARGUMENT / 400` response. A server **should**
 support all preconditions, or none of the them.
 
