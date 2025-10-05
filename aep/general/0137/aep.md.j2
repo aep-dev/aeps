@@ -18,6 +18,11 @@ valuable for users to do so. Clients should also consider using
 [update](/update) methods instead to ensure forwards compatible requests (see
 [PATCH and PUT](#patch-and-put)).
 
+### Behavior
+
+- If a field in the request is not present, the service **must** not modify
+  this field.
+
 ### Operation
 
 Apply methods are specified using the following pattern:
@@ -107,14 +112,24 @@ Apply methods implement a common request message pattern:
 
 ### Errors
 
-See [errors](/errors), in particular
+If an resource does not have a field set which is labeled with required (either
+the protobuf [field behavior](/0203#required) or present in the JsonSchema
+`required` field), the request **must** fail with
+``INVALID_ARGUMENT / 400 Bad Request`.
+
+For additional guidance, see [errors](/errors), in particular
 [when to use PERMISSION_DENIED and NOT_FOUND errors](/errors#permission-denied).
 
 ### PATCH and PUT
 
-Note that `PUT` requests with fields missing in the resource may result in
-overwriting values in the resource with existing values. For that reason,
-AEP-compliant APIs generally use the `PATCH` HTTP verb.
+`PUT` requests with fields missing in the resource may result in overwriting
+values in the resource with existing values. Specifically in protobuf, the
+fields that do not have the `optional` annotation will use their default zero
+value, overwriting any previous value. This gap does not exist in an
+[update](/0134), where the `field_mask` field helps clarify which fields to
+overwrite.
+
+As such AEP-compliant clients **should** use the `PATCH` HTTP verb.
 
 See [AEP-134's patch and put](/134#patch-and-put) for more information.
 
