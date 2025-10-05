@@ -8,8 +8,15 @@ the canonical identifier for the resources.
 
 ## Guidance
 
-All resource paths defined by an API **must** be unique within that API. (See
-the section on [full resource paths](#full-resource-paths) below for more
+### Resource Path
+
+A resource path refers to the the identifier for a specific resource, unique
+within an API.
+
+- A resource path **must** be unique with an API, referring to a single
+  resource.
+
+See the section on [full resource paths](#full-resource-paths) below for more
 information on referring to resources across APIs.)
 
 Resource paths are formatted according to the [URI path schema][], but without
@@ -55,11 +62,26 @@ users/vhugo1802
 single API (or else in situations where the owning API is clear from the
 context), and are only required to be unique within that scope. For this
 reason, they are sometimes called _relative resource paths_ to distinguish them
-from _full resource paths_ (discussed below).
+from _full resource paths_ (discussed below). Any official documentation
+**should not** use the term _relative resource path_, and **should** use the
+term _resource path_ instead.
 
 [aep-210]: ./0210.md
 [uri path schema]: https://datatracker.ietf.org/doc/html/rfc3986#appendix-A
 [singleton resources]: https://aep.dev/singletons
+
+### Full resource paths
+
+In most cases, resource paths are used within a single API only. However,
+sometimes it is necessary for services to refer to resources in an arbitrary
+API. In this situation, the service **must** use the _full resource path_, a
+schemeless URI with the owning API's service endpoint, followed by the relative
+resource path:
+
+```
+//apis.example.com/library/publishers/123/books/les-miserables
+//apis.example.com/calendar/users/vhugo1802
+```
 
 ### Collection identifiers
 
@@ -144,19 +166,6 @@ information for the authenticated user.
 
 APIs **may** provide programmatic aliases for common lookup patterns. However,
 all data returned from the API **must** use the canonical resource path.
-
-### Full resource paths
-
-In most cases, resource paths are used within a single API only. However,
-sometimes it is necessary for services to refer to resources in an arbitrary
-API. In this situation, the service **must** use the _full resource path_, a
-schemeless URI with the owning API's service endpoint, followed by the relative
-resource path:
-
-```
-//apis.example.com/library/publishers/123/books/les-miserables
-//apis.example.com/calendar/users/vhugo1802
-```
 
 ### Resource URIs
 
@@ -276,15 +285,20 @@ other use cases, use a synonymous term if possible.
 
 ### Fields representing another resource
 
-When referencing a resource path for a different resource, the field **should**
-be of type `string` for the resource path, and the field name **should** be
-equivalent to the corresponding message's name in snake case.
+When referencing a resource path for a different resource:
 
+- The field **must** be of type `string`.
+- The value of the field **must** be one of:
+  - the full resource path.
+  - the resource path, only if the referenced resource is also local to the API
+    of the current resource.
+- The field name **should** be equivalent to the corresponding message's name
+  in snake case.
 - Field names **may** include a leading adjective if appropriate (such as
   `string dusty_book`).
 - Field names **should not** use the `_path` suffix unless the field would be
   ambiguous without it (e.g., `crypto_key_path`)
-- Fields representing another resource **should** provide the
+- In protobuf, fields representing another resource **should** provide the
   `google.api.resource_reference` annotation with the resource type being
   referenced.
 
@@ -310,11 +324,10 @@ string shelf = 2 [(google.api.resource_reference) = {
 }
 ```
 
-**Note:** When referring to other resources in this way, we use the resource
-path as the value, not just the ID component. Services **should** use the
-resource path to reference resources when possible. If using the ID component
-alone is strictly necessary, the field **should** use an `_id` suffix (e.g.
-`shelf_id`).
+**Note:** When referring to other resources in this way, APIs **should** use
+the resource path to reference resources when possible. If using the ID
+component alone is strictly necessary, the field **should** use an `_id` suffix
+(e.g. `shelf_id`).
 
 ## Further reading
 
