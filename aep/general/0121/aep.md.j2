@@ -1,6 +1,6 @@
 # Resource-oriented design
 
-Resource-oriented design is a pattern for specifying [RPC][] APIs, based on the
+Resource-oriented design is a pattern for specifying APIs, based on the
 following high-level design principles:
 
 - The fundamental building blocks of an API are individually-named _resources_
@@ -8,10 +8,6 @@ following high-level design principles:
 - A small number of standard _methods_ (verbs) provide the semantics for most
   common operations. However, custom methods are available in situations where
   the standard methods do not fit.
-
-Readers might notice similarities between these principles and some principles
-of [REST][]; resource-oriented design borrows many principles from REST, while
-also defining its own patterns where appropriate.
 
 ## Guidance
 
@@ -150,7 +146,6 @@ turn do not increase resource management complexity.
 [output only]: ./0203#output-only
 [rest]: https://en.wikipedia.org/wiki/Representational_state_transfer
 [resource references]: ./0122#fields-representing-another-resource
-[rpc]: https://en.wikipedia.org/wiki/Remote_procedure_call
 [singleton resources]: ./0156
 [soft delete]: ./0164
 [state]: ./0216
