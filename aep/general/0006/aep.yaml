@@ -1,0 +1,12 @@
+---
+id: 6
+state: approved
+created: 2025-10-11
+slug: governance
+placement:
+  category: meta
+  order: 20
+js_scripts:
+  - /assets/js/graphviz/viz.js
+  - /assets/js/graphviz/lite.render.js
+  - /assets/js/aep/aep-graphviz.js
