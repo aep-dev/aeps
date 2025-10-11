@@ -150,7 +150,7 @@ message ListConfigsRequest {
   // Note: Specifying an actual user id will return a collection of one config.
   // Use GetConfig instead.
   string parent = 1 [
-    (google.api.resource_reference).child_type = "api.example.com/Config"];
+    (aep.api.field_info) = { resource_reference: [ "api.example.com/config" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
 
   // other standard pagination fields...
 }

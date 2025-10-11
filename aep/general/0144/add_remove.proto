@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "aep/api/field_info.proto";
 import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
@@ -26,8 +27,7 @@ service Library {
 message AddAuthorRequest {
   // The name of the book to add an author to.
   string book = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference).type = "library.googleapis.com/Book"
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
   ];
 
   // The author to be added.
@@ -38,8 +38,7 @@ message AddAuthorRequest {
 message RemoveAuthorRequest {
   // The name of the book to remove an author from.
   string book = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference).type = "library.googleapis.com/Book"
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
   ];
 
   // The author to be removed.

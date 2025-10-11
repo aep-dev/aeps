@@ -55,18 +55,15 @@ message BatchGetBooksRequest {
   // If this is set, the parent of all of the books specified in `paths`
   // must match this field.
   string parent = 1 [
-    (google.api.resource_reference) = {
-      child_type: "library.com/Book"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.com/book" ], field_behavior: [ FIELD_BEHAVIOR_OPTIONAL ] }
+  ];
 
   // The paths of the books to retrieve.
   // A maximum of 1000 books can be retrieved in a batch.
   // Format: publishers/{publisher_id}/books/{book_id}
   repeated string paths = 2 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.com/Book"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 }
 ```
 

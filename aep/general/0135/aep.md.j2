@@ -134,10 +134,8 @@ message DeletePublisherRequest {
   // The path of the publisher to delete.
   // Format: publishers/{publisher_id}
   string path = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.example.com/Publisher"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.example.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 
   // If set to true, any books from this publisher will also be deleted.
   // (Otherwise, the request will only work if the publisher has no books.)

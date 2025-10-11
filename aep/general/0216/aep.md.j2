@@ -111,10 +111,8 @@ message PublishBookRequest {
   // The path of the book to publish.
   // Format: publishers/{publisher_id}/books/{book_id}
   string path = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.example.com/Book"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.example.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 }
 ```
 

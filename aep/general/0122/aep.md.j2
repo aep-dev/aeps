@@ -214,8 +214,7 @@ When defining a method that retrieves or acts on an already-existing resource
 (such as `GetBook` or `ArchiveBook`), the first field of the request message
 **should** be the resource path, which **must** be of type `string` and
 **must** be called `path` for the resource path. The field **should** also be
-annotated with the `google.api.resource_reference` annotation, referencing the
-resource type (AEP-4).
+annotated with `api.api.field_info`, referencing the resource type (AEP-4).
 
 ```proto
 // Request message for ArchiveBook
@@ -223,10 +222,8 @@ message ArchiveBookRequest {
 // The book to archive.
 // Format: publishers/{publisher_id}/books/{book_id}
 string path = 1 [
-  (google.api.field_behavior) = REQUIRED,
-  (google.api.resource_reference) = {
-    type: "apis.example.com/library/Book"
-  }];
+  (aep.api.field_info) = { resource_reference: [ "apis.example.com/library/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+];
 
 // Other fields...
 }
@@ -242,25 +239,23 @@ When defining a method that retrieves resources from a collection or adds a new
 resource to a collection (such as `ListBooks` or `CreateBook`), the first field
 of the request message **should** be of type `string` and **should** be called
 `parent` for the resource path of the collection. The `parent` field **should**
-also be annotated with the `google.api.resource_reference` annotation,
-referencing the parent's resource type (AEP-4).
+also be annotated with `api.api.field_info`, referencing the parent's resource
+type (AEP-4).
 
 ```proto
 // Request message for ListBooks.
 message ListBooksRequest {
 // The publisher to list books from.
 // Format: publishers/{publisher_id}
-string parent = 1 [(google.api.resource_reference) = {
-  type: "apis.example.com/library/Publisher"
-}];
+string parent = 1 [(aep.api.field_info) = { resource_reference: [ "apis.example.com/library/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
 
 // Other fields (e.g. max_page_size, page_token, filter, etc.)...
 }
 ```
 
 If there is more than one possible parent type, the `parent` field **should**
-be annotated with the `child_type` key on `google.api.resource_reference`
-instead:
+be annotated with multiple `resource_reference` types using
+`aep.api.field_info`:
 
 ```proto
 // Request message for ListBooks.
@@ -270,10 +265,8 @@ message ListBooksRequest {
 //   - publishers/{publisher_id}
 //   - authors/{author_id}
 string parent = 1 [
-  (google.api.field_behavior) = REQUIRED,
-  (google.api.resource_reference) = {
-    child_type: "apis.example.com/library/Book"
-  }];
+  (aep.api.field_info) = { resource_reference: [ "apis.example.com/library/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+];
 
 // Other fields (e.g. max_page_size, page_token, filter, etc.)...
 }
@@ -298,8 +291,7 @@ When referencing a resource path for a different resource:
 - Field names **should not** use the `_path` suffix unless the field would be
   ambiguous without it (e.g., `crypto_key_path`)
 - In protobuf, fields representing another resource **should** provide the
-  `google.api.resource_reference` annotation with the resource type being
-  referenced.
+  `aep.api.field_info` annotation with the resource type being referenced.
 
 ```proto
 // A representation of a book in a library.
@@ -315,9 +307,7 @@ string path = 1;
 
 // The shelf where the book currently sits.
 // Format is `shelves/{shelf}`.
-string shelf = 2 [(google.api.resource_reference) = {
-  type: "apis.example.com/library/Shelf"
-}];
+string shelf = 2 [(aep.api.field_info) = { resource_reference: [ "apis.example.com/library/shelf" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
 
 // Other fields...
 }

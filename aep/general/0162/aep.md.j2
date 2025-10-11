@@ -157,10 +157,8 @@ rpc AliasBookRevision(AliasBookRevisionRequest) returns (Book) {
 
 message AliasBookRevisionRequest {
   string path = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.googleapis.com/BookRevision"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/bookrevision" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 
   // The ID of the revision to alias to, e.g. `CURRENT` or a semantic
   // version.
@@ -257,10 +255,8 @@ rpc RollbackBook(RollbackBookRequest) returns (BookRevision) {
 message RollbackBookRequest {
   // The revision that the book should be rolled back to.
   string path = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.googleapis.com/BookRevision"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/bookrevision" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 }
 ```
 

@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "aep/api/field_info.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 
@@ -12,12 +13,10 @@ message BookAuthor {
   };
 
   // The resource path for the book-author association.
-  string path = 1 [(google.api.field_behavior) = IDENTIFIER];
+  string path = 1;
 
   // The resource path for the author.
-  string author = 2 [(google.api.resource_reference) = {
-    type: "library.googleapis.com/Author"
-  }];
+  string author = 2 [(aep.api.field_info) = { resource_reference: [ "library.googleapis.com/author" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
 
   // Other fields...
 }

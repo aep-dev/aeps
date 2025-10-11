@@ -18,7 +18,7 @@ message Book {
     pattern: "publishers/{publisher_id}/books/{book_id}"
   };
 
-  string path = 1 [(google.api.field_behavior) = IDENTIFIER];
+  string path = 1;
 
   repeated string authors = 2;
 }

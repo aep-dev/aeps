@@ -3,6 +3,8 @@ syntax = "proto3";
 // this file is generated.
 package example.bookstore.v1;
 
+import "aep/api/field_info.proto";
+
 import "aep/api/operation.proto";
 
 import "google/api/annotations.proto";
@@ -280,16 +282,28 @@ message Book {
   }
 
   // Field for isbn.
-  repeated string isbn = 1 [(google.api.field_behavior) = REQUIRED];
+  repeated string isbn = 1 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for price.
-  int32 price = 2 [(google.api.field_behavior) = REQUIRED];
+  int32 price = 2 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for published.
-  bool published = 3 [(google.api.field_behavior) = REQUIRED];
+  bool published = 3 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for edition.
-  int32 edition = 4 [(google.api.field_behavior) = REQUIRED];
+  int32 edition = 4 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for author.
   repeated Author author = 5;
@@ -312,6 +326,7 @@ message BookEdition {
   // Field for display_name.
   string display_name = 1 [
     json_name = "display_name",
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
     (google.api.field_behavior) = REQUIRED
   ];
 
@@ -345,10 +360,16 @@ message Item {
   string book = 1;
 
   // Field for condition.
-  string condition = 2 [(google.api.field_behavior) = REQUIRED];
+  string condition = 2 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for price.
-  double price = 3 [(google.api.field_behavior) = REQUIRED];
+  double price = 3 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for path.
   string path = 10018;
@@ -380,7 +401,10 @@ message Store {
   };
 
   // Field for name.
-  string name = 1 [(google.api.field_behavior) = REQUIRED];
+  string name = 1 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // Field for description.
   string description = 2;
@@ -393,23 +417,26 @@ message Store {
 message CreateBookRequest {
   // A field for the parent of book
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // An id that uniquely identifies the resource within the collection
   string id = 10014;
 
   // The resource to perform the operation on.
-  Book book = 10015 [(google.api.field_behavior) = REQUIRED];
+  Book book = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // Request message for the Getbook method
 message GetBookRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -417,12 +444,15 @@ message GetBookRequest {
 message UpdateBookRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The resource to perform the operation on.
-  Book book = 10015 [(google.api.field_behavior) = REQUIRED];
+  Book book = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // The update mask for the resource
   google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
@@ -432,20 +462,23 @@ message UpdateBookRequest {
 message DeleteBookRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // If true, the resource will be deleted, even if children still exist.
-  bool force = 10020 [(google.api.field_behavior) = OPTIONAL];
+  bool force = 10020 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_OPTIONAL ] },
+    (google.api.field_behavior) = OPTIONAL
+  ];
 }
 
 // Request message for the Listbook method
 message ListBooksRequest {
   // A field for the parent of book
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The page token indicating the starting point of the page
@@ -471,12 +504,15 @@ message ListBooksResponse {
 message ApplyBookRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The resource to perform the operation on.
-  Book book = 10015 [(google.api.field_behavior) = REQUIRED];
+  Book book = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // Response message for the archive method
@@ -487,8 +523,8 @@ message ArchiveBookResponse {
 message ArchiveBookRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -496,8 +532,8 @@ message ArchiveBookRequest {
 message CreateBookEditionRequest {
   // A field for the parent of book-edition
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // An id that uniquely identifies the resource within the collection
@@ -506,6 +542,7 @@ message CreateBookEditionRequest {
   // The resource to perform the operation on.
   BookEdition book_edition = 10015 [
     json_name = "book_edition",
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
     (google.api.field_behavior) = REQUIRED
   ];
 }
@@ -514,8 +551,8 @@ message CreateBookEditionRequest {
 message GetBookEditionRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book-edition" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book-edition" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -523,8 +560,8 @@ message GetBookEditionRequest {
 message DeleteBookEditionRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/book-edition" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/book-edition" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -532,8 +569,8 @@ message DeleteBookEditionRequest {
 message ListBookEditionsRequest {
   // A field for the parent of book-edition
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The page token indicating the starting point of the page
@@ -556,23 +593,26 @@ message ListBookEditionsResponse {
 message CreateIsbnRequest {
   // A field for the parent of isbn
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // An id that uniquely identifies the resource within the collection
   string id = 10014;
 
   // The resource to perform the operation on.
-  Isbn isbn = 10015 [(google.api.field_behavior) = REQUIRED];
+  Isbn isbn = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // Request message for the Getisbn method
 message GetIsbnRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/isbn" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/isbn" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -580,8 +620,8 @@ message GetIsbnRequest {
 message ListIsbnsRequest {
   // A field for the parent of isbn
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The page token indicating the starting point of the page
@@ -604,23 +644,26 @@ message ListIsbnsResponse {
 message CreateItemRequest {
   // A field for the parent of item
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // An id that uniquely identifies the resource within the collection
   string id = 10014;
 
   // The resource to perform the operation on.
-  Item item = 10015 [(google.api.field_behavior) = REQUIRED];
+  Item item = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // Request message for the Getitem method
 message GetItemRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/item" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -628,12 +671,15 @@ message GetItemRequest {
 message UpdateItemRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/item" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The resource to perform the operation on.
-  Item item = 10015 [(google.api.field_behavior) = REQUIRED];
+  Item item = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // The update mask for the resource
   google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
@@ -643,8 +689,8 @@ message UpdateItemRequest {
 message DeleteItemRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/item" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -652,8 +698,8 @@ message DeleteItemRequest {
 message ListItemsRequest {
   // A field for the parent of item
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The page token indicating the starting point of the page
@@ -685,8 +731,8 @@ message MoveItemRequest {
 
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/item" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/item" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -694,23 +740,26 @@ message MoveItemRequest {
 message CreatePublisherRequest {
   // A field for the parent of publisher
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // An id that uniquely identifies the resource within the collection
   string id = 10014;
 
   // The resource to perform the operation on.
-  Publisher publisher = 10015 [(google.api.field_behavior) = REQUIRED];
+  Publisher publisher = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // Request message for the Getpublisher method
 message GetPublisherRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -718,12 +767,15 @@ message GetPublisherRequest {
 message UpdatePublisherRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The resource to perform the operation on.
-  Publisher publisher = 10015 [(google.api.field_behavior) = REQUIRED];
+  Publisher publisher = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // The update mask for the resource
   google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
@@ -733,20 +785,23 @@ message UpdatePublisherRequest {
 message DeletePublisherRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // If true, the resource will be deleted, even if children still exist.
-  bool force = 10020 [(google.api.field_behavior) = OPTIONAL];
+  bool force = 10020 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_OPTIONAL ] },
+    (google.api.field_behavior) = OPTIONAL
+  ];
 }
 
 // Request message for the Listpublisher method
 message ListPublishersRequest {
   // A field for the parent of publisher
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The page token indicating the starting point of the page
@@ -775,35 +830,41 @@ message ListPublishersResponse {
 message ApplyPublisherRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/publisher" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The resource to perform the operation on.
-  Publisher publisher = 10015 [(google.api.field_behavior) = REQUIRED];
+  Publisher publisher = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // A Create request for a  store resource.
 message CreateStoreRequest {
   // A field for the parent of store
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // An id that uniquely identifies the resource within the collection
   string id = 10014;
 
   // The resource to perform the operation on.
-  Store store = 10015 [(google.api.field_behavior) = REQUIRED];
+  Store store = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // Request message for the Getstore method
 message GetStoreRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/store" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/store" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 }
 
@@ -811,12 +872,15 @@ message GetStoreRequest {
 message UpdateStoreRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/store" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/store" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The resource to perform the operation on.
-  Store store = 10015 [(google.api.field_behavior) = REQUIRED];
+  Store store = 10015 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
+  ];
 
   // The update mask for the resource
   google.protobuf.FieldMask update_mask = 10012 [json_name = "update_mask"];
@@ -826,20 +890,23 @@ message UpdateStoreRequest {
 message DeleteStoreRequest {
   // The globally unique identifier for the resource
   string path = 10018 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { type: "bookstore.example.com/store" }
+    (aep.api.field_info) = { resource_reference: [ "bookstore.example.com/store" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // If true, the resource will be deleted, even if children still exist.
-  bool force = 10020 [(google.api.field_behavior) = OPTIONAL];
+  bool force = 10020 [
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_OPTIONAL ] },
+    (google.api.field_behavior) = OPTIONAL
+  ];
 }
 
 // Request message for the Liststore method
 message ListStoresRequest {
   // A field for the parent of store
   string parent = 10013 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = { }
+    (aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] },
+    (google.api.field_behavior) = REQUIRED
   ];
 
   // The page token indicating the starting point of the page

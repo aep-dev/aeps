@@ -14,6 +14,7 @@
 
 syntax = "proto3";
 
+import "aep/api/field_info.proto";
 import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
@@ -41,10 +42,8 @@ service Library {
 message ArchiveBookRequest {
   // The path of the book to retrieve.
   string path = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.googleapis.com/Book"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 
   // The target format for the archived book.
   // Must be "application/pdf", "application/rtf", or "application/epub+zip"
@@ -61,10 +60,8 @@ message ArchiveBookResponse {
 message SortBooksRequest {
   // The path of the publisher to sort books for.
   string parent = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.googleapis.com/Publisher"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 
   // The property of the book to sort by.
   // If not provided, "title" is used.

@@ -14,6 +14,7 @@
 
 syntax = "proto3";
 
+import "aep/api/field_info.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
@@ -35,10 +36,8 @@ message UndeleteBookRequest {
   // The name of the book to undelete.
   // The book must exist and currently be deleted (but not expunged).
   string name = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      type: "library.googleapis.com/Book"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 }
 
 // A representation of a single book.

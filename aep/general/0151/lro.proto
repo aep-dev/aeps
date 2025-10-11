@@ -14,9 +14,9 @@
 
 syntax = "proto3";
 
+import "aep/api/field_info.proto";
 import "aep/api/operations.proto";
 import "google/api/annotations.proto";
-import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
 
 service Library {
@@ -37,9 +37,7 @@ service Library {
 // Unlike the response, this message is accepted directly.
 message WriteBookRequest {
   // The publisher for which the book is to be written.
-  string parent = 1 [(google.api.resource_reference) = {
-    child_type: "library.googleapis.com/Book"
-  }];
+  string parent = 1 [(aep.api.field_info) = { resource_reference: [ "library.googleapis.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
 
   // The title of the new book.
   string title = 2;

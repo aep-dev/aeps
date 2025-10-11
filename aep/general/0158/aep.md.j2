@@ -20,10 +20,8 @@ message ListBooksRequest {
   // The parent, which owns this collection of books.
   // Format: publishers/{publisher_id}
   string parent = 1 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.resource_reference) = {
-      child_type: "library.googleapis.com/Book"
-    }];
+    (aep.api.field_info) = { resource_reference: [ "library.googleapis.com/book" ], field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }
+  ];
 
   // The maximum number of books to return. The service may return fewer than
   // this value.
