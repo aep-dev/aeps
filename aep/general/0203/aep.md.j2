@@ -7,20 +7,23 @@ behavior (for example, to optimize client library signatures).
 
 ## Guidance
 
-APIs use the `aep.api.field_behavior` annotation to describe well-understood
-field behavior, such as a field being required or immutable.
+APIs use the `aep.api.field_info` annotation to describe well-understood field
+behavior, such as a field being required or immutable.
 
 ```proto
 // The audio data to be recognized.
-RecognitionAudio audio = 2 [(aep.api.field_behavior) = REQUIRED];
+RecognitionAudio audio = 2 [(aep.api.field_info) = {
+  field_behavior: [FIELD_BEHAVIOR_REQUIRED]
+}];
 ```
 
-- APIs **must** apply the `aep.api.field_behavior` annotation on every field on
-  a message or sub-message used in a request.
-- The annotation **must** include any google.api.FieldBehavior values that
+- APIs **must** apply the `aep.api.field_info` annotation on every field on a
+  message or sub-message used in a request.
+- The annotation **must** include any aep.api.FieldBehavior values that
   accurately describe the behavior of the field.
   - `FIELD_BEHAVIOR_UNSPECIFIED` **must not** be used.
-- APIs **must** at minimum use one of `REQUIRED`, `OPTIONAL`, or `OUTPUT_ONLY`.
+- APIs **must** at minimum use one of `FIELD_BEHAVIOR_REQUIRED`,
+  `FIELD_BEHAVIOR_OPTIONAL`, or `FIELD_BEHAVIOR_OUTPUT_ONLY`.
 
 **Warning:** Although `field_behavior` does not impact proto-level behavior,
 many clients (e.g. CLIs and SDKs) rely on them to generate code. Thoroughly
@@ -32,19 +35,24 @@ document this behavior for clients.
 
 ### field behavior of nested messages
 
-`aep.api.field_behavior` annotations on a nested message are independent of the
+`aep.api.field_info` annotations on a nested message are independent of the
 annotations of the parent.
 
-For example, a nested message can have a field behavior of `REQUIRED` while the
-parent field can be `OPTIONAL`:
+For example, a nested message can have a field behavior of
+`FIELD_BEHAVIOR_REQUIRED` while the parent field can be
+`FIELD_BEHAVIOR_OPTIONAL`:
 
 ```proto
 message Title {
-  string text = 1 [(aep.api.field_behavior) = REQUIRED];
+  string text = 1 [(aep.api.field_info) = {
+    field_behavior: [FIELD_BEHAVIOR_REQUIRED]
+  }];
 }
 
 message Slide {
-  Title title = 1 [(aep.api.field_behavior) = OPTIONAL];
+  Title title = 1 [(aep.api.field_info) = {
+    field_behavior: [FIELD_BEHAVIOR_OPTIONAL]
+  }];
 }
 ```
 
@@ -54,9 +62,9 @@ In the case above, if a `title` is specified, the `text` field is required.
 
 ### Immutable
 
-The use of `IMMUTABLE` indicates that a field on a resource cannot be changed
-after it's creation. This can apply to either fields that are input or outputs,
-required or optional.
+The use of `FIELD_BEHAVIOR_IMMUTABLE` indicates that a field on a resource
+cannot be changed after it's creation. This can apply to either fields that are
+input or outputs, required or optional.
 
 When a service receives an immutable field in an update request (or similar),
 even if included in the update mask, the service **should** ignore the field if
@@ -73,8 +81,8 @@ immutable annotation.
 
 ### Input only
 
-The use of `INPUT_ONLY` indicates that the field is provided in requests and
-that the corresponding field will not be included in output.
+The use of `FIELD_BEHAVIOR_INPUT_ONLY` indicates that the field is provided in
+requests and that the corresponding field will not be included in output.
 
 Additionally, a field **should** only be described as input only if it is a
 field in a resource message or a field of a message included within a resource
@@ -91,7 +99,7 @@ before use.
 
 ### Optional
 
-The use of `OPTIONAL` indicates that a field is not required.
+The use of `FIELD_BEHAVIOR_OPTIONAL` indicates that a field is not required.
 
 A field **may** be described as optional if it is a field on a request message
 (a message that is an argument to an RPC, usually ending in `Request`), or a
@@ -99,12 +107,12 @@ field on a submessage.
 
 ### Output only
 
-The use of `OUTPUT_ONLY` indicates that the field is provided in responses, but
-that including the field in a message in a request does nothing (the server
-**must** clear out any value in this field and **must not** throw an error as a
-result of the presence of a value in this field on input). Similarly, services
-**must** ignore the presence of output only fields in update field masks (see:
-AEP-161).
+The use of `FIELD_BEHAVIOR_OUTPUT_ONLY` indicates that the field is provided in
+responses, but that including the field in a message in a request does nothing
+(the server **must** clear out any value in this field and **must not** throw
+an error as a result of the presence of a value in this field on input).
+Similarly, services **must** ignore the presence of output only fields in
+update field masks (see: AEP-161).
 
 Additionally, a field **should** only be described as output only if it is a
 field in a resource message, or a field of a message farther down the tree.
@@ -123,8 +131,8 @@ are:
 
 ### Required
 
-The use of `REQUIRED` indicates that the field **must** be present (and set to
-a non-empty value) on the request.
+The use of `FIELD_BEHAVIOR_REQUIRED` indicates that the field **must** be
+present (and set to a non-empty value) on the request.
 
 A field **should** only be described as required if _either_:
 
@@ -153,8 +161,9 @@ error. A corollary to this is that a required boolean must be set to `true`.
 
 ### Unordered List
 
-The use of `UNORDERED_LIST` on a repeated field of a resource indicates that
-the service does not guarantee the order of the items in the list.
+The use of `FIELD_BEHAVIOR_UNORDERED_LIST` on a repeated field of a resource
+indicates that the service does not guarantee the order of the items in the
+list.
 
 A field **should** be described as an unordered list if the service does not
 guarantee that the order of the elements in the list will match the order that
@@ -163,30 +172,34 @@ the user's behalf.
 
 ## Backwards compatibility
 
-Adding or changing `aep.api.field_behavior` values can represent a semantic
-change in the API that is perceived as incompatible for existing clients. The
+Adding or changing `aep.api.field_info` values can represent a semantic change
+in the API that is perceived as incompatible for existing clients. The
 following are examples of backwards incompatible changes with
-`aep.api.field_behavior`:
+`aep.api.field_info`:
 
-- Adding `REQUIRED` to an existing field previously considered `OPTIONAL`
-  (implicitly or otherwise)
-- Adding a new field annotated as `REQUIRED` to an existing request message
-- Adding `OUTPUT_ONLY` to an existing field previously accepted as input
-- Adding `INPUT_ONLY` to an existing field previously emitted as output
-- Adding `IMMUTABLE` to an existing field previously considered mutable
-- Removing `OUTPUT_ONLY` from an existing field previously ignored as input
-- Removing `IDENTIFIER` from an existing field.
+- Adding `FIELD_BEHAVIOR_REQUIRED` to an existing field previously considered
+  `FIELD_BEHAVIOR_OPTIONAL` (implicitly or otherwise)
+- Adding a new field annotated as `FIELD_BEHAVIOR_REQUIRED` to an existing
+  request message
+- Adding `FIELD_BEHAVIOR_OUTPUT_ONLY` to an existing field previously accepted
+  as input
+- Adding `FIELD_BEHAVIOR_INPUT_ONLY` to an existing field previously emitted as
+  output
+- Adding `FIELD_BEHAVIOR_IMMUTABLE` to an existing field previously considered
+  mutable
+- Removing `FIELD_BEHAVIOR_OUTPUT_ONLY` from an existing field previously
+  ignored as input
 
 There are some changes that _are_ backwards compatible, which are as follows:
 
-- Adding `OPTIONAL` to an existing field
-- Adding `IDENTIFIER` to an existing `path` field
-- Changing from `REQUIRED` to `OPTIONAL` on an existing field
-- Changing from `OUTPUT_ONLY` and/or `IMMUTABLE` to `IDENTIFIER` on an existing
-  field
-- Removing `REQUIRED` from an existing field
-- Removing `INPUT_ONLY` from an existing field previously excluded in responses
-- Removing `IMMUTABLE` from an existing field previously considered immutable
+- Adding `FIELD_BEHAVIOR_OPTIONAL` to an existing field
+- Changing from `FIELD_BEHAVIOR_REQUIRED` to `FIELD_BEHAVIOR_OPTIONAL` on an
+  existing field
+- Removing `FIELD_BEHAVIOR_REQUIRED` from an existing field
+- Removing `FIELD_BEHAVIOR_INPUT_ONLY` from an existing field previously
+  excluded in responses
+- Removing `FIELD_BEHAVIOR_IMMUTABLE` from an existing field previously
+  considered immutable
 
 ## Rationale
 
@@ -194,12 +207,14 @@ There are some changes that _are_ backwards compatible, which are as follows:
 
 A field used in a request message must be either an input or an output.
 
-In the case of an output, the `OUTPUT_ONLY` annotation is sufficient.
+In the case of an output, the `FIELD_BEHAVIOR_OUTPUT_ONLY` annotation is
+sufficient.
 
 In the case of an input, a field is either required or optional, and therefore
-should have at least the `REQUIRED` or `OPTIONAL` annotation, respectively.
-Only providing `INPUT_ONLY` does not convey the necessity of the field, so
-specifying either `REQUIRED` or `OPTIONAL` is still necessary.
+should have at least the `FIELD_BEHAVIOR_REQUIRED` or `FIELD_BEHAVIOR_OPTIONAL`
+annotation, respectively. Only providing `FIELD_BEHAVIOR_INPUT_ONLY` does not
+convey the necessity of the field, so specifying either
+`FIELD_BEHAVIOR_REQUIRED` or `FIELD_BEHAVIOR_OPTIONAL` is still necessary.
 
 ### Requiring field behavior
 
@@ -224,3 +239,5 @@ compatibility guidance.
 
 - **2024-04-17**: Added initial guidance.
 - **2025-09-06**: Removal of the `IDENTIFIER` field.
+- **2025-10-11**: Updated to use the new `aep.api.FieldBehavior` enum values
+  with `FIELD_BEHAVIOR_` prefix.
