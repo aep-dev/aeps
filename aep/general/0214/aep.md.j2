@@ -63,7 +63,9 @@ schema:
       type: string
       format: duration
       description: The TTL for this resource.
-      readOnly: true
+      x-aep-field:
+        behavior:
+          - INPUT_ONLY
   oneOf:
     - required:
         - expire_time
