@@ -62,6 +62,27 @@ components:
           - publishers/{publisher_id}/books/{book_id}/editions/{book_edition_id}
         plural: book-editions
         singular: book-edition
+    deleted_publisher:
+      properties:
+        description:
+          type: string
+        expire_time:
+          description:
+            The time when this deleted publisher will expire and be permanently
+            removed
+          format: date-time
+          type: string
+        path:
+          description:
+            The server-assigned path of the resource, which is unique within
+            the service.
+          type: string
+      type: object
+      x-aep-resource:
+        patterns:
+          - deleted-publishers/{deleted_publisher_id}
+        plural: deleted_publishers
+        singular: deleted_publisher
     isbn:
       properties:
         path:
@@ -144,6 +165,73 @@ info:
   version: version not set
 openapi: 3.1.0
 paths:
+  /deleted-publishers:
+    get:
+      description: List method for deleted_publisher
+      operationId: ListDeletedPublisher
+      parameters:
+        - in: query
+          name: max_page_size
+          schema:
+            type: integer
+        - in: query
+          name: page_token
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  next_page_token:
+                    type: string
+                  results:
+                    items:
+                      $ref: '#/components/schemas/deleted_publisher'
+                    type: array
+                type: object
+          description: Successful response
+  /deleted-publishers/{deleted_publisher_id}:
+    get:
+      description: Get method for deleted_publisher
+      operationId: GetDeletedPublisher
+      parameters:
+        - in: path
+          name: deleted_publisher_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_publisher'
+          description: Successful response
+  /deleted-publishers/{deleted_publisher_id}:undelete:
+    post:
+      description: Custom method undelete for deleted_publisher
+      operationId: :UndeleteDeletedPublisher
+      parameters:
+        - in: path
+          name: deleted_publisher_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: Successful response
   /isbns:
     get:
       description: List method for isbn
