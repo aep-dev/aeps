@@ -1,7 +1,7 @@
 ---
-id: 164
-state: deprecated
-slug: soft-delete
+id: 301
+state: approved
+slug: undelete
 created: 2020-10-06
 placement:
   category: design-patterns

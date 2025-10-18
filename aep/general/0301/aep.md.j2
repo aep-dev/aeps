@@ -1,0 +1,86 @@
+# Undelete
+
+There are several reasons why a client could desire undelete functionality, but
+one over-arching reason stands out: recovery from mistakes. A service that
+supports undelete makes it possible for users to recover resources that were
+deleted by accident.
+
+## Guidance
+
+Services **may** support the ability to "undelete", to allow for situations
+where users mistakenly delete resources and need the ability to recover.
+
+These resources **must** be stored in a separate sibling collection, prefixed
+with `deleted-`. (e.g. `deleted-books`). Resources deleted will remain in this
+sibling collection until they expire, or until they are undeleted into the
+original collection.
+
+Resources that support soft delete **should** have an `expire_time` field on
+the deleted version of the resource, as described in AEP-148.
+
+### Sibling collection
+
+To implement the undelete pattern, a sibling collection,
+`deleted-{resource_plural}`, **should** be created where all undeletable
+resources can be listed and retrieved, as well as undeleted via the `Undelete`
+custom method.
+
+### Undelete
+
+The `Undelete` custom method **should** be available. A successful call to this
+method will:
+
+1. remove the resource from the deleted collection.
+2. restore the resource back into the original collection.
+
+{% tab proto %}
+
+{% sample '../example.proto', 'rpc UndeleteDeletedPublisher', 'message UndeleteDeletedPublisherRequest' %}
+
+- The HTTP method **must** be `POST`.
+- The `body` clause **must** be `"*"`.
+- The response **may** include the fully-populated resource or an empty
+  response.
+- A `path` field **must** be included in the request message; it **should** be
+  called `path`.
+  - The field **should** be [annotated as required][aep-203].
+  - The field **should** identify the [resource type][aep-4] that it
+    references.
+  - The comment for the field **should** document the resource pattern.
+- The request message **must not** contain any other required fields, and
+  **should not** contain other optional fields except those described in this
+  or another AEP.
+
+{% tab oas %}
+
+{% sample '../example.oas.yaml', '$.paths./deleted-publishers/{deleted_publisher_id}:undelete' %}
+
+- The HTTP method **must** be `POST`.
+- The response message **must** be the resource itself.
+  - The response **may** include the fully-populated resource or an empty
+    response.
+- The operation **must not** require any other fields, and **should not**
+  contain other optional query parameters except those described in this or
+  another AEP.
+
+{% endtabs %}
+
+### Long-running undelete
+
+Some resources take longer to undelete a resource than is reasonable for a
+regular API request. In this situation, the API **should** follow the
+long-running request pattern AEP-151.
+
+### Errors
+
+If the user calling `Undelete` has proper permission, but the requested
+resource is not deleted, the service **must** error with `409 Conflict`.
+
+For additional guiance, see [errors](/errors).
+
+## Further reading
+
+- For the `Delete` standard method, see AEP-135.
+- For long-running operations, see AEP-151.
+- For resource freshness validation (`etag`), see AEP-154.
+- For change validation (`validate_only`), see AEP-163.

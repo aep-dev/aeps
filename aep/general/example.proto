@@ -106,6 +106,28 @@ service Bookstore {
     option (google.api.method_signature) = "parent";
   }
 
+  // An aep-compliant Get method for deleted_publisher.
+  rpc GetDeletedPublisher(GetDeletedPublisherRequest) returns (DeletedPublisher) {
+    option (google.api.http) = {get: "/{path=deleted-publishers/*}"};
+
+    option (google.api.method_signature) = "path";
+  }
+
+  // An aep-compliant List method for deleted_publishers.
+  rpc ListDeletedPublishers(ListDeletedPublishersRequest) returns (ListDeletedPublishersResponse) {
+    option (google.api.http) = {get: "/deleted_publishers"};
+
+    option (google.api.method_signature) = "parent";
+  }
+
+  // undelete a deleted_publisher.
+  rpc UndeleteDeletedPublisher(UndeleteDeletedPublisherRequest) returns (UndeleteDeletedPublisherResponse) {
+    option (google.api.http) = {
+      post: "/{path=deleted-publishers/*}:undelete"
+      body: "*"
+    };
+  }
+
   // An aep-compliant Create method for isbn.
   rpc CreateIsbn(CreateIsbnRequest) returns (Isbn) {
     option (google.api.http) = {
@@ -346,6 +368,25 @@ message BookEdition {
     },
     (google.api.field_behavior) = REQUIRED
   ];
+
+  // Field for path.
+  string path = 10018;
+}
+
+// A DeletedPublisher.
+message DeletedPublisher {
+  option (google.api.resource) = {
+    type: "bookstore.example.com/deleted_publisher"
+    pattern: ["deleted-publishers/{deleted_publisher_id}"]
+    plural: "deleted_publishers"
+    singular: "deleted_publisher"
+  };
+
+  // Field for description.
+  string description = 1;
+
+  // Field for expire_time.
+  string expire_time = 2 [json_name = "expire_time"];
 
   // Field for path.
   string path = 10018;
@@ -648,6 +689,59 @@ message ListBookEditionsResponse {
 
   // The page token indicating the ending point of this response.
   string next_page_token = 10011 [json_name = "next_page_token"];
+}
+
+// Request message for the Getdeleted_publisher method
+message GetDeletedPublisherRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (aep.api.field_info) = {
+      resource_reference: ["bookstore.example.com/deleted_publisher"]
+      field_behavior: [FIELD_BEHAVIOR_REQUIRED]
+    },
+    (google.api.field_behavior) = REQUIRED
+  ];
+}
+
+// Request message for the Listdeleted_publisher method
+message ListDeletedPublishersRequest {
+  // A field for the parent of deleted_publisher
+  string parent = 10013 [
+    (aep.api.field_info) = {
+      field_behavior: [FIELD_BEHAVIOR_REQUIRED]
+    },
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  // The page token indicating the starting point of the page
+  string page_token = 10010 [json_name = "page_token"];
+
+  // The maximum number of resources to return in a single page.
+  int32 max_page_size = 10017 [json_name = "max_page_size"];
+}
+
+// Response message for the Listdeleted_publisher method
+message ListDeletedPublishersResponse {
+  // A list of deleted_publishers
+  repeated DeletedPublisher results = 10016;
+
+  // The page token indicating the ending point of this response.
+  string next_page_token = 10011 [json_name = "next_page_token"];
+}
+
+// Response message for the undelete method
+message UndeleteDeletedPublisherResponse {}
+
+// Request message for the undelete method
+message UndeleteDeletedPublisherRequest {
+  // The globally unique identifier for the resource
+  string path = 10018 [
+    (aep.api.field_info) = {
+      resource_reference: ["bookstore.example.com/deleted_publisher"]
+      field_behavior: [FIELD_BEHAVIOR_REQUIRED]
+    },
+    (google.api.field_behavior) = REQUIRED
+  ];
 }
 
 // A Create request for a  isbn resource.
