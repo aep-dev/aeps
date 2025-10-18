@@ -45,16 +45,16 @@ message Book {
     FORMAT_UNSPECIFIED = 0;
 
     // The printed format, in hardback.
-    HARDBACK = 1;
+    FORMAT_HARDBACK = 1;
 
     // The printed format, in paperback.
-    PAPERBACK = 2;
+    FORMAT_PAPERBACK = 2;
 
     // An electronic book format.
-    EBOOK = 3;
+    FORMAT_EBOOK = 3;
 
     // An audio recording.
-    AUDIOBOOK = 4;
+    FORMAT_AUDIOBOOK = 4;
   }
 
   // The format of the book.
