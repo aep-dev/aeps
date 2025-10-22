@@ -16,7 +16,7 @@ Get started quickly with these essential tools:
 - **[aep-explorer](https://github.com/aep-dev/aep-explorer)** - Interactive web
   UI for AEP-compliant APIs
 - **[aepc](https://github.com/aep-dev/aepc)** - Generates AEP-compliant RPCs
-from proto messages
+  from proto messages
 
 **Linting & Validation**
 
