@@ -48,10 +48,13 @@ message CreateBookRequest {
 
 - [`aep.api.IdempotencyKey`][IdempotencyKey] has a `key` and a `first_sent`
   timestamp.
+
   - `key` is simply a unique identifier.
 
 - Providing an idempotency key **must** guarantee idempotency.
+
   - If a duplicate request is detected, the server **must** return one of:
+
     - A response equivalent to the response for the previously successful
       request, because the client most likely did not receive the previous
       response.
@@ -72,6 +75,7 @@ message CreateBookRequest {
 
 - The `idempotency_key` field **must** be provided on the request message to
   which it applies (and it **must not** be a field on resources themselves).
+
   - The `first_sent` field can be used by API servers to determine if a key is
     expired. API servers **must** reject requests with expired keys, and
     **must** reject requests with keys that are in the future. When feasible,
