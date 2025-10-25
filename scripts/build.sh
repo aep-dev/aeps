@@ -21,7 +21,8 @@ cd "${SG_DIRECTORY}" || exit
 mkdir -p src/content/docs/tooling/linter/rules
 mkdir -p src/content/docs/tooling/openapi-linter/rules
 mkdir -p src/content/docs/tooling/website
+npm install @playwright/test@latest
 npm install
-npx playwright install --with-deps chromium
+npx playwright install
 npm run generate
 npm run build
