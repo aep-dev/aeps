@@ -106,8 +106,7 @@ Examples of strong consistency include:
   get request for a resource **must** return the final values from the update
   request.
 - Following a successful delete that is the latest mutation on a resource, a
-  get request for a resource **must** return `NOT_FOUND` (or the resource with
-  the `DELETED` state value in the case of [soft delete][])
+  get request for a resource **must** return `NOT_FOUND`.
 
 Clients of resource-oriented APIs often need to orchestrate multiple operations
 in sequence (e.g., create resource A, create resource B which depends on A),
