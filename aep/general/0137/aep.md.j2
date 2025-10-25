@@ -104,9 +104,14 @@ Apply methods implement a common request message pattern:
 
 {% sample '../example.proto', 'message Book' %}
 
+- If the resource is created or updated, the response **must** return `OK`.
+
 {% tab oas %}
 
 {% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books/{book_id}.put.responses.200' %}
+
+- If the resource is created, the response **must** return a `201` status code.
+- If the resource is updated, the response **must** return a `200` status code.
 
 {% endtabs %}
 
