@@ -10,6 +10,9 @@ concept of time.
 Fields representing time **should** use a `string` field with values conforming
 to [RFC 3339][], such as `2012-04-21T15:00:00Z`.
 
+Date/time values in HTTP headers are an exception to this rule -- these
+**should** use the HTTP-date format defined in [RFC 9110, Section 5.6.7][].
+
 Services **should** use IDL-specific timestamps or format indicators where
 applicable (such as [`google.protobuf.Timestamp`][timestamp] in protocol
 buffers, or `format: date-time` in OpenAPI) provided that the service converts
@@ -110,4 +113,5 @@ use.
 [iso 8601]: https://www.iso.org/iso-8601-date-and-time-format.html
 [rfc 3339]: https://datatracker.ietf.org/doc/html/rfc3339
 [timestamp]: https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto
+[rfc 9110, section 5.6.7]: https://datatracker.ietf.org/doc/html/rfc9110#section-5.6.7
 <!-- prettier-ignore-end -->
