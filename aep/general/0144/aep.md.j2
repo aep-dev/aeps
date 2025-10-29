@@ -26,7 +26,15 @@ message Book {
 
 {% tab oas %}
 
-**Note:** OAS guidance not yet written
+```yaml
+Book:
+  type: object
+  properties:
+    authors:
+      type: array
+      items:
+        type: string
+```
 
 {% endtabs %}
 
