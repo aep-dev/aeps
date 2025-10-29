@@ -18,8 +18,6 @@ categories:
     title: Design Patterns
   - code: batch-methods
     title: Batch Methods
-  - code: security
-    title: Security
   - code: governance
     title: Governance
   - code: best-practices
