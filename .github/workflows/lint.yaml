@@ -5,21 +5,16 @@ on:
     branches:
       - main
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    container: node:20
-    steps:
-      - uses: actions/checkout@v3
-      # this must be installed to use the prettier version
-      # from the package.json file.
-      - name: install prettier.
-        run: npm install .
-      - name: verify with prettier.
-        run: npx prettier --check .
-  fix:
+  check:
     runs-on: ubuntu-latest
     container: python:3.12
     steps:
       - uses: actions/checkout@v3
-      - name: verify with fix.py
-        run: python scripts/fix.py --check --path ./aep/general/
+      - name: install node.
+        run: |
+          apt-get update
+          apt-get install -y nodejs npm
+      - name: install dependencies.
+        run: npm install .
+      - name: run check command.
+        run: npm run check

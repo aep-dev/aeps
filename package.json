@@ -1,6 +1,10 @@
 {
   "name": "aep.dev",
   "private": true,
+  "scripts": {
+    "check": "prettier --check . && python scripts/fix.py --check --path ./aep/general/ && python scripts/validate_links.py",
+    "lint": "prettier --write . && python scripts/fix.py --path ./aep/general/ && python scripts/validate_links.py"
+  },
   "devDependencies": {
     "prettier": "3.5.1"
   },
