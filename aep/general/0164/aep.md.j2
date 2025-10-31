@@ -66,7 +66,7 @@ Create methods **must** adhere to one of the following:
 
 - If a user attempts a create on a soft-deleted resource, the create **must**
   succeed, acting as if the resource did not exist previously.
-- The create must accept a field (query parameter for OAS),
+- The create **must** accept a field (query parameter for OAS),
   `overwrite_soft_deleted`. If set to `false`, the request **must** fail if a
   soft-deleted resource exists. If set to `true`, the request **must** succeed
   if the resource exists acting as if the resource did not exist previously.
@@ -78,7 +78,8 @@ default (unless `bool show_deleted` is true).
 
 A `Get` AEP-131 request for a soft deleted resource **must** return with a
 `404 Not Found` response unless `bool show_deleted` is true, in which case
-soft-deleted resources **must** return the resource (with the `DELETED` state value if the resource includes a [`state` field](/states)).
+soft-deleted resources **must** return the resource (with the `DELETED` state
+value if the resource includes a [`state` field](/states)).
 
 Services that soft delete resources **may** choose a reasonable strategy for
 purging those resources, including automatic purging after a reasonable time
