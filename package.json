@@ -1,6 +1,10 @@
 {
   "name": "aep.dev",
   "private": true,
+  "scripts": {
+    "check": "prettier --check .",
+    "lint": "prettier --write ."
+  },
   "devDependencies": {
     "prettier": "3.5.1"
   },

@@ -80,8 +80,6 @@ for the specific file.
 Run the following to format the repository:
 
 ```bash
-# nodejs must be installed.
-npx prettier -w .
-# python3 must be installed
-./scripts/fix.py
+# nodejs and python3 must be installed.
+make lint
 ```
