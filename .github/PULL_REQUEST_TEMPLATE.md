@@ -26,8 +26,7 @@ contributing to this repository.
       [references AEPs](https://aep.dev/style-guide#referencing-aeps)
       correctly.
 - [ ] [My code has been formatted](https://aep.dev/contributing#formatting)
-      (usually `prettier -w .`)
-- [ ] [I have run `./scripts/fix.py`](https://aep.dev/contributing#formatting)
+      (run `make lint`)
 
 <!-- uncomment this if PR is for a new AEP
 

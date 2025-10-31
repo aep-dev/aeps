@@ -81,5 +81,5 @@ Run the following to format the repository:
 
 ```bash
 # nodejs and python3 must be installed.
-npm run lint
+make lint
 ```
