@@ -19,7 +19,7 @@ message UpdateBookRequest {
   //
   // The book's `name` field is used to identify the book to update.
   // Format: publishers/{publisher}/books/{book}
-  Book book = 1 [(google.api.field_behavior) = REQUIRED];
+  Book book = 1 [(aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
 
   // The list of fields to update.
   // Fields are specified relative to the book
@@ -75,6 +75,19 @@ message Book {
   // Valid field masks: reviews, reviews.smith, reviews.`John Smith`
   map<string, string> reviews = 2;
 }
+
+message UpdateBookRequest {
+  // The book to update.
+  //
+  // The book's `name` field is used to identify the book to update.
+  // Format: publishers/{publisher}/books/{book}
+  Book book = 1 [(aep.api.field_info) = { field_behavior: [ FIELD_BEHAVIOR_REQUIRED ] }];
+
+  // The list of fields to update.
+  // Fields are specified relative to the book
+  // (e.g. `title`, `rating`; *not* `book.title` or `book.rating`).
+  google.protobuf.FieldMask update_mask = 2;
+}
 ```
 
 ### Wildcards
@@ -84,18 +97,9 @@ map to indicate the specification of particular sub-fields in the collection:
 
 ```proto
 message Book {
-  option (google.api.resource) = {
-    type: "library.googleapis.com/Book"
-    pattern: "publishers/{publisher}/books/{book}"
-  };
-
-  // The name of the book.
-  // Format: publishers/{publisher}/books/{book}
-  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
-
   // The author or authors of the book.
   // Valid field masks: authors, authors.*.given_name, authors.*.family_name
-  // Invalid field masks: authors.0, authors.0.given_name
+  // Invalid field masks: authors.0, authors.0.given_name, authors[0], authors[0].given_name
   repeated Author authors = 2;
 }
 
