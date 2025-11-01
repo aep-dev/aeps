@@ -11,10 +11,10 @@ install:
 
 lint:
 	npm run lint
-	python scripts/fix.py --path ./aep/general/
-	python scripts/validate_links.py
+	python3 scripts/fix.py --path ./aep/general/
+	python3 scripts/validate_links.py
 
 check:
 	npm run check
-	python scripts/fix.py --check --path ./aep/general/
-	python scripts/validate_links.py
+	python3 scripts/fix.py --check --path ./aep/general/
+	python3 scripts/validate_links.py
