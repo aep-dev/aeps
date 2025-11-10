@@ -6,7 +6,12 @@ read.
 
 ## Syntax
 
-APIs defined in protocol buffers **must** use `proto3` syntax.
+APIs defined in protocol buffers **must** use `proto3` syntax or one of the
+newer [editions](https://protobuf.dev/editions/overview/).
+
+New APIs **should** use edition `2023` or newer.
+
+When using `proto3` syntax, fields **should** always be marked optional.
 
 ## Single package
 
