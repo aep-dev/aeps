@@ -191,13 +191,13 @@ and the full resource path does not change between these.
 
 When defining a resource, the first field **should** be the resource path,
 which **must** be of type `string` and **must** be called `path` for the
-resource path. The message **should** include a `google.api.resource`
-annotation declaring the type (see AEP-4 for more on this).
+resource path. The message **should** include a `aep.api.resource` annotation
+declaring the type (see AEP-4 for more on this).
 
 ```proto
 // A representation of a book in the library.
 message Book {
-option (google.api.resource) = {
+option (aep.api.resource) = {
   type: "apis.example.com/library/Book"
   pattern: "publishers/{publisher_id}/books/{book_id}"
 };
@@ -296,7 +296,7 @@ When referencing a resource path for a different resource:
 ```proto
 // A representation of a book in a library.
 message Book {
-option (google.api.resource) = {
+option (aep.api.resource) = {
   type: "apis.example.com/library/Book"
   pattern: "publishers/{publisher_id}/books/{book_id}"
 };

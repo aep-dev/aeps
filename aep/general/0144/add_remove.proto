@@ -48,7 +48,7 @@ message RemoveAuthorRequest {
 
 // A representation of a single book.
 message Book {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "library.googleapis.com/Book"
     pattern: "publishers/{publisher_id}/books/{book_id}"
   };

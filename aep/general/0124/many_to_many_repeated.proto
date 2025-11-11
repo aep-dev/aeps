@@ -5,7 +5,7 @@ import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 
 message Book {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "library.googleapis.com/Book"
     pattern: "publishers/{publisher_id}/books/{book_id}"
   };

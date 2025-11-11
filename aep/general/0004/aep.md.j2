@@ -47,12 +47,12 @@ APIs **must** annotate the resource types for each resource in the API
 
 {% tab proto %}
 
-For protobuf, use the [`google.api.resource`][resource] annotation:
+For protobuf, use the [`aep.api.resource`][resource] annotation:
 
 ```proto
 // A representation of a user event.
 message UserEvent {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "user.example.com/user-event"
     singular: "user-event"
     plural: "user-events"

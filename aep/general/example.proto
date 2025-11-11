@@ -5,10 +5,10 @@ package example.bookstore.v1;
 
 import "aep/api/field_info.proto";
 import "aep/api/operation.proto";
+import "aep/api/resource.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
-import "google/api/resource.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 
@@ -274,11 +274,11 @@ service Bookstore {
 
 // A Book.
 message Book {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "bookstore.example.com/book"
     pattern: ["publishers/{publisher_id}/books/{book_id}"]
-    plural: "books"
     singular: "book"
+    plural: "books"
   };
 
   // A Author.
@@ -331,11 +331,11 @@ message Book {
 
 // A BookEdition.
 message BookEdition {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "bookstore.example.com/book-edition"
     pattern: ["publishers/{publisher_id}/books/{book_id}/editions/{book_edition_id}"]
-    plural: "book-editions"
     singular: "book-edition"
+    plural: "book-editions"
   };
 
   // Field for display_name.
@@ -353,11 +353,11 @@ message BookEdition {
 
 // A Isbn.
 message Isbn {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "bookstore.example.com/isbn"
     pattern: ["isbns/{isbn_id}"]
-    plural: "isbns"
     singular: "isbn"
+    plural: "isbns"
   };
 
   // Field for path.
@@ -366,11 +366,11 @@ message Isbn {
 
 // A Item.
 message Item {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "bookstore.example.com/item"
     pattern: ["stores/{store_id}/items/{item_id}"]
-    plural: "items"
     singular: "item"
+    plural: "items"
   };
 
   // Field for book.
@@ -398,11 +398,11 @@ message Item {
 
 // A Publisher.
 message Publisher {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "bookstore.example.com/publisher"
     pattern: ["publishers/{publisher_id}"]
-    plural: "publishers"
     singular: "publisher"
+    plural: "publishers"
   };
 
   // Field for description.
@@ -414,11 +414,11 @@ message Publisher {
 
 // A Store.
 message Store {
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "bookstore.example.com/store"
     pattern: ["stores/{store_id}"]
-    plural: "stores"
     singular: "store"
+    plural: "stores"
   };
 
   // Field for name.
