@@ -6,7 +6,7 @@ import "google/api/resource.proto";
 message Book {
   // The resource path pattern for Book indicates that Publisher is the
   // canonical parent.
-  option (google.api.resource) = {
+  option (aep.api.resource) = {
     type: "library.googleapis.com/Book"
     pattern: "publishers/{publisher_id}/books/{book_id}"
   };

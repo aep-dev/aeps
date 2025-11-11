@@ -7,10 +7,8 @@ components:
             properties:
               family_name:
                 type: string
-                x-aep-field-number: 2
               given_name:
                 type: string
-                x-aep-field-number: 1
             type: object
           type: array
         edition:
@@ -43,6 +41,7 @@ components:
           - publishers/{publisher_id}/books/{book_id}
         plural: books
         singular: book
+        type: bookstore.example.com/book
     book-edition:
       properties:
         display_name:
@@ -62,6 +61,7 @@ components:
           - publishers/{publisher_id}/books/{book_id}/editions/{book_edition_id}
         plural: book-editions
         singular: book-edition
+        type: bookstore.example.com/book-edition
     isbn:
       properties:
         path:
@@ -75,6 +75,7 @@ components:
           - isbns/{isbn_id}
         plural: isbns
         singular: isbn
+        type: bookstore.example.com/isbn
     item:
       properties:
         book:
@@ -101,6 +102,7 @@ components:
           - stores/{store_id}/items/{item_id}
         plural: items
         singular: item
+        type: bookstore.example.com/item
     publisher:
       properties:
         description:
@@ -116,6 +118,7 @@ components:
           - publishers/{publisher_id}
         plural: publishers
         singular: publisher
+        type: bookstore.example.com/publisher
     store:
       properties:
         description:
@@ -135,6 +138,7 @@ components:
           - stores/{store_id}
         plural: stores
         singular: store
+        type: bookstore.example.com/store
 info:
   contact:
     email: aepsupport@aep.dev
