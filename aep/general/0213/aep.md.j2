@@ -46,8 +46,8 @@ representations of the following concepts:
 
 ### API design patterns
 
-- `Operation`: Represents the status of a long-running request (see AEP-151 for
-  details).
+- [`Operation`][operation]: Represents the status of a long-running request
+  (see AEP-151 for details).
 
 #### gRPC-specific API design patterns
 
@@ -70,41 +70,15 @@ very high barrier to entry.
 
 #### General common types
 
-- [`Color`][color]: RGB or RGBA colors.
-
 - [`Decimal`][decimal]: Decimal numbers.
-
-- [`Fraction`][fraction]: A numeric fraction.
-
-- [`LatLng`][lat_lng]: Geographic coordinates.
 
 - [`Money`][money]: An amount of money in a given currency.
 
 - [`PhoneNumber`][phone_number]: A phone number in most countries.
 
-- [`PostalAddress`][postal_address]: Postal addresses in most countries.
-
-- [`Quaternion`][quaternion]: A geometric quaternion.
-
 #### Date- and time-related types
 
-- [`Date`][date]: A calendar date, with no time or time zone component.
-
-- [`DateTime`][date_time]: A calendar date and wall-clock time, with optional
-  time zone or UTC offset information.
-
-- [`DayOfWeek`][day_of_week]: An enumeration representing the day of the week.
-
-- [`Duration`][duration]: A duration with nanosecond-level precision.
-
 - [`Interval`][interval]: An interval between two timestamps.
-
-- [`Month`][month]: An enumeration representing the Gregorian month.
-
-- [`TimeOfDay`][time_of_day]: Wall-clock time, with no date or time zone
-  component.
-
-- [`Timestamp`][timestamp]: A timestamp with nanosecond-level precision.
 
 ##### Protobuf well-known types
 
@@ -180,23 +154,11 @@ However, some general guidelines are worth noting for this:
 [api]: https://github.com/googleapis/googleapis/tree/master/google/api
 [rpc]: https://github.com/googleapis/googleapis/tree/master/google/rpc
 
-[color]: https://github.com/aep-dev/aep/tree/master/schemas/type/color.md
-[decimal]: https://github.com/aep-dev/aep/tree/master/schemas/type/decimal.md
-[fraction]: https://github.com/aep-dev/aep/tree/master/schemas/type/fraction.md
-[lat_lng]: https://github.com/aep-dev/aep/tree/master/schemas/type/lat_lng.md
-[money]: https://github.com/aep-dev/aep/tree/master/schemas/type/money.md
-[phone_number]: https://github.com/aep-dev/aep/tree/master/schemas/type/phone_number.md
-[postal_address]: https://github.com/aep-dev/aep/tree/master/schemas/type/postal_address.md
-[quaternion]: https://github.com/aep-dev/aep/tree/master/schemas/type/quaternion.md
-
-[date]: https://github.com/aep-dev/aep/tree/master/schemas/type/date.md
-[date_time]: https://github.com/aep-dev/aep/tree/master/schemas/type/date_time.md
-[day_of_week]: https://github.com/aep-dev/aep/tree/master/schemas/type/day_of_week.md
-[duration]: https://github.com/aep-dev/aep/tree/master/schemas/type/duration.md
-[interval]: https://github.com/aep-dev/aep/tree/master/schemas/type/interval.md
-[month]: https://github.com/aep-dev/aep/tree/master/schemas/type/month.md
-[time_of_day]: https://github.com/aep-dev/aep/tree/master/schemas/type/time_of_day.md
-[timestamp]: https://github.com/aep-dev/aep/tree/master/schemas/type/timestamp.md
+[operation]: https://github.com/aep-dev/aep-components/tree/main/schemas/type/operation.md
+[decimal]: https://github.com/aep-dev/aep-components/tree/main/schemas/type/decimal.md
+[money]: https://github.com/aep-dev/aep-components/tree/main/schemas/type/money.md
+[phone_number]: https://github.com/aep-dev/aep-components/tree/main/schemas/type/phone_number.md
+[interval]: https://github.com/aep-dev/aep-components/tree/main/schemas/type/interval.md
 
 [datetime]: https://docs.python.org/3/library/datetime.html#datetime.datetime
 [duration]: https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/duration.proto
@@ -205,8 +167,8 @@ However, some general guidelines are worth noting for this:
 [timedelta]: https://docs.python.org/3/library/datetime.html#datetime.timedelta
 [timestamp]: https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto
 
-[open an issue]: https://github.com/aep-dev/aep/issues
-[aep common components]: https://github.com/aep-dev/aep
+[open an issue]: https://github.com/aep-dev/aep-components/issues
+[aep common components]: https://github.com/aep-dev/aep-components
 [json schema store]: https://www.schemastore.org/json/
 [buf]: https://buf.build/aep
 <!-- prettier-ignore-end -->
