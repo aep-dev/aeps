@@ -39,7 +39,21 @@ message InputConfig {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+```yaml
+components:
+  schemas:
+    InputConfig:
+      type: object
+      properties:
+        parameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            Parameters for input.
+            (-- aep.dev/beta-blocker: Convert well-known parameters into explicit
+                fields before the beta launch. --)
+```
 
 {% endtabs %}
 
