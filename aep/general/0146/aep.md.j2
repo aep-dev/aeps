@@ -20,17 +20,12 @@ For example, an API **should not** use a completely generic field (such as
 correspond to one of a known number of schemas. Instead, the API **should** use
 a [`oneof`](./oneof) to represent the known schemas.
 
-### Generic fields in protobuf APIs
+### Oneof
 
-#### Oneof
-
-A `oneof` **may** be used to introduce a type union: the user or API is able to
-specify one of the fields inside the `oneof`. Additionally, a `oneof` **may**
-be used with the same type (usually strings) to represent a semantic difference
-between the options.
-
-Because the individual fields in the `oneof` have different keys, a developer
-can programmatically determine which (if any) of the fields is populated.
+A `oneof` (proto) or `oneOf` (OpenAPI) **may** be used to introduce a type
+union: the user or API is able to specify one of the fields or schemas.
+Additionally, it **may** be used with the same type (usually strings) to
+represent a semantic difference between the options.
 
 A `oneof` preserves the largest degree of type safety and semantic meaning for
 each option, and APIs **should** generally prefer them over other generic or
@@ -39,11 +34,51 @@ when there is a large (or unlimited) number of potential options, or when there
 is a large resource structure that would require a long series of "cascading
 oneofs".
 
-**Note:** Adding additional possible fields to an existing `oneof` is a
-non-breaking change, but moving existing fields into or out of a `oneof` is
-breaking (it creates a backwards-incompatible change in Go protobuf stubs).
+**Note:** Adding additional fields or schemas to an existing `oneof` is a
+non-breaking change. However, removing or moving fields is breaking.
 
-#### Maps
+{% tab proto %}
+
+Because the individual fields in the `oneof` have different keys, a developer
+can programmatically determine which (if any) of the fields is populated.
+
+Moving existing fields into or out of a `oneof` creates a
+backwards-incompatible change in Go protobuf stubs.
+
+{% tab oas %}
+
+```yaml
+components:
+  schemas:
+    PaymentMethod:
+      type: object
+      properties:
+        payment:
+          oneOf:
+            - type: object
+              properties:
+                creditCard:
+                  type: string
+                  description: Credit card token
+            - type: object
+              properties:
+                bankAccount:
+                  type: string
+                  description: Bank account identifier
+            - type: object
+              properties:
+                giftCard:
+                  type: string
+                  description: Gift card code
+```
+
+Because the individual schemas in the `oneOf` can be distinguished (through
+discriminators or schema validation), a developer can programmatically
+determine which (if any) of the schemas matches the provided value.
+
+{% endtabs %}
+
+### Maps
 
 Maps **may** be used in situations where many values _of the same type_ are
 needed, but the keys are unknown or user-determined.
@@ -54,25 +89,77 @@ sometimes be suited to a situation where many objects of the same type are
 needed, with different behavior based on the names of their keys (for example,
 using keys as environment names).
 
-#### Struct
+{% tab proto %}
 
-The [`google.protobuf.Struct`][struct] object **may** be used to represent
-arbitrary nested JSON. Keys can be strings, and values can be floats, strings,
-booleans, arrays, or additional nested structs, allowing for an arbitrarily
-nested structure that can be represented as JSON (and is automatically
-represented as JSON when using REST/JSON).
+{% tab oas %}
 
-A `Struct` is most useful when the API does not know the schema in advance, or
-when a API needs to store and retrieve arbitrary but structured user data.
-Using a `Struct` is convenient for users in this case because they can easily
-get JSON objects that can be natively manipulated in their environment of
-choice.
+```yaml
+components:
+  schemas:
+    Configuration:
+      type: object
+      properties:
+        environments:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              replicas:
+                type: integer
+              region:
+                type: string
+```
 
-If a API needs to reason about the _schema_ of a `Struct`, it **should** use
-[JSONSchema][] for this purpose. Because JSONSchema is itself JSON, a valid
-JSONSchema document can itself be stored in a `Struct`.
+Maps are represented using `additionalProperties` in OpenAPI.
 
-#### Any
+{% endtabs %}
+
+### Free-form objects
+
+Free-form objects **may** be used to represent arbitrary nested JSON. Keys can
+be strings, and values can be numbers, strings, booleans, arrays, or additional
+nested objects, allowing for an arbitrarily nested structure that is
+represented as JSON.
+
+A free-form object is most useful when the API does not know the schema in
+advance, or when a API needs to store and retrieve arbitrary but structured
+user data. Using a free-form object is convenient for users in this case
+because they can easily get JSON objects that can be natively manipulated in
+their environment of choice.
+
+If a API needs to reason about the _schema_ of a free-form object, it
+**should** use [JSONSchema][] for this purpose. Because JSONSchema is itself
+JSON, a valid JSONSchema document can itself be stored in a free-form object.
+
+{% tab proto %}
+
+The [`google.protobuf.Struct`][struct] object represents arbitrary nested JSON,
+and is automatically represented as JSON when using REST/JSON.
+
+{% tab oas %}
+
+```yaml
+components:
+  schemas:
+    CustomResource:
+      type: object
+      properties:
+        name:
+          type: string
+        metadata:
+          type: object
+          description: Arbitrary structured data
+          additionalProperties: true
+```
+
+Free-form objects are represented using `type: object` with
+`additionalProperties: true` or without defined properties.
+
+{% endtabs %}
+
+### Any
+
+{% tab proto %}
 
 The [`google.protobuf.Any`][any] object can be used to send an arbitrary
 serialized protocol buffer and a type definition.
@@ -83,12 +170,22 @@ the proto. Additionally, even if the consumer _does_ have the proto, the
 consumer has to ensure the type is registered and then deserialize manually,
 which is an often-unfamiliar process.
 
-Because of this, `Any` **should not** be used unless other options are
-infeasible.
+{% tab oas %}
 
-### Generic fields in OAS APIs
+```yaml
+components:
+  schemas:
+    GenericValue:
+      type: object
+      properties:
+        data: {} # Empty schema - accepts any value
+```
 
-**Note:** OAS-specific guidance not yet written.
+An empty schema (represented as `{}`) accepts any valid JSON value, including
+primitives, objects, and arrays. This is the OpenAPI equivalent of
+`google.protobuf.Any`.
+
+{% endtabs %}
 
 <!-- prettier-ignore-start -->
 [any]: https://github.com/protocolbuffers/protobuf/tree/master/src/google/protobuf/any.proto
