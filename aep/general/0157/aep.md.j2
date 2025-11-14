@@ -21,6 +21,9 @@ named `read_mask`.
 - An API **may** allow read masks with non-terminal repeated fields (unlike
   update masks), but is not obligated to do so.
 
+List serialization / deserialization must conform to
+[RFC 9651](https://www.rfc-editor.org/rfc/rfc9651.html#name-serializing-a-list)
+
 **Note:** Changing the default value of `read_mask` is a
 [breaking change](./backwards-compatibility#semantic-changes).
 
@@ -41,7 +44,17 @@ named `read_mask`.
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+```yaml
+parameters:
+  - in: query
+    name: fields
+    schema:
+      type: string
+    description: >-
+      A comma-separated list of fields to include in the response. If not
+      provided, all fields are returned. Nested fields can be specified using
+      dot notation. For example: `title,author.name`.
+```
 
 {% endtabs %}
 
@@ -89,6 +102,18 @@ enum BookView {
 
 {% tab oas %}
 
-**Note:** OAS example not yet written.
+```yaml
+parameters:
+  - in: query
+    name: view
+    schema:
+      type: string
+      enum:
+        - BASIC
+        - FULL
+    description: >-
+      Specifies which fields to return for the book. BASIC returns basic
+      metadata, FULL returns all fields.
+```
 
-{% endtabs %}
+{% endtab %}
