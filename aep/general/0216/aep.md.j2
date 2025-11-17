@@ -116,7 +116,9 @@ message PublishBookRequest {
 }
 ```
 
-{% tab oas %} State transition methods in OpenAPI follow these requirements:
+{% tab oas %} 
+
+State transition methods in OpenAPI follow these requirements:
 
 - The HTTP method **must** be `POST`.
 - The path **must** use the `:` separator followed by the action verb (e.g.,
@@ -151,7 +153,6 @@ components:
           type: string
           readOnly: true
           enum:
-            - STATE_UNSPECIFIED
             - DRAFT
             - PUBLISHED
           description: |
