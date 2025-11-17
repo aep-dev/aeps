@@ -39,7 +39,37 @@ guidance in [unreachable resources].
 
 {% tab oas %}
 
-Note: OAS guidance is yet to be written.
+- The OpenAPI path pattern **must** include a parameter for the collection
+  identifier, rather than hard-coding the `-` character. This allows clients to
+  use either a specific collection ID or the wildcard `-`.
+- The path parameter **should** allow the `-` character as a valid value.
+
+**Example:** List books across all publishers:
+
+```yaml
+paths:
+  /v1/publishers/{publisher_id}/books:
+    get:
+      operationId: ListBooks
+      description: >-
+        Lists books for a specific publisher. Supports wildcard collection
+        lookup: use `-` as the publisher_id to list books across all
+        publishers. When using the wildcard, books from all publishers are
+        returned with their canonical resource paths (e.g.,
+        publishers/123/books/456, not publishers/-/books/456).
+      parameters:
+        - in: path
+          name: publisher_id
+          required: true
+          schema:
+            type: string
+          description: >-
+            The publisher ID. Use `-` to list books across all publishers.
+```
+
+**Note:** When using wildcard collection lookup, the response **must** return
+resources with their canonical paths containing actual parent collection
+identifiers, not the wildcard character.
 
 {% endtabs %}
 
