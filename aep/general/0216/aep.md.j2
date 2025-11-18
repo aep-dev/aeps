@@ -118,7 +118,47 @@ message PublishBookRequest {
 
 {% tab oas %}
 
-**Note:** OAS content not yet written.
+State transition methods in OpenAPI follow these requirements:
+
+- The HTTP method **must** be `POST`.
+- The path **must** use the `:` separator followed by the action verb (e.g.,
+  `:publish`).
+- The request body **should** be an object containing any additional parameters
+  beyond the resource path.
+  - If no additional parameters are needed, an empty object `{}` **should** be
+    sent.
+- The response **should** be the resource itself (e.g., the `Book` object).
+  - If the operation is long-running, the response **should** be an `Operation`
+    object which resolves to the resource.
+- The resource path parameters (e.g., `publisher_id`, `book_id`) **should** be
+  the only path variables in the URI. All other parameters **should** be in the
+  request body.
+- If the state transition is not allowed, the API **must** return
+  `400 Bad Request`.
+
+Example OpenAPI specification:
+
+```yaml
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            The resource name of the book.
+            Format: publishers/{publisher_id}/books/{book_id}
+        state:
+          type: string
+          readOnly: true
+          enum:
+            - DRAFT
+            - PUBLISHED
+          description: |
+            Output only. The current state of the book. This field cannot be
+            directly updated through create or update methods.
+```
 
 {% endtabs %}
 
