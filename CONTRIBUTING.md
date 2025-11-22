@@ -2,6 +2,16 @@
 
 We welcome patches and contributions to this project.
 
+## Learn and Connect
+
+If you'd like to get involved in the AEP community, we'd love to have you! The
+following channels of communication are available:
+
+- [The #aep channel in the CNCF Slack](https://cloud-native.slack.com/archives/C04TX46UCTV).
+  Sign up at https://slack.cncf.io.
+- We hold a weekly project meeting on Fridays. See [the AEP Google Calendar, to view any upcoming meetings](https://calendar.google.com/calendar/u/0/embed?src=7e35dd3df194a32f4fa7c03a3454e24ba3651e6f568248efe1ddf1e34a7bee9e@group.calendar.google.com&ctz=America/Los_Angeles) 
+for details. Options for other times, such as more EU-friendly meetings, can also be arranged. 
+
 ## Editing AEP Rules
 
 If you spot a minor issue that seems to be a mistake, such as a typo, please make an PR with a fix.
