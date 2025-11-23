@@ -27,7 +27,11 @@ pull request should then reference the issue and will enter the queue for review
 ## Development Environment
 
 If you are contributing AEP content (rather than code) and want to be able to
-view it in your browser, the easiest way to do so is to use our [site-generator project](https://github.com/aep-dev/site-generator).
+view it in your browser, the easiest way to do so is to run `./scripts/serve.sh` to:
+
+- clone the [site-generator project](https://github.com/aep-dev/site-generator) repository
+- run the appropriate npm commands
+- begin the dev server at port 4321
 
 ### Updating examples
 
@@ -44,7 +48,7 @@ Specifically, the following files are copied over:
 ### Formatting
 
 This repository uses [prettier](https://prettier.io/) and a bespoke script
-[scripts/fix.py](scripts/fix.py). Please check the
+[scripts/fix.py](https://github.com/aep-dev/aeps/blob/main/scripts/fix.py). Please check the
 [lint.yaml](https://github.com/aep-dev/aeps/blob/main/.github/workflows/lint.yaml)
 for the specific file.
 
