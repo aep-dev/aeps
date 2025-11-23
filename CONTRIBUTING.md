@@ -9,27 +9,35 @@ following channels of communication are available:
 
 - [The #aep channel in the CNCF Slack](https://cloud-native.slack.com/archives/C04TX46UCTV).
   Sign up at https://slack.cncf.io.
-- We hold a weekly project meeting on Fridays. See [the AEP Google Calendar, to view any upcoming meetings](https://calendar.google.com/calendar/u/0/embed?src=7e35dd3df194a32f4fa7c03a3454e24ba3651e6f568248efe1ddf1e34a7bee9e@group.calendar.google.com&ctz=America/Los_Angeles) 
-for details. Options for other times, such as more EU-friendly meetings, can also be arranged. 
+- We hold a weekly project meeting on Fridays. See
+  [the AEP Google Calendar, to view any upcoming meetings](https://calendar.google.com/calendar/u/0/embed?src=7e35dd3df194a32f4fa7c03a3454e24ba3651e6f568248efe1ddf1e34a7bee9e@group.calendar.google.com&ctz=America/Los_Angeles)
+  for details. Options for other times, such as more EU-friendly meetings, can
+  also be arranged.
 
 ## Editing AEP Rules
 
-If you spot a minor issue that seems to be a mistake, such as a typo, please make an PR with a fix.
+If you spot a minor issue that seems to be a mistake, such as a typo, please
+make an PR with a fix.
 
-For any substantive change or new rule proposal, it is best to search the [discussions](https://github.com/aep-dev/aeps/discussions) 
-for similar topics before opening a new one. Lighter weight discussions also happen in #aep channel 
-in the CNCF Slack is another place or in our weekly Friday calls for quick validation of the concept.
+For any substantive change or new rule proposal, it is best to search the
+[discussions](https://github.com/aep-dev/aeps/discussions) for similar topics
+before opening a new one. Lighter weight discussions also happen in #aep
+channel in the CNCF Slack is another place or in our weekly Friday calls for
+quick validation of the concept.
 
-Once there is a clear point of view articulated and some amount of support gathered, the next step 
-would be to open a PR to reference the discussion and describe the work to be done. Any subsequent 
-pull request should then reference the issue and will enter the queue for review.
+Once there is a clear point of view articulated and some amount of support
+gathered, the next step would be to open a PR to reference the discussion and
+describe the work to be done. Any subsequent pull request should then reference
+the issue and will enter the queue for review.
 
 ## Development Environment
 
 If you are contributing AEP content (rather than code) and want to be able to
-view it in your browser, the easiest way to do so is to run `./scripts/serve.sh` to:
+view it in your browser, the easiest way to do so is to run
+`./scripts/serve.sh` to:
 
-- clone the [site-generator project](https://github.com/aep-dev/site-generator) repository
+- clone the [site-generator project](https://github.com/aep-dev/site-generator)
+  repository
 - run the appropriate npm commands
 - begin the dev server at port 4321
 
@@ -48,7 +56,8 @@ Specifically, the following files are copied over:
 ### Formatting
 
 This repository uses [prettier](https://prettier.io/) and a bespoke script
-[scripts/fix.py](https://github.com/aep-dev/aeps/blob/main/scripts/fix.py). Please check the
+[scripts/fix.py](https://github.com/aep-dev/aeps/blob/main/scripts/fix.py).
+Please check the
 [lint.yaml](https://github.com/aep-dev/aeps/blob/main/.github/workflows/lint.yaml)
 for the specific file.
 
