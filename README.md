@@ -9,8 +9,8 @@ See [Governance](https://aep.dev/governance/).
 
 ## Get Involved
 
-There are lots of ways to contribute! See: [Contributing](https://aep.dev/contributing/)
-
+There are lots of ways to contribute! See:
+[Contributing](https://aep.dev/contributing/)
 
 ## License
 
