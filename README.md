@@ -5,18 +5,12 @@ of clients and tooling for protobuf and HTTP REST APIs.
 
 ## Overview
 
-See [GOVERNANCE.md](./GOVERNANCE.md).
+See [Governance](https://aep.dev/governance/).
 
-## Learn and Connect
+## Get Involved
 
-If you'd like to get involved in the AEP community, we'd love to have you! The
-following channels of communication are available:
-
-- [The #aep channel in the CNCF Slack](https://cloud-native.slack.com/archives/C04TX46UCTV).
-  Sign up at https://slack.cncf.io.
-- [The AEP Google Calendar, to view any upcoming meetings](https://calendar.google.com/calendar/u/0/embed?src=7e35dd3df194a32f4fa7c03a3454e24ba3651e6f568248efe1ddf1e34a7bee9e@group.calendar.google.com&ctz=America/Los_Angeles)
-  - A weekly project meeting is held, which anyone interested is welcome to
-    attend!
+There are lots of ways to contribute! See:
+[Contributing](https://aep.dev/contributing/)
 
 ## License
 
