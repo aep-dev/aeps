@@ -1,0 +1,96 @@
+---
+title: Announcing the aep-2026 Release
+date: 2025-12-08
+authors:
+  - name: Marsh Gardiner
+  - name: Yusuke Tsutsumi
+  - name: Alex Stephen
+---
+
+import { Image } from 'astro:assets';
+import aep300Image from './aep_300_image.png';
+
+# The Coordination Challenge
+
+Building software is a team sport, but keeping everyone on the same page is
+hard. When every team has to invent their own API patterns — deciding how
+pagination works, or how to format errors — we end up with a lot of wasted
+effort and systems that don't quite fit together. This isn't just about having
+"standards". It's about ensuring that users and tools don't have to
+continuously relearn the same standards.
+
+# A Shared Standard and Tools
+
+The aep-2026 edition is our answer to that friction. It is an opinionated API
+design specification, providing well-defined requirements around common REST
+concepts like CRUD standard methods, pagination, filtering, and more. By
+agreeing on these common patterns, we make it easier for services to talk to
+each other, clients to be built, and for developers to move between projects
+without needing to learn idiosyncratic conventions.
+
+<Image
+  src={aep300Image}
+  alt="Screenshot of the AEP-300 rule describing edition-based versioning"
+/>
+
+AEP (API Enhancement Proposals) is an open-source, "anti-bike shedding" kit. It
+answers the routine questions so we can all focus on the interesting ones. It’s
+about a shared foundation that lifts everyone up and lets everyone build on the
+same tooling platform.
+
+# Stability for Builders
+
+To build lasting tools, you need a solid foundation. You can't build tooling on
+top of a spec that changes regularly. The aep-2026 edition is a major milestone
+because we are introducing a stable version of the specification and
+establishing a release cadence with [AEP-300](https://aep.dev/300/). This
+decouples stability for consumers and evolving our best practices:
+
+- **For Builders:** Invest in linters, libraries, and other
+  [tools](https://aep.dev/tooling-and-ecosystem/#tools) today knowing they will
+  keep working for years.
+- **For the Future:** We can keep discussing new improvements for the next
+  edition (AEP-2028) without breaking the tools you rely on right now.
+
+The tooling is guaranteed to be compatible for the three most
+[recent editions of AEPs](https://aep.dev/300/#first-party-clients-and-tooling),
+effectively a **6 year stability cycle** based on our current 2-year cadence.
+
+# The Tooling Ecosystem
+
+Because the standard is now stable, we can share a set of tools that help
+everyone do less grunt work. The 2026 edition launches with a compatible
+ecosystem ready for you to use:
+
+- **Infrastructure:** A
+  [Terraform Provider](https://github.com/aep-dev/terraform-provider-aep) to
+  handle the deployment details.
+- **Integration:** An [MCP Server](https://github.com/aep-dev/aep-mcp-server)
+  to let AI agents understand your APIs out of the box.
+- **Exploration:** An [Interactive Web UI](http://ui.aep.dev) to make daily
+  development smoother.
+- **Speed:** A [CLI](https://github.com/aep-dev/aepcli) to quickly call an
+  AEP-compatible service.
+
+# Next Steps
+
+Come see what we’ve built. Whether you use the whole platform or just grab a
+few good ideas, you are welcome here.
+
+- **Explore:** Check out the
+  [Tools Page](https://aep.dev/tooling-and-ecosystem/#tools) to see what's
+  available or visit the [aep.dev](http://aep.dev) site to review the numbered
+  rules.
+- **Join:** Drop into a
+  [weekly Friday meeting](https://github.com/aep-dev/aeps/tree/main?tab=readme-ov-file#learn-and-connect)
+  or hop into our #aep
+  [Slack channel](https://github.com/aep-dev/aeps/tree/main?tab=readme-ov-file#learn-and-connect)
+  in the CNCF Slack to ask questions or say hello.
+
+# Contributors
+
+This release is the result of years of work and feedback from the community.
+Special thanks to Richard Frankel, Marsh Gardiner, Yusuke Tsutsumi, Alex
+Stephen, and Mike Kistler for their stewardship as maintainers on this release.
+We are also grateful to the growing community of contributors, including David
+Gagne, Olivier Canos, Oscar Söderlund, and others!
