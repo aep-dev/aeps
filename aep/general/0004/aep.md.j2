@@ -71,33 +71,16 @@ For OpenAPI 3.0, Resources must be defined in `#components/schemas` and use the
 [`x-aep-resource`](https://aep.dev/json-schema/extensions/x-aep-resource.json)
 extension:
 
-```json
-{
-  "components": {
-    "schemas": {
-      "UserEvent": {
-        "type": "object",
-        "x-aep-resource": {
-          "type": "user.example.com/user-event",
-          "singular": "user-event",
-          "plural": "user-events",
-          "patterns": [
-            "projects/{project_id}/user-events/{user_event_id}",
-            "folder/{folder_id}/user-events/{user_event_id}",
-            "users/{user_id}/events/{user_event_id}"
-          ]
-        }
-      }
-    }
-  }
-}
-```
+{% sample '../example.oas.yaml', '$.components.schemas.book.x-aep-resource' %}
 
 {% endtabs %}
 
 - The `type` field **must** be the resource type `{API Name}/{Type Name}`
 - The `singular` field **must** be the kebab-case singular type name.
 - The `plural` field **must** be the kebab-case plural of the singular.
+- The `parent` field **must** be a list of all type names of parents of the
+  resource.
+  - If the resource has no parents, this field may be omitted.
 
 The `pattern` field **must** match the `pattern` rule in the following grammar,
 expressed as [EBNF][EBNF]:
