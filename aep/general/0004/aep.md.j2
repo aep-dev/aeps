@@ -5,7 +5,7 @@ create, retrieve, and manipulate. APIs are allowed to name their resource types
 as they see fit, and are only required to ensure uniqueness within that API.
 This means that it is possible (and often desirable) for different APIs to use
 the same type name. For example, a Memcache and Redis API would both want to
-use `Instance` as a type name.
+use `instance` as a type name.
 
 When mapping the relationships between APIs and their resources, however, it
 becomes important to have a single, globally-unique type name. Additionally,
@@ -24,7 +24,7 @@ indicated by it's namespacing within the API name.
 
 The type name:
 
-- **must** only contain ASCII alphanumeric characters.
+- **must** only contain ASCII alphanumeric characters and dashes (`-`).
 - **must** start with a lowercase letter.
 - **must** be of the singular form of the resource.
 - **must** use kebab case.
@@ -71,33 +71,16 @@ For OpenAPI 3.0, Resources must be defined in `#components/schemas` and use the
 [`x-aep-resource`](https://aep.dev/json-schema/extensions/x-aep-resource.json)
 extension:
 
-```json
-{
-  "components": {
-    "schemas": {
-      "UserEvent": {
-        "type": "object",
-        "x-aep-resource": {
-          "type": "user.example.com/user-event",
-          "singular": "user-event",
-          "plural": "user-events",
-          "patterns": [
-            "projects/{project_id}/user-events/{user_event_id}",
-            "folder/{folder_id}/user-events/{user_event_id}",
-            "users/{user_id}/events/{user_event_id}"
-          ]
-        }
-      }
-    }
-  }
-}
-```
+{% sample '../example.oas.yaml', '$.components.schemas.book.x-aep-resource' %}
 
 {% endtabs %}
 
 - The `type` field **must** be the resource type `{API Name}/{Type Name}`
 - The `singular` field **must** be the kebab-case singular type name.
 - The `plural` field **must** be the kebab-case plural of the singular.
+- The `parent` field **must** be a list of all type names of parents of the
+  resource.
+  - If the resource has no parents, this field may be omitted.
 
 The `pattern` field **must** match the `pattern` rule in the following grammar,
 expressed as [EBNF][EBNF]:
