@@ -9,7 +9,7 @@ help:
 install:
 	npm install .
 
-lint:
+lint: install
 	npm run lint
 	python3 scripts/fix.py --path ./aep/general/
 	python3 scripts/validate_links.py
