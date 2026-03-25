@@ -115,7 +115,7 @@ Apply methods implement a common request message pattern:
 
 **Note:** The aep-2026 release incorrectly specified `200 OK` for both cases.
 This guidance corrects that: `201 Created` is the appropriate status code when
-a resource is created, per [RFC 7231][rfc-7231]. Implementations **should**
+a resource is created, per RFC 7231. Implementations **should**
 accept `200` for backwards compatibility.
 
 {% endtabs %}
@@ -164,5 +164,4 @@ See [AEP-134's patch and put](/134#patch-and-put) for more information.
 - For ensuring idempotency in `Apply` methods, see [idempotency](/idempotency).
 - For naming resources involving Unicode, see [unicode](/unicode).
 
-[rfc-7231]: https://datatracker.ietf.org/doc/html/rfc7231#section-4.3.3
 [strong consistency]: ./0121.md#strong-consistency

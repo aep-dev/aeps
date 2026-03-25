@@ -96,7 +96,7 @@ Create methods implement a common request message pattern:
 
 **Note:** The aep-2026 release incorrectly specified `200 OK` for Create
 responses. This guidance corrects that: `201 Created` is the appropriate status
-code per [RFC 7231][rfc-7231]. Implementations **should** accept `200` for
+code per RFC 7231. Implementations **should** accept `200` for
 backwards compatibility.
 
 - The response **must** be the resource itself. There is no separate response
@@ -202,7 +202,6 @@ the ID of the newly-created resource.
 Having a user-specified ID also means the client can precalculate the resource
 path and use it in references from other resources.
 
-[rfc-7231]: https://datatracker.ietf.org/doc/html/rfc7231#section-4.3.3
 [data plane]: ./0111.md#data-plane
 [errors]: ./0193
 [field_behavior]: ./0203
