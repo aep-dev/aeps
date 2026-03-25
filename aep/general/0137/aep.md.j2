@@ -113,11 +113,6 @@ Apply methods implement a common request message pattern:
 - If the resource is created, the response **should** return a `201` status code.
 - If the resource is updated, the response **should** return a `200` status code.
 
-**Note:** The aep-2026 release incorrectly specified `200 OK` for both cases.
-This guidance corrects that: `201 Created` is the appropriate status code when
-a resource is created, per RFC 7231. Implementations **should**
-accept `200` for backwards compatibility.
-
 {% endtabs %}
 
 ### Errors
