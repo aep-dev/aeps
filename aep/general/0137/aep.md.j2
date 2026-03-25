@@ -110,8 +110,8 @@ Apply methods implement a common request message pattern:
 
 {% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books/{book_id}.put.responses' %}
 
-- If the resource is created, the response **should** return a `201` status code.
-- If the resource is updated, the response **should** return a `200` status code.
+- If the resource is created, the response **must** return a `201` status code.
+- If the resource is updated, the response **must** return a `200` status code.
 
 {% endtabs %}
 
