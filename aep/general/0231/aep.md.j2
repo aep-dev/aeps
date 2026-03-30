@@ -11,7 +11,7 @@ APIs **may** support batch get to retrieve a consistent set of resources.
 - The method's name **must** begin with `BatchGet`. The remainder of the method
   name **must** be the plural form of the resource being retrieved.
 - The HTTP verb **must** be `GET`.
-- The HTTP URI **must** end with `:batchGet`.
+- The HTTP URI **must** end with `:batch-get`.
 - The URI path **must** represent the collection for the resource, matching the
   collection used for simple CRUD operations. If the operation spans parents, a
   [wilcard](./reading-across-collections) **may** be accepted.
@@ -45,7 +45,7 @@ pattern:
 ```proto
 rpc BatchGetBooks(BatchGetBooksRequest) returns (BatchGetBooksResponse) {
   option (google.api.http) = {
-    get: "/v1/{parent=publishers/*}/books:batchGet"
+    get: "/v1/{parent=publishers/*}/books:batch-get"
   };
 }
 
@@ -121,7 +121,7 @@ message BatchGetBooksResponse {
 
 {% tab oas %}
 
-{% sample 'batchget.oas.yaml', '$.paths./publishers/{publisherId}/books:BatchGet' %}
+{% sample 'batchget.oas.yaml', '$.paths./publishers/{publisherId}/books:batch-get' %}
 
 Example response body:
 

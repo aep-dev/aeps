@@ -3,7 +3,7 @@ info:
   title: Library
   version: 1.0.0
 paths:
-  /publishers/{publisherId}/books:BatchGet:
+  /publishers/{publisherId}/books:batch-get:
     parameters:
       - name: publisherId
         in: path
