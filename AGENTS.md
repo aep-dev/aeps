@@ -1,0 +1,152 @@
+# AGENTS.md
+
+This repository contains the **API Enhancement Proposals (AEPs)** — the design
+specification documents for the [AEP project](https://aep.dev). It is a
+content-driven repository: the primary artifacts are Markdown/Jinja2 documents
+and YAML metadata, not application code.
+
+## Repository layout
+
+```
+aep/general/<NNNN>/    # One directory per AEP (zero-padded, 4-digit number)
+  aep.yaml             # AEP metadata (id, state, slug, category, etc.)
+  aep.md.j2            # AEP content (Markdown + Jinja2 template syntax)
+config/                # Site configuration (hero, header, urls, site)
+scripts/               # Tooling: fix.py, validate_links.py, build.sh, serve.sh
+pages/general/         # Static site pages (adopting, faq, licensing, etc.)
+blog/                  # Blog posts
+.github/workflows/     # CI: lint.yaml, test.yaml, publish_site.yaml
+```
+
+## AEP file structure
+
+Every AEP lives in `aep/general/<NNNN>/` and contains exactly two files:
+
+### `aep.yaml` — metadata
+
+Required fields:
+
+- `id`: integer AEP number (no zero-padding)
+- `state`: one of `draft`, `reviewing`, `approved`, `final`, `replaced`,
+  `withdrawn`
+- `slug`: URL-friendly short name
+- `created`: ISO-8601 date (`yyyy-mm-dd`)
+- `placement.category`: one of `meta`, `general`, `resources`,
+  `standard-methods`, `fields`, `types`, `design-patterns`, `batch-methods`,
+  `best-practices`, `protobuf`
+
+Optional fields: `updated`, `placement.order`, `redirect_from`, `js_scripts`.
+
+### `aep.md.j2` — content
+
+Markdown with Jinja2 template directives. Key conventions:
+
+- Starts with a single `#` title (a noun, not an imperative).
+- Introduction paragraph (no heading) → `## Guidance` section.
+- Optional trailing sections in order: `## Rationale`, `## History`,
+  `## Further reading`, `## Changelog`.
+- Only use heading levels `##` and `###` (never `#` beyond the title).
+- Use RFC-2119 keywords (`**must**`, `**should**`, `**may**`) in lower-case
+  bold.
+- Use `{% tab proto %}` / `{% tab oas %}` / `{% endtabs %}` for
+  protocol-specific examples.
+- Use `{% sample '<path>', '<selector>' %}` to include code from example files.
+- Cross-reference AEPs as `AEP-N` (no zero-padding) in prose, with links using
+  relative paths like `./0008.md` or `../0008.md`.
+- Links must NOT end in `.md` (the linter strips `.md` suffixes). Exception:
+  external GitHub links.
+- Do not use self-reference links like `[aep-123][aep-123]` — use plain text.
+- Do not use reference-style links with AEP identifiers like
+  `[aep-123]: ./0123`.
+- Wrap reference-style link definitions that would break prettier in
+  `<!-- prettier-ignore-start -->` / `<!-- prettier-ignore-end -->` blocks.
+
+## Formatting and linting
+
+Formatting is enforced by CI. Always run before committing:
+
+```bash
+make lint
+```
+
+This runs three checks:
+
+1. **Prettier** (`npm run check`): Markdown/YAML/JSON formatting.
+   - `printWidth: 79`, `proseWrap: always`, `singleQuote: true`,
+     `trailingComma: es5`.
+   - `.md.j2` files are parsed as Markdown.
+2. **`scripts/fix.py`**: Validates and fixes AEP-specific link rules.
+   - No `.md` suffixes in internal links.
+   - All AEP cross-references point to existing AEPs.
+   - No self-reference links, no AEP-identifier reference-style links.
+   - HTTP URLs are well-formed.
+3. **`scripts/validate_links.py`**: Read-only link validation (same rules as
+   fix.py but never modifies files).
+
+Use `make check` for a read-only lint pass (CI uses this).
+
+## Development
+
+### Prerequisites
+
+- Node.js + npm
+- Python 3
+
+### Install dependencies
+
+```bash
+make install    # runs npm install
+```
+
+### Local preview
+
+```bash
+./scripts/serve.sh
+```
+
+This clones the [site-generator](https://github.com/aep-dev/site-generator) (if
+not already present as a sibling directory), builds the site, and starts a dev
+server on port 4321.
+
+### Build
+
+```bash
+./scripts/build.sh
+```
+
+Builds the full site including the site-generator, api-linter, and
+aep-openapi-linter (uses sibling directories if present, otherwise clones to
+`/tmp`).
+
+## CI workflows
+
+| Workflow            | Trigger     | What it does                                      |
+| ------------------- | ----------- | ------------------------------------------------- |
+| `lint.yaml`         | PR → main   | `make check` (prettier + fix.py + validate_links) |
+| `test.yaml`         | PR → main   | `./scripts/build.sh` (full site build)            |
+| `publish_site.yaml` | push → main | Triggers site-generator repository dispatch       |
+
+## Content conventions
+
+- AEPs should be concise — roughly two printed pages.
+- A single AEP covers a single topic.
+- API design examples should be presented in both OpenAPI (OAS 3.1) and
+  protocol buffers.
+- Use snake_case for parameter and property names in examples.
+- Error codes in prose use the format `{error_code} / {http_status_code}` (e.g.
+  `OK / 200`).
+- Example files (`example.oas.yaml`, `example.proto`) in `aep/general/` are
+  code-generated by [aepc](https://github.com/aep-dev/aepc) — do not edit them
+  by hand.
+
+## Common pitfalls
+
+- **Don't link to `.md` files** in AEP content (except external GitHub links).
+  Links like `./0131.md` will be auto-fixed to `./0131` by `fix.py`, but will
+  fail `make check`.
+- **Don't forget `make lint`** before committing. Prettier reformats prose
+  wrapping at 79 columns, and fix.py catches link issues.
+- **Don't edit `example.oas.yaml` or `example.proto`** — these are generated
+  from aepc.
+- **Zero-pad directory names** but not prose references. Directory: `0008/`.
+  Prose: `AEP-8`.
