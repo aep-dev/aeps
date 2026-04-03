@@ -22,7 +22,7 @@ service Translate {
   // Translates the provided text from one language to another.
   rpc TranslateText(TranslateTextRequest) returns (TranslateTextResponse) {
     option (google.api.http) = {
-      post: "/v1/{project=projects/*}:translateText"
+      post: "/v1/{project=projects/*}:translate-text"
       body: "*"
     };
   }

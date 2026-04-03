@@ -25,7 +25,8 @@ apply consistently:
 - The HTTP URI **must** use a `:` character followed by the custom verb
   (`:archive` in the above example), and the verb in the URI **must** match the
   verb in the name of the RPC.
-  - If word separation is required, `kebab-case` **must** be used.
+  - If word separation is required, `kebab-case` **must** be used (e.g.
+    `:translate-text`, not `:translateText`).
 - The name of the RPC **should** be a verb followed by a noun.
   - The name of the RPC **must not** contain prepositions ("for", "with",
     etc.).
@@ -106,7 +107,7 @@ permanent effect on data within the API.
 
 {% tab oas %}
 
-{% sample 'translate.oas.yaml', '$.paths./projects/{projectId}:translateText' %}
+{% sample 'translate.oas.yaml', '$.paths./projects/{project_id}:translate-text' %}
 
 {% endtabs %}
 
@@ -116,7 +117,8 @@ permanent effect on data within the API.
   used.
 - The URI **should** place both the verb and noun after the `:` separator
   (avoid a "faux collection key" in the URI in this case, as there is no
-  collection). For example, `:translateText` is preferable to `text:translate`.
+  collection). For example, `:translate-text` is preferable to
+  `text:translate`.
 - Stateless methods **must** use `POST` if they involve billing.
 
 ### Usage in declarative clients
