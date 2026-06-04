@@ -91,7 +91,7 @@ element = variable | literal;
 variable = "{", literal, "}";
 ```
 
-Where `literal` matches the regex `[a-z][a-z0-9\-_]*[a-z0-9]`.
+Where `literal` matches the regex `[a-z][a-z0-9_]*[a-z0-9]`.
 
 - Patterns **must** match the possible [paths](/paths) of the resource.
 - Pattern variables (the segments within braces) **must** match the singular of
