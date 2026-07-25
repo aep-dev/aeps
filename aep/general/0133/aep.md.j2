@@ -90,8 +90,9 @@ Create methods implement a common request message pattern:
 
 {% tab oas %}
 
-{% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books.post.responses.200' %}
+{% sample '../example.oas.yaml', '$.paths./publishers/{publisher_id}/books.post.responses.201' %}
 
+- The response **must** return a `201 Created` HTTP status code.
 - The response **must** be the resource itself. There is no separate response
   schema.
   - The response **should** include the fully-populated resource, and **must**
