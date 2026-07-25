@@ -40,6 +40,44 @@ paths:
                       oneOf:
                         - $ref: '#/components/schemas/Book'
                         - $ref: '#/components/schemas/Error'
+    post:
+      operationId: BatchGetBooksPost
+      description: Get multiple books in a batch.
+      requestBody:
+        description: |
+          List of book resource names to retrieve. Each entry must follow the
+          format `publishers/{publisherId}/books/{book_id}`.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - paths
+              properties:
+                paths:
+                  type: array
+                  description: |
+                    The paths of the books to retrieve. Format:
+                    `publishers/{publisherId}/books/{book_id}`.
+                  minItems: 1
+                  maxItems: 1000
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/Book'
+                        - $ref: '#/components/schemas/Error'
 components:
   schemas:
     Book:
@@ -60,9 +98,9 @@ components:
           description: The title of the book.
         authors:
           type: array
+          description: The author or authors of the book.
           items:
             type: string
-          description: The author or authors of the book.
         rating:
           type: number
           format: float

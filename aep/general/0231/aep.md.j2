@@ -10,14 +10,15 @@ APIs **may** support batch get to retrieve a consistent set of resources.
 
 - The method's name **must** begin with `BatchGet`. The remainder of the method
   name **must** be the plural form of the resource being retrieved.
-- The HTTP verb **must** be `GET`.
+- The HTTP verb **must** be `GET` or `POST`.
 - The HTTP URI **must** end with `:batch-get`.
 - The URI path **must** represent the collection for the resource, matching the
   collection used for simple CRUD operations. If the operation spans parents, a
   [wilcard](./reading-across-collections) **may** be accepted.
-- There **must not** be a request body.
+- When the HTTP verb is `GET`, there **must not** be a request body.
   - If a GET request contains a body, the body **must** be ignored, and **must
     not** cause an error.
+- When the HTTP verb is `POST`, there **must** be a request body.
 
 ### Request
 
@@ -46,6 +47,10 @@ pattern:
 rpc BatchGetBooks(BatchGetBooksRequest) returns (BatchGetBooksResponse) {
   option (google.api.http) = {
     get: "/v1/{parent=publishers/*}/books:batch-get"
+    additional_bindings: {
+      post: "/v1/{parent=publishers/*}/books:batch-get"
+      body: "*"
+    }
   };
 }
 
@@ -55,7 +60,7 @@ message BatchGetBooksRequest {
   // If this is set, the parent of all of the books specified in `paths`
   // must match this field.
   string parent = 1 [
-    (aep.api.field_info) = { resource_reference: [ "library.com/book" ], field_behavior: [ FIELD_BEHAVIOR_OPTIONAL ] }
+    (aep.api.field_info) = { resource_reference: [ "library.com/publisher" ], field_behavior: [ FIELD_BEHAVIOR_OPTIONAL ] }
   ];
 
   // The paths of the books to retrieve.
@@ -77,7 +82,10 @@ message BatchGetBooksRequest {
   - The field **should** identify the [resource type][aep-122-parent] that it
     references.
   - The comment for the field **should** document the resource pattern.
-- There **must not** be a body key in the `google.api.http` annotation.
+- When the HTTP verb is `GET`, there **must not** be a body key in the
+  `google.api.http` annotation.
+- When the HTTP verb is `POST`, there **must** be a body key in the
+  `google.api.http` annotation.
 
 {% tab oas %}
 
@@ -158,6 +166,19 @@ The batch get method may support a transactional form of operation where the
 get either succeeds for all requested resources or fails. When supported, the
 method must define a boolean parameter `transactional` that the user must
 specify with the value `true` to request a transactional operation.
+
+## Rationale
+
+### Why allow both `POST` and `GET` HTTP verbs?
+
+In AEP-2026, only the `GET` verb was allowed, originally to ensure cacheability
+of the request. However, query parameters along to specify a large number of
+IDs can face practical limitations, such as maximum URL length in a given
+browser.
+
+As such, `POST` is accepted as an alternative method. Although the IETF is
+working on a `QUERY` HTTP method, this is not generally implemented in API
+gateways, and therefore `POST` acts as more practical alternative.
 
 ## Changelog
 
