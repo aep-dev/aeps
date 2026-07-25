@@ -46,8 +46,11 @@ pattern:
 ```proto
 rpc BatchGetBooks(BatchGetBooksRequest) returns (BatchGetBooksResponse) {
   option (google.api.http) = {
-    post: "/v1/{parent=publishers/*}/books:batch-get"
-    body: "*"
+    get: "/v1/{parent=publishers/*}/books:batch-get"
+    additional_bindings: {
+      post: "/v1/{parent=publishers/*}/books:batch-get"
+      body: "*"
+    }
   };
 }
 
@@ -79,8 +82,10 @@ message BatchGetBooksRequest {
   - The field **should** identify the [resource type][aep-122-parent] that it
     references.
   - The comment for the field **should** document the resource pattern.
-- When the HTTP verb is `GET`, there **must not** be a body key in the `google.api.http` annotation.
-- When the HTTP verb is `POST`, there **must** be a body key in the `google.api.http` annotation.
+- When the HTTP verb is `GET`, there **must not** be a body key in the
+  `google.api.http` annotation.
+- When the HTTP verb is `POST`, there **must** be a body key in the
+  `google.api.http` annotation.
 
 {% tab oas %}
 
@@ -164,11 +169,16 @@ specify with the value `true` to request a transactional operation.
 
 ## Rationale
 
-### Why allow both `POST` and `GET` HTTP verb?
+### Why allow both `POST` and `GET` HTTP verbs?
 
-In AEP-2026, only the `GET` verb was allowed, originally to ensure cacheability of the request. However, query parameters along to specify a large number of IDs can face practical limitations, such as maximum URL length in a given browser.
+In AEP-2026, only the `GET` verb was allowed, originally to ensure cacheability
+of the request. However, query parameters along to specify a large number of
+IDs can face practical limitations, such as maximum URL length in a given
+browser.
 
-As such, `POST` is accepted as an alternative method. Although the IETF is working on a `QUERY` HTTP method, this is not generally implemented in API gateways, and therefore `POST` acts as more practical alternative.
+As such, `POST` is accepted as an alternative method. Although the IETF is
+working on a `QUERY` HTTP method, this is not generally implemented in API
+gateways, and therefore `POST` acts as more practical alternative.
 
 ## Changelog
 
