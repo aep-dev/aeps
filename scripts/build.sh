@@ -7,22 +7,21 @@
 set -x
 export AEP_LOCATION="${PWD}"
 
-declare -A repos
-
 repos=(
-    [site_generator]="site-generator"
-    [api_linter]="api-linter"
-    [aep_openapi_linter]="aep-openapi-linter"
+    "site_generator:site-generator"
+    "api_linter:api-linter"
+    "aep_openapi_linter:aep-openapi-linter"
 )
 
-for varName in "${!repos[@]}"; do
-    repoName="${repos[$varName]}"
-    if [ -d ${AEP_LOCATION}/../${repoName} ]; then
-        eval "$varName=${AEP_LOCATION}/../${repoName}"
+for entry in "${repos[@]}"; do
+    varName="${entry%%:*}"
+    repoName="${entry#*:}"
+    if [ -d "${AEP_LOCATION}/../${repoName}" ]; then
+        printf -v "$varName" '%s' "${AEP_LOCATION}/../${repoName}"
     else
-        eval "$varName=/tmp/${repoName}"
-        if [ ! -d "${varName}" ]; then
-            git clone https://github.com/aep-dev/$repoName.git "${!varName}"
+        printf -v "$varName" '%s' "/tmp/${repoName}"
+        if [ ! -d "${!varName}" ]; then
+            git clone "https://github.com/aep-dev/${repoName}.git" "${!varName}"
         fi
     fi
 done
