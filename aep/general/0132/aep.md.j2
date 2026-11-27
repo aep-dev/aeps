@@ -111,9 +111,8 @@ result being a resource.
     this if so).
   - If filtering is used, the `total_size` field **should** reflect the size of
     the collection _after_ the filter is applied.
-- The response message **must** include a field corresponding to the resources
-  being returned, named for the English plural term for the resource, and
-  **should not** include any other repeated fields.
+- The response message **should not** include any repeated fields other than
+  `results`.
 - Fields providing metadata about the list request (such as
   `string next_page_token` or `int32 total_size`) **must** be included on the
   response (not as part of the resource itself).
